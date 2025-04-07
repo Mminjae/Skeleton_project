@@ -1,7 +1,5 @@
 # KB-frontend-project-account-book
 
-
-
 ## 💸 온라인 가계부 💸
 재정 관리를 쉽게 도와주는 가계부 플랫폼이에요! 😄 
 수입과 지출을 한눈에 정리하고, 분석해서 소비 습관도 개선할 수 있도록 만들어졌어요.
@@ -26,7 +24,7 @@
 
 
 # 🌐 배포
-🔗 [ 우리REAL가계부 URL ](https://github.com/Mminjae/Skeleton_project.git)
+🔗 [ 프로젝트 URL ](https://github.com/Mminjae/Skeleton_project.git)
 
 <img src="https://private-user-images.githubusercontent.com/76603301/400211121-0f40ec0a-b296-4771-8dd5-09f218bcd4ec.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzYwOTE4NDUsIm5iZiI6MTczNjA5MTU0NSwicGF0aCI6Ii83NjYwMzMwMS80MDAyMTExMjEtMGY0MGVjMGEtYjI5Ni00NzcxLThkZDUtMDlmMjE4YmNkNGVjLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTAxMDUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwMTA1VDE1MzkwNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWUwMjQxZmE2ODRlMDQ5ZmU2NDE3YjlhNWY2NTEwNjEwYWU2OTBhYTljZmNhM2FmNzY2ZmMzYTUwMDYwMmU0Y2UmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.XrJhxsRMWjLxx1Te4AiNbZXl97HDH_DA_NzhW0u-_lg">
 
@@ -62,7 +60,9 @@
 
 # 🧑‍💻 Code Convention 
 📌 Class Name Rule
-- 페이지 기능이 드러나도록 클래스 이름 작성
+
+- BEM 방법론<br/>
+BEM은 Block, Element, Modifier의 약자로, CSS 클래스 네이밍 규칙을 체계적으로 만들기 위한 방법론이에요. 주로 대규모 프로젝트나 협업 시 CSS의 유지보수성을 높이기 위해 사용돼요.
 - 케밥 컨벤션
 
 # 📏ESLint RuleSet
@@ -113,20 +113,43 @@ const와 let 사용 강제 (no-var).
 | `docs:`   | 문서 작성 및 편집 |
 | `deploy:`   |  프로젝트 배포 |
 
+- ex) feat: 회원가입 버튼 개발
+
+
 
 ## (2) Branch Name Rule
-{이슈 번호}-{feature/fix}-{개발 기능}
 
-- ex) `17-feature-login`
+| Branch Name | Description |
+|:-----------:|--------------|
+| feature | 새로운 기능 개발 |
+| fix | 버그 수정 | 
+| refactor | 코드 구조 개선
+| docs | 문서 수정|
 
-## (3) 협업 전략 
-- 각자 개인 레포지토리를 `fork`하여 작업 후, 모든 코드는 `dev` 브랜치에 통합하고, 최종 배포 시 `main` 브랜치에 반영합니다.
+{feature/fix}-{개발 기능}
+
+- ex) `feature-login`
+
+
+## (3) 협업 전략 ( GitHub Flow 브랜치 전략)
+
+<br/>
+
+
 - **작업 프로세스**:
-    - (1) **이슈 발생**: 생성된 이슈는 자동으로 `Projects`의 `Todo`로 연결됩니다.
-    - (2) **브랜치 생성**: 이슈 번호를 기반으로 작업 브랜치를 생성합니다.
-    - (3) **코드 작성**: 브랜치에서 작업 후 변경사항을 커밋합니다.
-    - (4) **Pull Request**: `dev` 브랜치로 병합을 요청합니다.
-    - (5) **리뷰 및 병합**: 최소 2명 이상의 리뷰 승인을 받아야 메인 레포지토리로 머지가 가능합니다.
+   1. **브랜치 생성**
+    - `main` 브랜치에서 작업용 브랜치를 생성합니다.
+    - 예: `feature/add-income-form`
+2. **기능 개발 및 커밋**
+    - 기능을 개발하고, 커밋 메시지는 커밋 컨벤션에 따라 작성합니다.
+3. **Pull Request(PR) 생성**
+    - 작업이 완료되면 GitHub에서 Pull Request를 생성합니다.
+    - 팀원 리뷰를 받고, 필요한 경우 수정합니다.
+4. **`main` 브랜치에 병합**
+    - 리뷰 완료 후 `main`에 병합합니다.
+    - 병합 후에는 해당 작업 브랜치는 삭제합니다.
+5. **배포**
+    - `main`은 항상 배포 가능한 상태이므로, 자동 배포 도구(GitHub Actions 등)와 연동해 배포할 수 있습니다.
 
 # 🎨 UI 스타일 가이드
 ### 컬러
