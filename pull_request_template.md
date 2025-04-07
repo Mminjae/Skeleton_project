@@ -26,4 +26,3 @@
 ## 테스트 결과
 ex) 베이스 브랜치에 포함되기 위한 코드는 모두 정상적으로 동작해야 합니다. 결과물에 대한 스크린샷, GIF, 혹은 라이브 데모가 가능하도록 샘플API를 첨부할 수도 있습니다.
 
-![image](https://github.com/user-attachments/assets/478e7845-0dc1-4f9b-b328-85ad8c441e65)
