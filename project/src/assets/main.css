@@ -1,4 +1,4 @@
-@import '';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
 
 /* reset */
 * {
@@ -6,42 +6,44 @@
   padding: 0;
   box-sizing: border-box;
 }
-/* reset */
+
+/* font */
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
 
 :root {
   /* 🎨 COLOR SYSTEM */
 
   /* 배경/기본 색상 */
-  --color-white: #FAFAFA;      /* 배경용 흰색 */
-  --color-black: #535353;      /* 글자용 검정 */
+  --color-white: #fafafa; /* 배경용 흰색 */
+  --color-black: #535353; /* 글자용 검정 */
   --color-gray-medium: #959595; /* 보조 텍스트 */
-  --color-gray-light: #E4E4E4; /* 구분선 */
-  
+  --color-gray-light: #e4e4e4; /* 구분선 */
+
   /* 메인 컬러 코드, 도넛 그래프 */
-  --color-purplr1: #5D45DB; /* 가장 진한 */  
-  --color-purple2: #A698EB;
-  --color-purple3: #D3CCF5;
-  --color-purple4: #ECE9FF; /* 가장 연함 */
+  --color-purplr1: #5d45db; /* 가장 진한 */
+  --color-purple2: #a698eb;
+  --color-purple3: #d3ccf5;
+  --color-purple4: #ece9ff; /* 가장 연함 */
 
   /* 주요 색상 (수입/지출 공통) */
-  --color-blue: #4A90E2;       /* 수입 */
-  --color-red: #FF6B6B;        /* 지출 */
+  --color-blue: #4a90e2; /* 수입 */
+  --color-red: #ff6b6b; /* 지출 */
 
-  /* ==============================
-     🅰️ FONT SIZE SYSTEM (rem)
-  ============================== */
+  /* 🅰️ FONT SIZE SYSTEM (rem) */
 
-  --font-xs: 0.75rem;   /* 12px */
-  --font-base: 1rem;    /* 16px (기본) p태그 */
-  --font-md: 1.125rem;  /* 18px h2*/
-  --font-xl: 1.5rem;    /* 24px h1 */ 
- 
+  --font-xs: 0.75rem; /* 12px */
+  --font-base: 1rem; /* 16px (기본) p태그 */
+  --font-md: 1.125rem; /* 18px h2*/
+  --font-xl: 1.5rem; /* 24px h1 */
 
-  /* ==============================
-     📐 SPACING SYSTEM (rem)
-  ============================== */
+  /* 📐 SPACING SYSTEM (rem) */
 
-  --space-xs: 0.5rem;    /* 8px */
-  --space-md: 1rem;      /* 16px */
-  --space-xl: 2rem;      /* 32px */
+  --space-xs: 0.5rem; /* 8px */
+  --space-md: 1rem; /* 16px */
+  --space-xl: 2rem; /* 32px */
 }
