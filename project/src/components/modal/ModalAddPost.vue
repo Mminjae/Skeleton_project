@@ -18,7 +18,6 @@
   >
     <div class="modal-dialog">
       <div class="modal-content">
-        npm
         <div class="modal-header">
           <!-- 라디오 토글 버튼 그룹 -->
           <div class="btn-group" role="group" aria-label="수입/지출 선택">
