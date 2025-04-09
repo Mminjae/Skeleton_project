@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^1.8.4",
+    "@fortawesome/fontawesome-free": "^6.5.0",
     "bootstrap": "^5.3.5",
     "pinia": "^3.0.1",
     "vue": "^3.5.13",
