@@ -7,6 +7,7 @@
         <label class="joinLabel">이름</label>
         <input v-model="form.name" type="text" class="joinBox" />
       </div>
+      <button type="submit">회원가입</button>
     </form>
   </div>
 </template>
