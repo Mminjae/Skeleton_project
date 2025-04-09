@@ -28,7 +28,7 @@
   width: 18.75rem; /* 2.BOX */
   height: 64rem;
 
-  color: var(--color-purple); /* 3.배경 */
+  background-color: var(--color-purple); /* 3.배경 */
 }
 #nav,
 #nav > * {
