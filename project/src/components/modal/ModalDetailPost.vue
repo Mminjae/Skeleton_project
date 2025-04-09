@@ -6,7 +6,7 @@
     data-bs-target="#exampleModal"
     data-bs-whatever="@mdo"
   >
-    생성
+    수정
   </button>
 
   <div
@@ -19,8 +19,30 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="btn btn-primary">수입</button>
-          <button type="button" class="btn btn-light">지출</button>
+          <!-- 라디오 토글 버튼 그룹 -->
+          <div class="btn-group" role="group" aria-label="수입/지출 선택">
+            <!-- 수입 라디오 버튼 (기본 선택) -->
+            <input
+              type="radio"
+              class="btn-check"
+              name="transactionType"
+              id="income"
+              autocomplete="on"
+              checked
+            />
+            <label class="btn btn-primary" for="income">수입</label>
+
+            <!-- 지출 라디오 버튼 -->
+            <input
+              type="radio"
+              class="btn-check"
+              name="transactionType"
+              id="expense"
+              autocomplete="off"
+            />
+            <label class="btn btn-light" for="expense">지출</label>
+          </div>
+
           <button
             type="button"
             class="btn-close"
@@ -52,7 +74,11 @@
                 <option value="4">문화생활</option>
                 <option value="5">생필품</option>
                 <option value="6">쇼핑</option>
-                <option value="7">기타</option>
+                <option value="9">월급</option>
+                <option value="10">금융 수입</option>
+                <option value="11">용돈</option>
+                <option value="12">이월</option>
+                <option value="13">기타</option>
               </select>
             </div>
             <div class="mb-3">
@@ -62,8 +88,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">초기화</button>
-          <button type="button" class="btn btn-primary">완료</button>
+          <button type="button" class="btn btn-secondary">초기화</button>
+          <button type="button" class="btn btn-primary">삭제</button>
         </div>
       </div>
     </div>
@@ -89,5 +115,21 @@
 .form-select {
   width: 22rem;
   margin: 0 0 0 1rem;
+}
+.modal-footer .btn,
+.modal-header .btn {
+  background-color: #fafafa;
+  color: #535353;
+  border: #e4e4e4 0.1rem solid;
+  width: 5rem;
+}
+
+.modal-header .btn-primary {
+  background-color: #8d92f2;
+  color: #fafafa;
+}
+
+.modal-footer .btn-primary {
+  color: red;
 }
 </style>
