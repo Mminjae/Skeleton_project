@@ -19,6 +19,7 @@
 </template>
 
 <style>
+/*---nav아웃라인---*/
 
 #nav {
   display: flex; /* 1.레이아웃 */
@@ -30,6 +31,7 @@
 
   background-color: var(--color-purple); /* 3.배경 */
 }
+/*---nav아웃라인END---*/
 #nav,
 #nav > * {
   align-items: center;
@@ -43,6 +45,9 @@ h1 > img {
   width: 10rem;
   height: 10rem;
 }
+/*---nav아웃라인 END---*/
+
+/*---nav바 프로필사진(사용자)---*/
 .nav-bar-profile {
   width: 10rem;
   height: 10rem;
@@ -57,6 +62,9 @@ h1 > img {
   
   
 }
+/*---nav바 프로필사진(사용자)END---*/
+
+/*---nav버튼박스(재정요약/거래내역조회/마이페이지/로그아웃)---*/
 #nav .nav-bar-btnbox {
   display: flex;
   flex-direction: column;
@@ -77,4 +85,6 @@ h1 > img {
   /* margin-top: 2.25rem;   36px */
  
 }
+/*---nav버튼박스(재정요약/거래내역조회/마이페이지/로그아웃)END---*/
+
 </style>
