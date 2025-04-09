@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   sizeX: Number,
@@ -23,6 +23,18 @@ const radius = computed(() => Math.max(props.sizeX, props.sizeY) / 2 - props.cir
 
 // 원의 둘레 =  2πr
 const circumference = computed(() => 2 * Math.PI * radius.value)
+
+// 호버
+// 호버중인 segment 인덱스 저장
+const hoverIndex = ref(null)
+
+const handleMouseEnter = (index) => {
+  hoverIndex.value = index
+}
+
+const handleMouseLeave = () => {
+  hoverIndex.value = null
+}
 
 // segment의 각 원들의 비율 계산하기
 const segmentsWithOffset = computed(() => {
@@ -81,6 +93,13 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
       :stroke-dasharray="segment.dashArray"
       :stroke-dashoffset="segment.dashOffset"
       :transform="`rotate(${segment.rotation}, ${centerX}, ${centerY})`"
+      @mouseenter="handleMouseEnter(index)"
+      @mouseleave="handleMouseLeave"
+      :style="{
+        transition: 'all 0.3s ease',
+        strokeWidth:
+          hoverIndex === index ? `${props.circleSize / 2.65}` : `${props.circleSize / 3}`, // 커지는거 조절하는 곳
+      }"
     />
 
     <!-- 글자 -->
