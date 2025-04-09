@@ -37,7 +37,7 @@
         <input v-model="form.passwordRepeat" type="password" @blur="validatePasswordRepeat" />
         <span v-if="errors.passwordRepeat">{{ errors.passwordRepeat }}</span>
       </div>
-      <!-- <button type="joinSubmit">회원가입</button> -->
+      <button type="joinSubmit">회원가입</button>
     </form>
   </div>
 </template>
@@ -80,9 +80,9 @@ const validateEmail = () => {
   errors.email = regex.test(form.email) ? '' : '유효한 이메일 형식이 아닙니다.'
 }
 
-// const submitForm = () => {
-//   console.log('제출됨:', form.name)
-// }
+const submitForm = () => {
+  console.log('제출됨:', form.name)
+}
 
 //초기화 넣어두기
 </script>
