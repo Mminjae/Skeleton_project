@@ -6,13 +6,13 @@ import PostDonutChart from '../components/post/PostDonutChart.vue'
 const remToPx = (rem) => rem * 16
 
 const donutData = [
-  { percentage: 25, color: '#FF3B30' }, // 밝은 레드
-  { percentage: 15, color: '#007AFF' }, // 비비드 블루
-  { percentage: 10, color: '#FF9500' }, // 비비드 오렌지
-  { percentage: 20, color: '#34C759' }, // 밝은 초록
-  { percentage: 5, color: '#AF52DE' }, // 비비드 보라
-  { percentage: 15, color: '#FFCC00' }, // 쨍한 옐로우
-  { percentage: 10, color: '#5AC8FA' }, // 밝은 하늘색
+  { percentage: 25, color: '#FF3B30', label: '식비 25%' }, // 밝은 레드 → 식비
+  { percentage: 15, color: '#007AFF', label: '교통' }, // 비비드 블루 → 교통
+  { percentage: 10, color: '#FF9500', label: '쇼핑' }, // 비비드 오렌지 → 쇼핑
+  { percentage: 20, color: '#34C759', label: '여가/문화' }, // 밝은 초록 → 여가/문화
+  { percentage: 5, color: '#AF52DE', label: '기타' }, // 비비드 보라 → 기타
+  { percentage: 15, color: '#FFCC00', label: '정기구독' }, // 쨍한 옐로우 → 정기구독
+  { percentage: 10, color: '#5AC8FA', label: '저축' }, // 밝은 하늘색 → 저축
 ]
 </script>
 
