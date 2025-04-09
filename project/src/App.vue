@@ -3,6 +3,7 @@
   <!-- <ModalDetailPost /> -->
   <TheSidebarLogin/>
   <RouterView />
+
 </template>
 <script>
 import TheSidebar from '@/layouts/TheSidebar.vue'
