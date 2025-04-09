@@ -1,15 +1,15 @@
 <script setup>
 import { computed } from 'vue'
 
-// // Svg 좌표 내부에서는 px만 사용할 수 있기 때문에 Rem을 px로 계산하는 코드 (1rem = 16px 기준)
-// const remToPx = (rem) => rem * 16
-
 const props = defineProps({
   sizeX: Number,
+
   sizeY: Number,
+
   circleSize: Number,
-  percentage: {
-    type: Number,
+
+  segments: {
+    type: Array,
     required: true,
   },
 })
@@ -19,10 +19,30 @@ const centerX = computed(() => props.sizeX / 2)
 const centerY = computed(() => props.sizeY / 2)
 
 // 반지름
-const radius = computed(() => props.circleSize / 2)
+const radius = computed(() => (Math.max(props.sizeX, props.sizeY) - props.circleSize) / 2) // stroke(선 굵기)를 사용해 도넛 모양 그래프를 만들기 위해서 수정.
 
 // 원의 둘레 =  2πr
 const circumference = computed(() => 2 * Math.PI * radius.value)
+
+// segment의 각 원들의 비율 계산하기
+const segmentsWithOffset = computed(() => {
+  let cumulativePercent = 0 // 지금까지 그린 퍼센트의 누적 합계
+
+  return props.segments.map((segment) => {
+    const startOffset = circumference.value * (1 - cumulativePercent / 100) //비워질 길이 (전체 - 누적 퍼센트) 이 segment의 시작점 계산 (이전까지 그려진것만큼 비워야 하니까)
+    const segmentLength = circumference.value * (segment.percentage / 100) // segment가 차지하는 원 둘레의 길이
+    const dashArray = `${segmentLength} ${circumference.value - segmentLength}` // 이 segment가 차지할 길이 & 전체 - 비워질 길이(우리는 전체를 다 채워야 하니까 남은건 비우기 라는 뜻) 설정
+
+    cumulativePercent += segment.percentage // 다음 segment가 그릴 시작 위치를 알기 위해 누적 퍼센트 업데이트
+
+    return {
+      ...segment,
+      dashArray,
+      dashOffset: startOffset,
+      rotation: -90,
+    }
+  })
+})
 
 // 퍼센트에 따라 보일 원의 길이 계산 -> 계산한만큼 둘레가 비워짐 (둘레 - %)
 const dashOffset = computed(() => circumference.value * (1 - props.percentage / 100))
@@ -33,14 +53,18 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
   <svg :width="props.sizeX" :height="props.sizeY" :viewBox="`0 0 ${props.sizeX} ${props.sizeY}`">
     <!-- 퍼센트원 -->
     <circle
+      v-for="(segment, index) in segmentsWithOffset"
+      :key="index"
       :cx="centerX"
       :cy="centerY"
       :r="radius"
-      fill="pink"
-      stroke-linecap="round"
-      :stroke-dasharray="circumference"
-      :stroke-dashoffset="dashOffset"
-      transform="`rotate(-90, ${centerX}, ${centerY})`"
+      fill="none"
+      :stroke="segment.color"
+      stroke-linecap="butt"
+      :stroke-width="props.circleSize / 3"
+      :stroke-dasharray="segment.dashArray"
+      :stroke-dashoffset="segment.dashOffset"
+      :transform="`rotate(${segment.rotation}, ${centerX}, ${centerY})`"
     />
   </svg>
 </template>
