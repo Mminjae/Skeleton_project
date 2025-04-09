@@ -1,4 +1,4 @@
-<script></script>
+<script setup></script>
 
 <template>
   <div :class="navClass">
@@ -7,7 +7,7 @@
         <router-link class="nav-link" to="/">비로그인 홈</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/login">로그인 월별</router-link>
+        <router-link class="nav-link" to="/login">기기로그인 월별재정요약</router-link>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/recent-deals">최근 거래</router-link>
