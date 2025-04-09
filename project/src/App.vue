@@ -5,6 +5,7 @@
   <!-- <TheSidebarLogin/> -->
    <ModalAddPost/>
   <RouterView />
+
 </template>
 <script>
 import TheSidebar from '@/layouts/TheSidebar.vue'
