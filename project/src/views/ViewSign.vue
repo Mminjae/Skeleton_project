@@ -84,5 +84,23 @@ const submitForm = () => {
   console.log('제출됨:', form.name)
 }
 
+// 입력값 중복 검사
+const submitForm = () => {
+  validatePhone()
+  validateUsername()
+  validateEmail()
+  validatePassword()
+  validatePasswordRepeat()
+
+// 입력값 오류 예외처리
+const hasError = Object.values(errors).some(e => e)
+  if (hasError) {
+    alert('입력값을 다시 확인해주세요.')
+    return
+  }
+
+  alert('회원가입 완료!') 
+}
+
 //초기화 넣어두기
 </script>
