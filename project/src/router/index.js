@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // View 컴포넌트들 import
-import ViewMainLogin from '../views/ViewMainLogin.vue'
 import ViewMainLoginOut from '../views/ViewMainLoginOut.vue'
+import ViewMainLogin from '../views/ViewMainLogin.vue'
 import ViewTransactionHistory from '../views/ViewTransactionHistory.vue'
 import ViewMyPage from '../views/ViewMyPage.vue'
 import ViewProfileEdit from '../views/ViewProfileEdit.vue'
@@ -14,31 +14,31 @@ const router = createRouter({
     {
       path: '/',
       name: 'main',
-      component: ViewMainLogin,
+      component: ViewMainLoginOut,
     },
     {
       path: '/login',
       name: 'login',
-      component: ViewMainLoginOut,
+      component: ViewMainLogin,
     },
     {
-      path: '/recentdeals',
-      name: 'recentdeals',
+      path: '/History',
+      name: 'History',
       component: ViewTransactionHistory,
     },
     {
-      path: '/mypage',
-      name: 'mypage',
+      path: '/myPage',
+      name: 'myPage',
       component: ViewMyPage,
     },
     {
-      path: '/profileedit',
-      name: 'profileedit',
+      path: '/profileEdit',
+      name: 'profileEdit',
       component: ViewProfileEdit,
     },
     {
-      path: '/signup',
-      name: 'signup',
+      path: '/signUp',
+      name: 'signUp',
       component: ViewSignUp,
     },
   ],
