@@ -33,8 +33,8 @@
         </div>
         <!-- 수정/탈퇴 버튼 -->
         <div class="btn-group">
-          <button @click="goEdit">수정</button>
-          <button @click="showModal = true">회원 탈퇴</button>
+          <button class="btn-edit" @click="goEdit">수정</button>
+          <button class="btn-unregister" @click="showModal = true">회원 탈퇴</button>
         </div>
         <!-- 모달 -->
         <div class="modal" v-if="showModal">
@@ -78,6 +78,16 @@ const contactInfo = ref([
 </script>
 
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#mypage {
+  font-family: 'Noto Sans KR', sans-serif;
+  margin: 1rem;
+  padding: 1rem;
+}
 /* 회원, 연락처 정보, 프로필 */
 .info-card {
   width: 29.4rem; /* 470px*/
@@ -89,7 +99,7 @@ const contactInfo = ref([
 }
 /* 회원 정보 */
 .info-title {
-  font-weight: bold;
+  font-weight: 500;
   color: #4a4a4a;
   margin-bottom: 1rem;
   padding-left: 0.5rem;
@@ -146,7 +156,7 @@ const contactInfo = ref([
 }
 
 .profile-img i {
-  font-size: 24px;
+  font-size: var(--font-xl);
   color: #535353;
 }
 /* 회원정보, 연락처 정보 경계선 */
@@ -173,6 +183,13 @@ button {
 
 button:hover {
   background: #f5f5f5;
+}
+
+.btn-edit {
+  width: 3rem;
+}
+.btn-unregister {
+  width: 5rem;
 }
 
 /* 탈퇴 클릭 시 모달 */
