@@ -1,4 +1,4 @@
-<script></script>
+<script setup></script>
 
 <template>
   <div :class="navClass">
@@ -9,10 +9,10 @@
         <span class="nav-bar-userName">000님</span>
       </div>
       <div class="nav-bar-btnbox">
-        <button class="nav-bar-btn">재정요약</button>
-        <button class="nav-bar-btn">거래내역조회</button>
-        <button class="nav-bar-btn">마이페이지</button>
-        <button class="nav-bar-btn">로그아웃</button>
+        <router-link class="nav-link" to="/login"><button class="nav-bar-btn">재정요약</button></router-link>
+        <router-link class="nav-link" to="/recentDeals"><button class="nav-bar-btn">거래내역조회</button></router-link>
+        <router-link class="nav-link" to="/myPage"><button class="nav-bar-btn">마이페이지</button></router-link>
+        <router-link class="nav-link" to="/"><button class="nav-bar-btn">로그아웃</button></router-link>
       </div>
     </nav>
   </div>
@@ -70,11 +70,11 @@ h1 > img {
   margin-bottom: 1.625rem;
   align-items: center;
 }
-.nav-bar-btnbox .nav-bar-btn:nth-child(4){
+.nav-bar-btnbox .nav-bar-btn:nth-of-type(4){
   margin-bottom: 0;
 }
-.nav-bar-btnbox .nav-bar-btn:nth-child(1){
-  margin-top: 2.25rem;   /* 36px */
+.nav-bar-btnbox .nav-bar-btn:nth-of-type(1){
+  /* margin-top: 2.25rem;   36px */
  
 }
 </style>
