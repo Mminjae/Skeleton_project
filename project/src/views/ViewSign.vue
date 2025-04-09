@@ -4,21 +4,28 @@
     <form @submit.prevent="submitForm">
       <!-- 이름 입력창 -->
       <div>
-        <label class="joinLabel">이름</label>
-        <input v-model="form.name" type="text" class="joinBox" />
+        <label>이름</label>
+        <input v-model="form.name" type="text" />
       </div>
       <!-- 휴대폰 번호 입력창 -->
       <div>
-        <label class="joinLabel">핸드폰 번호</label>
-        <input v-model="form.phone" type="text" @blur="validatePhone" class="joinBox" />
+        <label>핸드폰 번호</label>
+        <input v-model="form.phone" type="text" @blur="validatePhone"/>
         <span v-if="errors.phone">{{ errors.phone }}</span>
       </div>
       <!-- 아이디 입력창 -->
       <div>
-        <label class="joinLabel">아이디</label>
-        <input v-model="form.userId" type="text" @blur="validateuserId" class="joinBox" />
+        <label>아이디</label>
+        <input v-model="form.userId" type="text" @blur="validateuserId" />
         <span v-if="errors.userId">{{ errors.userId }}</span>
       </div>
+      <!-- 이메일일 입력창 -->
+      <div>
+        <label>이메일</label>
+        <input v-model="form.email" type="text" @blur="validateEmail" />
+        <span v-if="errors.email">{{ errors.email }}</span>
+      </div>
+
       <!-- <button type="joinSubmit">회원가입</button> -->
     </form>
   </div>
@@ -30,14 +37,16 @@ import { reactive } from 'vue'
 const form = reactive({
   name: '',
   phone: '',
-  userId: ''
+  userId: '',
+  email = ''
 })
 
 
 // 에러
 const errors = reactive({
   phone: '',
-  userId: ''
+  userId: '',
+  email = ''
 })
 
 // 전화번호 유효성 검사
@@ -49,6 +58,11 @@ const validatePhone = () => {
 const validateuserId = () => {
   const regex = /^[a-zA-Z0-9!@#$%^&*]{4,20}$/
   errors.userId = regex.test(form.userId) ? '' : '영문, 숫자, 특수문자 포함 4자 이상'
+}
+// 이메일 유효성 검사사
+const validateEmail = () => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  errors.email = regex.test(form.email) ? '' : '유효한 이메일 형식이 아닙니다.'
 }
 
 // const submitForm = () => {
