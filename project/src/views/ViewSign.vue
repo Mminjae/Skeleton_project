@@ -19,13 +19,24 @@
         <input v-model="form.userId" type="text" @blur="validateuserId" />
         <span v-if="errors.userId">{{ errors.userId }}</span>
       </div>
-      <!-- 이메일일 입력창 -->
+      <!-- 이메일 입력창 -->
       <div>
         <label>이메일</label>
         <input v-model="form.email" type="text" @blur="validateEmail" />
         <span v-if="errors.email">{{ errors.email }}</span>
       </div>
+      <!-- 비밀번호 -->
+      <div>
+        <label>비밀번호</label>
+        <input v-model="form.password" type="password" @blur="validatePassword" />
+        <span v-if="errors.password">{{ errors.password }}</span>
+      </div>
 
+      <div>
+        <label>비밀번호 확인</label>
+        <input v-model="form.passwordRepeat" type="password" @blur="validatePasswordRepeat" />
+        <span v-if="errors.passwordRepeat">{{ errors.passwordRepeat }}</span>
+      </div>
       <!-- <button type="joinSubmit">회원가입</button> -->
     </form>
   </div>
@@ -38,7 +49,9 @@ const form = reactive({
   name: '',
   phone: '',
   userId: '',
-  email = ''
+  email: '',
+  password: '',
+  passwordRepeat: ''
 })
 
 
@@ -46,7 +59,9 @@ const form = reactive({
 const errors = reactive({
   phone: '',
   userId: '',
-  email = ''
+  email: '',
+  password: '',
+  passwordRepeat: ''
 })
 
 // 전화번호 유효성 검사
