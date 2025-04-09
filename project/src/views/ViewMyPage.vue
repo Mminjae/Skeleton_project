@@ -57,7 +57,7 @@ const router = useRouter()
 const showModal = ref(false)
 
 const goEdit = () => {
-  router.push('/edit-profile')
+  router.push('/profileEdit')
 }
 
 const confirmDelete = () => {
@@ -90,7 +90,7 @@ const contactInfo = ref([
 }
 /* 회원, 연락처 정보, 프로필 */
 .info-card {
-  width: 29.4rem; /* 470px*/
+  width: 29.4rem; /*470px */
   height: 25rem; /* 400px */
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
