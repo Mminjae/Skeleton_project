@@ -4,7 +4,7 @@
   <div :class="navClass">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <router-link class="nav-link" to="/">비로그인 홈</router-link>
+        <router-link class="nav-link nav-link-small" to="/">비로그인 홈</router-link>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/login">로그인 월별</router-link>
