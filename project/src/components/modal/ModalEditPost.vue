@@ -14,35 +14,28 @@
     class="modal fade"
     id="ModalEditPost"
     tabindex="-1"
-    aria-labelledby="editModalLabel"
+    aria-labelledby="exampleModalLabel"
     aria-hidden="true"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <!-- 모달 헤더: 수입/지출 라디오 토글 및 닫기 버튼 -->
         <div class="modal-header">
-          <div class="btn-group me-auto" role="group" aria-label="수입/지출 선택">
-            <!-- 수입 라디오 버튼 (기본 선택) -->
-            <input
-              type="radio"
-              class="btn-check"
-              name="transactionType"
-              id="incomeRadio"
-              autocomplete="on"
-              checked
-            />
-            <label class="btn btn-primary" for="incomeRadio">수입</label>
+          <!-- 탭 버튼 -->
+          <button
+            :class="['tab-button', activeTab === 'income' ? 'active' : '']"
+            @click="activeTab = 'income'"
+          >
+            수입
+          </button>
+          <button
+            :class="['tab-button', activeTab === 'expense' ? 'active' : '']"
+            @click="activeTab = 'expense'"
+          >
+            지출
+          </button>
 
-            <!-- 지출 라디오 버튼 -->
-            <input
-              type="radio"
-              class="btn-check"
-              name="transactionType"
-              id="expenseRadio"
-              autocomplete="off"
-            />
-            <label class="btn btn-light" for="expenseRadio">지출</label>
-          </div>
           <button
             type="button"
             class="btn-close"
@@ -51,59 +44,96 @@
           ></button>
         </div>
 
-        <!-- 모달 본문: 수정 폼 -->
         <div class="modal-body">
-          <form @submit.prevent>
+          <form>
+            <!-- 공통 영역 -->
             <div class="mb-3">
-              <label for="transaction-date" class="col-form-label">날짜</label>
-              <input type="text" class="form-control" id="transaction-date" v-model="form.date" />
+              <label for="date" class="col-form-label">날짜</label>
+              <input type="date" class="form-control" id="date" v-model="selectedDate" />
             </div>
             <div class="mb-3">
-              <label for="transaction-description" class="col-form-label">내역</label>
+              <label for="title" class="col-form-label">내역</label>
               <input
                 type="text"
                 class="form-control"
-                id="transaction-description"
-                v-model="form.description"
+                id="title"
+                style="text-align: right"
+                v-model="title"
               />
             </div>
-            <div class="mb-3">
-              <label for="transaction-amount" class="col-form-label">금액</label>
-              <input
-                type="text"
-                class="form-control"
-                id="transaction-amount"
-                v-model="form.amount"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="transaction-category" class="col-form-label">카테고리</label>
-              <select class="form-select" id="transaction-category" v-model="form.category">
-                <option value="" selected>선택</option>
-                <option value="1">식비</option>
-                <option value="2">저축</option>
-                <option value="3">교통비</option>
-                <option value="4">문화생활</option>
-                <option value="5">생필품</option>
-                <option value="6">쇼핑</option>
-                <option value="9">월급</option>
-                <option value="10">금융 수입</option>
-                <option value="11">용돈</option>
-                <option value="12">이월</option>
-                <option value="13">기타</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label for="transaction-memo" class="col-form-label">메모</label>
-              <textarea class="form-control" id="transaction-memo" v-model="form.memo"></textarea>
-            </div>
+
+            <!-- 수입 탭 -->
+            <template v-if="activeTab === 'income'">
+              <div class="mb-3">
+                <label for="amount-income" class="col-form-label">금액</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  style="text-align: right"
+                  v-model="amount"
+                  inputmode="numeric"
+                  @input="formatAmount"
+                  @focus="handleFocus"
+                  @blur="handleBlur"
+                  placeholder="0원"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="category-income" class="col-form-label">카테고리</label>
+                <select class="form-select" id="category-income" v-model="categoryIncome">
+                  <option value="" selected>선택</option>
+                  <option value="월급">🟣월급</option>
+                  <option value="금융 수입">🟣금융 수입</option>
+                  <option value="용돈">🟣용돈</option>
+                  <option value="이월">🟣이월</option>
+                  <option value="기타">🟣기타</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="memo-income" class="col-form-label">메모</label>
+                <textarea class="form-control" id="memo-income" v-model="memo"></textarea>
+              </div>
+            </template>
+
+            <!-- 지출 탭 -->
+            <template v-else>
+              <div class="mb-3">
+                <label for="amount-expense" class="col-form-label">금액</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  style="text-align: right"
+                  v-model="amount"
+                  inputmode="numeric"
+                  @input="formatAmount"
+                  @focus="handleFocus"
+                  @blur="handleBlur"
+                  placeholder="0원"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="category-expense" class="col-form-label">카테고리</label>
+                <select class="form-select" id="category-expense" v-model="categoryExpense">
+                  <option value="">선택</option>
+                  <option value="식비">🟣식비</option>
+                  <option value="저축">🟣저축</option>
+                  <option value="교통비">🟣교통비</option>
+                  <option value="문화생활">🟣문화생활</option>
+                  <option value="생필품">🟣생필품</option>
+                  <option value="쇼핑">🟣쇼핑</option>
+                  <option value="기타">🟣기타</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="memo-expense" class="col-form-label">메모</label>
+                <textarea class="form-control" id="memo-expense" v-model="memo"></textarea>
+              </div>
+            </template>
           </form>
         </div>
 
-        <!-- 모달 푸터: 초기화 및 삭제 버튼 -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="resetForm">초기화</button>
-          <button type="button" class="btn btn-primary" @click="openConfirmModal">삭제</button>
         </div>
       </div>
     </div>
@@ -111,96 +141,107 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { ref } from 'vue'
 
-// 모달 인스턴스 변수
-let confirmationModal = null
-let editModalInstance = null
+const activeTab = ref('income')
+const selectedDate = ref('')
+const title = ref('')
+const amount = ref('0원')
+const memo = ref('')
 
-onMounted(() => {
-  const bootstrap = window.bootstrap
+// ✅ 탭별 카테고리를 따로 관리
+const categoryIncome = ref('')
+const categoryExpense = ref('')
 
-  // 확인 모달 초기화 (HTML에 #staticBackdrop 요소가 있어야 함)
-  confirmationModal = new bootstrap.Modal(document.getElementById('staticBackdrop'))
-
-  // 현재 수정 모달 인스턴스 가져오기
-  editModalInstance = bootstrap.Modal.getInstance(document.getElementById('editModal'))
-})
-
-// form 데이터를 reactive 객체로 관리 (추후 유효성 검사, 전송 등에 활용 가능)
-const form = reactive({
-  date: '',
-  description: '',
-  amount: '',
-  category: '',
-  memo: '',
-})
-
-// 폼 초기화 함수
-const resetForm = () => {
-  form.date = ''
-  form.description = ''
-  form.amount = ''
-  form.category = ''
-  form.memo = ''
+// 금액 입력 포커스 핸들링
+const handleFocus = () => {
+  if (amount.value === '0원') {
+    amount.value = ''
+  }
+}
+const handleBlur = () => {
+  if (amount.value.trim() === '') {
+    amount.value = '0원'
+  }
 }
 
-// 삭제 버튼 클릭 시 수정 모달 숨기고 확인 모달 표시
-const openConfirmModal = () => {
-  if (editModalInstance) {
-    editModalInstance.hide()
+// ✅ 초기화 함수 수정
+const resetForm = () => {
+  selectedDate.value = ''
+  title.value = ''
+  amount.value = '0원'
+  memo.value = ''
+  categoryIncome.value = ''
+  categoryExpense.value = ''
+}
+
+// 입력 시 숫자만 필터링하고 자동 포맷팅
+const formatAmount = (e) => {
+  const raw = e.target.value.replace(/[^0-9]/g, '') // 숫자만
+  if (!raw) {
+    amount.value = ''
+    return
   }
-  if (confirmationModal) {
-    confirmationModal.show()
-  }
+  // 천 단위 쉼표 삽입
+  amount.value = Number(raw).toLocaleString()
 }
 </script>
 
 <style scoped>
-/* 모달 헤더 및 푸터 경계선 제거 */
+.tab-header {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tab-button {
+  padding: 0.5rem 1.5rem;
+  margin: 2rem 0 0 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  background-color: #f9f9f9;
+  color: #555;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.tab-button.active {
+  background-color: #a79df0;
+  color: white;
+  border-color: transparent;
+}
 .modal-header,
 .modal-footer {
-  border: none;
+  border: 0;
 }
-
-/* 라디오 버튼 그룹 좌측 정렬 */
-.btn-group.me-auto {
-  margin-right: auto;
+.modal-header .btn-primary {
+  margin: 0 1rem 0 0;
 }
-
-/* 폼 아이템 레이아웃 */
 .mb-3 {
   display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
+}
+.form-control {
+  width: 22rem;
+  margin: 0 0 0 3rem;
 }
 
-/* 라벨과 입력창의 간격 조정 */
-.col-form-label {
-  margin-right: 1rem;
-  width: 80px;
-}
-
-.form-control,
 .form-select {
-  flex: 1;
+  width: 22rem;
+  margin: 0 0 0 1rem;
 }
-
-/* 모달 내 버튼 스타일 */
 .modal-footer .btn,
 .modal-header .btn {
   background-color: #fafafa;
   color: #535353;
-  border: 1px solid #e4e4e4;
+  border: #e4e4e4 0.1rem solid;
   width: 5rem;
 }
 
 .modal-header .btn-primary {
   background-color: #8d92f2;
   color: #fafafa;
-}
-
-.modal-footer .btn-primary {
-  color: red;
 }
 </style>
