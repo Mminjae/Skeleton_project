@@ -10,16 +10,16 @@
         <router-link class="nav-link" to="/login">로그인 월별</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/recent-deals">최근 거래</router-link>
+        <router-link class="nav-link" to="/recentdeals">최근 거래</router-link>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/mypage">마이페이지</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/edit-profile">회원 정보 수정</router-link>
+        <router-link class="nav-link" to="/profileedit">회원 정보 수정</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="//membership-guide">회원가입</router-link>
+        <router-link class="nav-link" to="/signup">회원가입</router-link>
       </li>
     </ul>
   </div>
