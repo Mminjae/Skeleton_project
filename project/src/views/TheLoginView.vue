@@ -2,6 +2,7 @@
 // import { ref } from 'vue'
 import PostDonutChart from '../components/post/PostDonutChart.vue'
 import PostCategoryTop from '../components/post/PostCategoryTop.vue'
+import PostRecentHistory from '../components/post/PostRecentHistory.vue'
 
 // Svg 좌표 내부에서는 px만 사용할 수 있기 때문에 Rem을 px로 계산하는 코드 (1rem = 16px 기준)
 const remToPx = (rem) => rem * 16
@@ -20,7 +21,12 @@ const donutData = [
 <template>
   <div>
     <h1>월별 재정요약 로그인 (main)</h1>
+
     <PostCategoryTop />
+    <hr />
+
+    <PostRecentHistory />
+    <hr />
     <h2>도넛 그래프 카테고리 7개</h2>
     <PostDonutChart
       :sizeX="remToPx(33.75)"
