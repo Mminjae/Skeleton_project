@@ -326,8 +326,9 @@ const selectedPaymentMethod = ref(null)  //초기설정
   justify-content: space-evenly;
   align-items: center;
 
-  border: 1px red solid;
+  border: 1px solid var(--color-gray-light);
   border-radius: 5px;
+  padding-left: 0.5rem;
 
   width: 28.125rem; /* 450px */
   height: 3.438rem; /* 55px */
@@ -340,24 +341,44 @@ const selectedPaymentMethod = ref(null)  //초기설정
   width: 10.16px;
   height: 24.29px;
   text-align: center;
+  padding-right: 1rem;
 }
 .input-callendar{
   width: 12.305rem; /* 196.88px */
   height: 2.5rem;   /* 40px */
+  border: 1px solid var(--color-gray-light);
+  padding-left: 1rem;
 }
 .checkbox--category{
   width: 27.813rem;  /* 445px */
   height: 7.375rem;  /* 118px */
-
 }
 
 .btn{
   width: 6.25rem;  /* 100px */
   height: 2.5rem;  /* 40px */
+}
+.btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
+  border: none;
+}
+.btn-group>.btn, .btn-group>.btn.dropdown-toggle-split:first-child, .btn-group>.btn:not(:last-child):not(.dropdown-toggle) {
   border-radius: 5px;
+}
+.btn:hover {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
+  border: none;
+}
+.modal-footer > .btn:hover {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
+  border: none;
 }
 .btn-primary{
   background-color: var(--color-white);
+  border: 1px solid var(--color-gray-light);
   color: var(--color-black);
 }
 .btn-group{
@@ -379,8 +400,8 @@ const selectedPaymentMethod = ref(null)  //초기설정
 .modal-header .btn {
   background-color: var(--color-white);
   color: var(--color-black);
-  border: var(--color--gray-light) 0.1rem solid;
-  width: 5rem;  /*figma최신화 */
+  border: 1px solid var(--color-gray-light);
+  width: 6rem;  /*figma최신화 */
 }
 .btn-filter-reset{
 
