@@ -1,5 +1,10 @@
 {
+<<<<<<< HEAD
   "devDependencies": {
     "json-server": "^1.0.0-beta.3"
+=======
+  "dependencies": {
+    "axios": "^1.8.4"
+>>>>>>> b59f2c2f4348634b97da3360075aa407b8c6e9e8
   }
 }
