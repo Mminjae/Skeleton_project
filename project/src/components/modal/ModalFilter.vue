@@ -189,24 +189,46 @@
 
 /*---------------------필터모달 CSS-------------------*/
 .modal-content{
-  overflow: scroll;
 
   width: 37.5rem;    /* 600px */
   height: 31.25rem;  /* 500px */
 
   background-color:var(--color-white) ;
 }
+.modal-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
 .callendar-group{
-  border: 1px var(--color--gray-light) solid;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  border: 1px red solid;
+  border-radius: 5px;
+
+  width: 28.125rem; /* 450px */
+  height: 3.438rem; /* 55px */
+
+}
+.callendar-group>em{
+  font-size: medium;
+  font-weight: bold;
+  
+  width: 10.16px;
+  height: 24.29px;
+  text-align: center;
+}
+.input-callendar{
+  width: 12.305rem; /* 196.88px */
+  height: 2.5rem;   /* 40px */
 }
 .checkbox--category{
   width: 27.813rem;  /* 445px */
   height: 7.375rem;  /* 118px */
 
 }
-.modal-body .checkbox--expense{
-  display: none;
-}
+
 .btn{
   width: 6.25rem;  /* 100px */
   height: 2.5rem;  /* 40px */

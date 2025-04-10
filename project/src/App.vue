@@ -1,9 +1,9 @@
 <template>
   <ModalFilter/>  
-  <ModalAddPost />
-  <ModalEditPost />
-  <ModalExpenditure />
-  <ModalImport />
+  <!-- <ModalAddPost /> -->
+  <!-- <ModalEditPost /> -->
+  <!-- <ModalExpenditure /> -->
+  <!-- <ModalImport /> -->
   <!-- <TheSidebarLogin/> -->
   <!-- <ModalAddPost/> -->
   <!-- <TheSidebar /> -->
