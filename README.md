@@ -15,7 +15,7 @@
 | [이은우](https://github.com/mjgwon24)            | [이은미](https://github.com/june0216)           | [이주영](https://github.com/saebomnewspring)     | [손주성](https://github.com/yyc0026)            |
 | ------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------ | ----------------------------------------------- |
 | <img src="asset/member/민지.jpeg" width="150" /> | <img src="asset/member/지윤.png" width="150" /> | <img src="asset/member/새봄.jpeg" width="150" /> | <img src="asset/member/영찬.png" width="150" /> |
-| Figma                                            | 팀장                                            | 와이어프레임, 플로우차트                         |                                                 |
+| Figma                                            | 팀장                                            | 와이어프레임, 플로우차트                         | 코드컨벤션, 네이밍컨벤션                                                |
 
 | [맹민재](https://github.com/mjgwon24)            | [김준영](https://github.com/june0216)           | [노우정](https://github.com/saebomnewspring)     |
 | ------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------ |
