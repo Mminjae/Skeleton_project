@@ -9,7 +9,6 @@
         <span class="nav-bar-userName">000님</span>
       </div>
       <div class="nav-bar-btnbox">
-<<<<<<< HEAD
         <router-link class="nav-link" to="/login"
           ><button class="nav-bar-btn">재정요약</button></router-link
         >
@@ -20,14 +19,8 @@
           ><button class="nav-bar-btn">마이페이지</button></router-link
         >
         <router-link class="nav-link" to="/"
-          ><button class="nav-bar-btn">로그아웃</button></router-link
+          ><button class="nav-bar-btn logout">로그아웃</button></router-link
         >
-=======
-        <router-link class="nav-link" to="/login"><button class="nav-bar-btn">재정요약</button></router-link>
-        <router-link class="nav-link" to="/history"><button class="nav-bar-btn">거래내역조회</button></router-link>
-        <router-link class="nav-link" to="/myPage"><button class="nav-bar-btn">마이페이지</button></router-link>
-        <router-link class="nav-link" to="/"><button class="nav-bar-btn logout">로그아웃</button></router-link>
->>>>>>> bebe77d49cd3ab0f3d9cef7a8cc7a13f1333dc28
       </div>
     </nav>
   </div>
@@ -41,7 +34,7 @@
   flex-direction: column;
 
   width: 18.75rem; /* 2.BOX */
-  height: 100vh; 
+  height: 100vh;
 
   background-color: var(--color-purple); /* 3.배경 */
 }
@@ -71,12 +64,8 @@ h1 > img {
 .nav-bar-userName {
   display: block;
   line-height: 44px;
-<<<<<<< HEAD
-  font-size: 15px;
-=======
   color: var(--color-black);
   font-size: var(--font-l);
->>>>>>> bebe77d49cd3ab0f3d9cef7a8cc7a13f1333dc28
 }
 /*---nav바 프로필사진(사용자)END---*/
 
@@ -87,21 +76,13 @@ h1 > img {
   margin-bottom: 3.875rem;
 }
 .nav-bar-btn {
-<<<<<<< HEAD
+  background-color: var(--color-purple);
   width: 13.125rem; /* 210px */
   height: 4.25rem; /* 68px */
   border-radius: 1.875rem; /* 30px */
-  padding: 0 2.5rem; /* 40px */
-  margin-bottom: 1.625rem;
-=======
-  background-color: var(--color-purple);
-  width: 13.125rem;      /* 210px */
-  height: 4.25rem;       /* 68px */
-  border-radius: 1.875rem;  /* 30px */
   border: none;
-  padding: 0 2.5rem;    /* 40px */
+  padding: 0 2.5rem; /* 40px */
   margin-bottom: 1.2rem;
->>>>>>> bebe77d49cd3ab0f3d9cef7a8cc7a13f1333dc28
   align-items: center;
   font-size: var(--font-base);
   color: var(--color-black);
