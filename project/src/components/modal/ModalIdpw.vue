@@ -5,7 +5,7 @@
         <!-- 입력 폼들 -->
         <div class="modal-header">
           <button class="btn btn-outline-dark" type="button" @click="$emit('close')">
-            <img src="#" alt="닫기" />
+            <IconIcon icon="exit" />
           </button>
         </div>
         <div class="modal-idpw">
@@ -90,22 +90,27 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref } from 'vue'
+import IconIcon from '../base/iconIcon.vue'
+import axios from 'axios'
 
-// ID/PW찾기 미입력 에러코드 //
+// 모드: ID 또는 PW
 const mode = ref('id')
 
+// 입력값
 const name = ref('')
 const email = ref('')
 const id = ref('')
 
-// 에러 메시지 저장용
+// 에러 메시지
 const nameError = ref('')
 const emailError = ref('')
 const idError = ref('')
 const entireError = ref('')
+
+// 이벤트 정의
+const emit = defineEmits(['found-id', 'close'])
 
 function switchToID() {
   mode.value = 'id'
@@ -132,61 +137,58 @@ function clearInputs() {
   id.value = ''
 }
 
-function handleFindID() {
+// ID 찾기
+async function handleFindID() {
   clearErrors()
 
   const isNameEmpty = !name.value.trim()
   const isEmailEmpty = !email.value.trim()
 
-  if (isNameEmpty && isEmailEmpty) {
-    nameError.value = '이름을 입력해주세요.'
-    return
-  }
-
   if (isNameEmpty) {
     nameError.value = '이름을 입력해주세요.'
-    return
   }
-
   if (isEmailEmpty) {
     emailError.value = '이메일을 입력해주세요.'
-    return
   }
+  if (isNameEmpty || isEmailEmpty) return
 
-  // 실제 회원 정보 확인 로직 대신 더미 조건 사용
-  const isMatch = false // 항상 실패하는 가정 (임시)
-  if (!isMatch) {
-    entireError.value = '회원 정보가 일치하지 않습니다.'
+  try {
+    const res = await axios.get(
+      `http://localhost:3000/users?name=${name.value}&email=${email.value}`,
+    )
+
+    if (res.data.length > 0) {
+      const user = res.data[0]
+      emit('found-id', user.username)
+      emit('close')
+    } else {
+      entireError.value = '회원 정보가 일치하지 않습니다.'
+    }
+  } catch (error) {
+    console.error('ID 찾기 오류:', error)
+    entireError.value = '서버 오류가 발생했습니다.'
   }
 }
+
+// PW 찾기 (보너스 - 구현 예정)
 function handleFindPW() {
   clearErrors()
 
   const isIdEmpty = !id.value.trim()
   const isEmailEmpty = !email.value.trim()
-  let hasError = false
 
-  if (isIdEmpty && isEmailEmpty) {
+  if (isIdEmpty) {
     idError.value = 'ID를 입력해주세요.'
-    hasError = true
-  } else if (isIdEmpty) {
-    idError.value = 'ID를 입력해주세요.'
-    hasError = true
-  } else if (isEmailEmpty) {
+  }
+  if (isEmailEmpty) {
     emailError.value = '이메일을 입력해주세요.'
-    hasError = true
   }
+  if (isIdEmpty || isEmailEmpty) return
 
-  if (hasError) return
-
-  // 둘 다 입력된 경우 → 실제 회원 확인 로직
-  const isMatch = false // 임시 실패 처리
-  if (!isMatch) {
-    entireError.value = '회원 정보가 일치하지 않습니다.'
-  }
+  // 여기에 실제 비밀번호 찾기 로직 구현하면 됨
+  entireError.value = '회원 정보가 일치하지 않습니다.'
 }
 </script>
-
 <style scoped>
 /* 모달 외 배경 구성 CSS */
 .modal-bg {
@@ -203,16 +205,12 @@ function handleFindPW() {
 }
 /* 모달 내 CSS */
 .modal-content {
-  width: 90vw;
-  max-width: 30rem;
+  width: 33.75rem;
+  height: 30.625rem;
   background-color: var(--color-white);
   border-radius: 1rem;
   padding: 2rem;
   width: 30rem;
-}
-.modal-content {
-  width: 33.75rem;
-  height: 30.625rem;
 }
 .modal-header {
   display: flex;
@@ -227,7 +225,7 @@ function handleFindPW() {
   width: 3rem;
   height: 3rem;
   background-color: transparent;
-  border: 0.12rem solid var(--color-gray-medium);
+  border: none;
   cursor: pointer;
   padding: 0;
 }
@@ -254,7 +252,7 @@ function handleFindPW() {
   width: 6.875rem;
   height: 3.125rem;
   margin: 0 1rem 3rem;
-  border: var(--color-black);
+  border: var(--color-gray-light);
   border-radius: 0.625rem;
   background-color: var(--color-white);
   color: var(--color-black);
