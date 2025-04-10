@@ -52,7 +52,7 @@
           />
 
       <!-- 회원가입 버튼 -->
-      <button type="joinSubmit">회원가입</button>
+      <button type="submit">회원가입</button>
     </form>
     
     
@@ -164,14 +164,13 @@ const submitForm = () => {
   validatePassword()
   validatePasswordRepeat()
 
-// 입력값 오류 예외처리
-const hasError = Object.values(errors).some(e => e)
+  const hasError = Object.values(errors).some(e => e)
   if (hasError) {
     alert('입력값을 다시 확인해주세요.')
     return
   }
 
-  alert('회원가입 완료!') 
+  alert('회원가입 완료!')
 }
 
 //초기화 넣어두기
