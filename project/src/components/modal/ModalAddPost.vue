@@ -81,11 +81,11 @@
                 <label for="category-income" class="col-form-label">카테고리</label>
                 <select class="form-select" id="category-income" v-model="categoryIncome">
                   <option value="" selected>선택</option>
-                  <option value="월급">🟣월급</option>
-                  <option value="금융 수입">🟣금융 수입</option>
-                  <option value="용돈">🟣용돈</option>
-                  <option value="이월">🟣이월</option>
-                  <option value="기타">🟣기타</option>
+                  <option value="salary">🟣월급</option>
+                  <option value="finance">🟣금융 수입</option>
+                  <option value="allowance">🟣용돈</option>
+                  <option value="carryover">🟣이월</option>
+                  <option value="miscIncome">🟣기타</option>
                 </select>
               </div>
               <div class="mb-3">
@@ -114,13 +114,13 @@
                 <label for="category-expense" class="col-form-label">카테고리</label>
                 <select class="form-select" id="category-expense" v-model="categoryExpense">
                   <option value="">선택</option>
-                  <option value="식비">🟣식비</option>
-                  <option value="저축">🟣저축</option>
-                  <option value="교통비">🟣교통비</option>
-                  <option value="문화생활">🟣문화생활</option>
-                  <option value="생필품">🟣생필품</option>
-                  <option value="쇼핑">🟣쇼핑</option>
-                  <option value="기타">🟣기타</option>
+                  <option value="foodcost">🟣식비</option>
+                  <option value="saving">🟣저축</option>
+                  <option value="transport">🟣교통비</option>
+                  <option value="culture">🟣문화생활</option>
+                  <option value="essentials">🟣생필품</option>
+                  <option value="shopping">🟣쇼핑</option>
+                  <option value="miscExpense">🟣기타</option>
                 </select>
               </div>
               <div class="mb-3">
@@ -132,7 +132,7 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary">초기화</button>
+          <button type="button" class="btn btn-secondary" @click="resetForm">초기화</button>
           <button type="button" class="btn btn-primary" @click="submitTransaction">완료</button>
         </div>
       </div>
@@ -142,7 +142,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useTransactionStore } from '@/stores/transactionStore' // ✅ store import
+import { useTransactionStore } from '@/stores/transactionStore'
 
 const store = useTransactionStore()
 
@@ -154,7 +154,6 @@ const memo = ref('')
 const categoryIncome = ref('')
 const categoryExpense = ref('')
 
-// 금액 포맷
 const handleFocus = () => {
   if (amount.value === '0원') amount.value = ''
 }
@@ -170,7 +169,6 @@ const formatAmount = (e) => {
   amount.value = Number(raw).toLocaleString()
 }
 
-// ✅ 초기화
 const resetForm = () => {
   selectedDate.value = ''
   title.value = ''
@@ -181,7 +179,11 @@ const resetForm = () => {
   activeTab.value = 'income'
 }
 
-// ✅ 저장 함수
+const getKoreanDay = (dateObj) => {
+  const days = ['일', '월', '화', '수', '목', '금', '토']
+  return days[dateObj.getDay()]
+}
+
 const submitTransaction = async () => {
   const parsedAmount = parseInt(amount.value.replace(/,/g, '')) || 0
   const category = activeTab.value === 'income' ? categoryIncome.value : categoryExpense.value
@@ -191,22 +193,34 @@ const submitTransaction = async () => {
     return
   }
 
+  const dateObj = new Date(selectedDate.value)
+  const isValidDate = !isNaN(dateObj.getTime())
+
+  if (!isValidDate) {
+    alert('유효한 날짜를 선택해주세요.')
+    return
+  }
+
+  const lastId = store.transactions.length
+    ? Math.max(...store.transactions.map((t) => Number(t.id)))
+    : 0
+
   const newTransaction = {
-    type: activeTab.value,
-    date: selectedDate.value,
-    title: title.value,
+    id: String(lastId + 500),
     amount: parsedAmount,
     category,
+    merchant: title.value,
     memo: memo.value,
+    userId: 1,
+    dateYear: dateObj.getFullYear(),
+    dateMonth: dateObj.getMonth() + 1,
+    dateDay: dateObj.getDate(),
+    dayOfWeek: getKoreanDay(dateObj),
+    isIncome: activeTab.value === 'income',
+    paymentMethod: activeTab.value === 'income' ? '' : '현금',
   }
 
   await store.addTransaction(newTransaction)
-
-  // 모달 닫기
-  // const modalEl = document.getElementById('ModalAddPost')
-  // const modal = bootstrap.Modal.getInstance(modalEl)
-  // modal.hide()
-
   resetForm()
 }
 </script>
