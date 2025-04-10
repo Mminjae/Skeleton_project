@@ -9,7 +9,7 @@
             <label>이름</label>
             <input v-model="form.name" type="text" />
           </div>
-          
+
           <!-- 생년월일 입력 -->
           <div class="input-box">
             <label for="birth">생년월일</label>
@@ -20,7 +20,7 @@
               class="form-input"
               @blur="validateBirth"
               placeholder="YYYY-MM-DD"
-              />
+            />
           </div>
           <span v-if="errors.birth" class="error-text">{{ errors.birth }}</span>
           <!-- 이메일 입력창 -->
@@ -32,7 +32,7 @@
           <!-- 전화번호 입력창 -->
           <div class="input-box">
             <label>전화번호</label>
-            <input v-model="form.phone" type="text" @blur="validatePhone"/>
+            <input v-model="form.phone" type="text" @blur="validatePhone" />
           </div>
           <span v-if="errors.phone" class="error-text">{{ errors.phone }}</span>
           <!-- 아이디 입력창 -->
@@ -54,24 +54,20 @@
           </div>
           <span v-if="errors.passwordRepeat" class="error-text">{{ errors.passwordRepeat }}</span>
         </div>
-      
+
         <div class="area-button">
           <!-- 프로필 이미지 영역: 기본이미지 or 업로드 이미지 -->
           <div class="profile-image-wrapper">
-            <img
-              :src="imagePreview || defaultImage"
-              alt="프로필사진"
-              class="profile-image"
-            />
+            <img :src="imagePreview || defaultImage" alt="프로필사진" class="profile-image" />
           </div>
-          
+
           <!-- 이미지 (숨긴 input) (기본 파일 input 감추기) -->
           <input
             type="file"
             id="imageInput"
             accept="image/*"
             @change="handleImageChange"
-            style="display: none;"
+            style="display: none"
           />
           <!-- 라벨 버튼으로 사용자 업로드 유도 -->
           <label for="imageInput" class="upload-button">사진등록</label>
@@ -93,127 +89,130 @@ const form = reactive({
   userId: '',
   email: '',
   password: '',
-  passwordRepeat: ''
+  passwordRepeat: '',
 })
 
-
-// 에러
 const errors = reactive({
   birth: '',
   phone: '',
   userId: '',
   email: '',
   password: '',
-  passwordRepeat: ''
+  passwordRepeat: '',
 })
-
-
-// 생년월일 유효성 검사
-const validateBirth = () => {
-if (!form.birth) {
-  errors.birth = '생년월일을 입력해주세요.'
-} else {
-  errors.birth = ''
-}
-}
-
-// 전화번호 유효성 검사
-const validatePhone = () => { 
-const regex = /^[0-9]{10,11}$/
-errors.phone = regex.test(form.phone) ? '' : '숫자만 입력해주세요 (10~11자리)'
-}
-// 아이디 유효성 검사
-const validateuserId = () => {
-const userId = form.userId.trim()
-
-// 특수문자 제외: 영문자 + 숫자만 허용 (4~16자)
-const regex = /^[a-zA-Z0-9]{4,16}$/
-
-if (!userId) {
-  errors.userId = '아이디를 입력해주세요.'
-} else if (!regex.test(userId)) {
-  errors.userId = '아이디는 영문자와 숫자만 포함해 4~16자여야 합니다.'
-} else {
-  errors.userId = ''
-}
-}
-// 이메일 유효성 검사
-const validateEmail = () => {
-const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-errors.email = regex.test(form.email) ? '' : '유효한 이메일 형식이 아닙니다.'
-}
-
-// 비밀번호 유효성 검사
-const validatePassword = () => {
-  const password = form.password
-
-  const lengthValid = password.length >= 10
-
-  // 각 조건 검사
-  const hasLower = /[a-z]/.test(password)
-  const hasUpper = /[A-Z]/.test(password)
-  const hasNumber = /[0-9]/.test(password)
-  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password)
-
-  // 총 몇 가지 종류가 포함되어 있는지 확인
-  const typesCount = [hasLower, hasUpper, hasNumber, hasSpecial].filter(Boolean).length
-
-  if (!lengthValid || typesCount < 2) {
-    errors.password = '비밀번호는 10자 이상이며, 대소문자/숫자/특수문자 중 2가지 이상을 포함해야 합니다.'
-    passwordSuccess.value = ''
-  } else {
-    errors.password = ''
-    passwordSuccess.value = '사용 가능한 비밀번호입니다.'
-  }
-}
 
 const passwordSuccess = ref('')
 
-const validatePasswordRepeat = () => {
-errors.passwordRepeat = form.password === form.passwordRepeat
-  ? ''
-  : '비밀번호가 일치하지 않습니다.'
-}
-
-const imageFile = ref(null) // 이미지 파일 참조 추가
-const imagePreview = ref('') // 이미지 미리보기 URL 참조 추가
-
-// 이미지 파일 변경 시 처리 함수
-const handleImageChange = event => {
-const file = event.target.files[0]
-if (!file) {
-  imageFile.value = null
-  imagePreview.value = ''
-  return
-}
-
-imageFile.value = file
-
-// 이미지 미리보기 생성
-const reader = new FileReader()
-reader.onload = e => {
-  imagePreview.value = e.target.result
-}
-reader.readAsDataURL(file)
-}
-// 디폴트 이미지 보여주기
-import defaultImageUrl from '@/assets/imgs/user.png' // 수정 필요
+const imageFile = ref(null)
+const imagePreview = ref('')
+import defaultImageUrl from '@/assets/imgs/user.png'
 const defaultImage = defaultImageUrl
 
-// 입력값 중복 검사
-const submitForm = () => {
-validatePhone()
-validateuserId()
-validateEmail()
-validatePassword()
-validatePasswordRepeat()
-
-const hasError = Object.values(errors).some(e => e)
-if (hasError) {
-  alert('입력값을 다시 확인해주세요.')
-  return
+const validateBirth = () => {
+  if (!form.birth) {
+    errors.birth = '생년월일을 입력해주세요.'
+  } else {
+    errors.birth = ''
+  }
 }
-alert('회원가입 완료!')
+
+const validatePhone = () => {
+  const regex = /^[0-9]{10,11}$/
+  errors.phone = regex.test(form.phone) ? '' : '숫자만 입력해주세요 (10~11자리)'
+}
+
+const validateuserId = () => {
+  const userId = form.userId.trim()
+  const regex = /^[a-zA-Z0-9]{4,16}$/
+  if (!userId) {
+    errors.userId = '아이디를 입력해주세요.'
+  } else if (!regex.test(userId)) {
+    errors.userId = '아이디는 영문자와 숫자만 포함해 4~16자여야 합니다.'
+  } else {
+    errors.userId = ''
+  }
+}
+
+const validateEmail = () => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  errors.email = regex.test(form.email) ? '' : '유효한 이메일 형식이 아닙니다.'
+}
+
+const validatePassword = () => {
+  const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{6,}$/
+  if (regex.test(form.password)) {
+    errors.password = ''
+    passwordSuccess.value = '사용 가능한 비밀번호입니다.'
+  } else {
+    errors.password = '숫자 및 특수문자를 포함해 6자리 이상 입력해주세요.'
+    passwordSuccess.value = ''
+
+  }
+}
+
+const validatePasswordRepeat = () => {
+  errors.passwordRepeat =
+    form.password === form.passwordRepeat ? '' : '비밀번호가 일치하지 않습니다.'
+}
+
+const handleImageChange = (event) => {
+  const file = event.target.files[0]
+  if (!file) {
+    imageFile.value = null
+    imagePreview.value = ''
+    return
+  }
+
+  imageFile.value = file
+
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    imagePreview.value = e.target.result
+  }
+  reader.readAsDataURL(file)
+}
+
+// 🚀 여기부터 수정된 부분!
+const submitForm = async () => {
+  validatePhone()
+  validateuserId()
+  validateEmail()
+  validatePassword()
+  validatePasswordRepeat()
+
+  const hasError = Object.values(errors).some((e) => e)
+  if (hasError) {
+    alert('입력값을 다시 확인해주세요.')
+    return
+  }
+
+  try {
+    const response = await fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: form.name,
+        birth: form.birth,
+        phone: form.phone,
+        userId: form.userId,
+        email: form.email,
+        password: form.password,
+        // 필요시 imagePreview (base64) 도 저장 가능
+      }),
+    })
+
+    if (!response.ok) throw new Error('회원가입 실패')
+
+    alert('회원가입이 완료되었습니다!')
+
+    // 입력 초기화
+    Object.keys(form).forEach((key) => (form[key] = ''))
+    imageFile.value = null
+    imagePreview.value = ''
+  } catch (error) {
+    console.error(error)
+    alert('회원가입 중 오류가 발생했습니다.')
+  }
 }
 </script>
 
@@ -240,13 +239,13 @@ button {
   background: var(--color-white);
   border-radius: 1rem;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.05);
-  position: relative
+  position: relative;
 }
 
 .area-input {
   width: 70%;
   margin-bottom: 4rem;
-  position: relative
+  position: relative;
 }
 .area-input > span {
   position: absolute;
@@ -267,8 +266,7 @@ button {
   padding-top: 1rem;
   align-items: center;
 }
-.input-box
- label {
+.input-box label {
   font-size: var(--font-m);
   color: var(--color-black);
   width: 200px;
@@ -391,7 +389,7 @@ padding-top: 1rem;
 }
 
 /* 회원가입 버튼 */
-button[type="submit"] {
+button[type='submit'] {
   position: absolute;
   display: inline-block;
   background-color: var(--color-white);
@@ -411,7 +409,6 @@ button[type="submit"] {
 .error-text {
   color: var(--color-red);
   font-size: var(--font-s);
-  
 }
 
 .success-text {
