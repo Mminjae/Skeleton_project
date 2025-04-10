@@ -1,18 +1,33 @@
 <template>
-  <!-- <TheSidebar /> -->
-  <!-- <ModalDetailPost /> -->
   <div class="app-container">
     <TheSidebarLogin />
     <RouterView />
   </div>
+  <ModalAddPost />
+  <ModalEditPost />
+  <ModalExpenditure />
+  <ModalImport />
+  <ModalFilter />
 </template>
 <script>
-import TheSidebar from '@/layouts/TheSidebar.vue'
-import ModalDetailPost from '@/components/modal/ModalDetailPost.vue'
 import TheSidebarLogin from '@/layouts/TheSidebarLogin.vue'
+
+import ModalAddPost from './components/modal/ModalAddPost.vue'
+import ModalEditPost from './components/modal/ModalEditPost.vue'
+import ModalExpenditure from '@/components/modal/ModalExpenditure.vue'
+import ModalImport from '@/components/modal/ModalImport.vue'
+import ModalFilter from './components/modal/ModalFilter.vue'
+
 export default {
   name: 'App',
-  components: { TheSidebar, ModalDetailPost, TheSidebarLogin },
+  components: {
+    TheSidebarLogin,
+    ModalAddPost,
+    ModalEditPost,
+    ModalExpenditure,
+    ModalImport,
+    ModalFilter,
+  },
 }
 </script>
 <style scoped>

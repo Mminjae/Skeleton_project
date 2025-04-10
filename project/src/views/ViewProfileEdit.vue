@@ -1,76 +1,82 @@
 <template>
-  <div id="mypage">
-    <div class="container my-5">
-      <h5 class="mb-5">마이페이지</h5>
-      <div class="info-card">
-        <div class="d-flex justify-content-between">
+  <div id="mypage" class="container my-5">
+    <h5 class="mb-4">마이페이지</h5>
+    <div class="info-card p-4 rounded shadow-sm bg-white">
+      <div class="d-flex justify-content-between flex-wrap gap-4">
+        <!-- 왼쪽: 회원 + 연락처 정보 -->
+        <div class="flex-grow-1" style="min-width: 280px">
           <!-- 회원 정보 -->
-          <div class="info-member">
-            <div class="info-title">회원정보</div>
-            <div class="info-item" v-for="(item, index) in memberInfo" :key="index">
-              <div class="label">{{ item.label }}</div>
-              <div class="value">
-                <input class="info-input" type="text" />
-              </div>
+          <h6 class="mb-3 border-bottom pb-1">회원정보</h6>
+          <div v-for="(item, index) in memberInfo" :key="'member-' + index" class="mb-3">
+            <div class="form-row">
+              <label class="form-label">{{ item.label }}</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="item.value"
+                @input="validateItem(item)"
+              />
+            </div>
+            <div v-if="item.label === 'ID' && item.value && !errors['ID']" class="text-info">
+              사용 가능한 ID입니다.
+            </div>
+            <div class="text-danger small mt-1" v-if="errors[item.label]">
+              {{ errors[item.label] }}
             </div>
           </div>
 
-          <!-- 프로필 -->
-          <div class="">
-            <img src="#" alt="프로필" class="profile-img" />
-            <i class="bi bi-person-fill"></i>
-            <button class="profile btn btn-light">사진 변경</button>
-          </div>
-        </div>
+          <div class="section-divider"></div>
 
-        <div class="section-divider"></div>
-
-        <!-- 연락처 정보 -->
-        <div class="info-contact">
-          <div class="info-title">연락처정보</div>
-          <div class="info-item" v-for="(item, index) in contactInfo" :key="index">
-            <div class="label">{{ item.label }}</div>
-            <div class="value">
-              <input class="info-input" type="text" />
+          <!-- 연락처 정보 -->
+          <h6 class="mt-4 mb-3 border-bottom pb-1">연락처정보</h6>
+          <div v-for="(item, index) in contactInfo" :key="'contact-' + index" class="mb-3">
+            <label class="form-label">{{ item.label }}</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="item.value"
+              @input="validateItem(item)"
+            />
+            <div class="text-danger small mt-1" v-if="errors[item.label]">
+              {{ errors[item.label] }}
             </div>
           </div>
-        </div>
-        <!-- 수정/탈퇴 버튼 -->
-        <div class="btn-group">
-          <button class="edit btn btn-light" @click="goEdit">저장</button>
-          <button
-            class="member-out btn btn-danger"
-            data-bs-toggle="modal"
-            data-bs-target="#unregisterModal"
-          >
-            회원 탈퇴
-          </button>
+
+          <!-- 버튼 -->
+          <div class="button-group">
+            <button class="btn btn-light" @click="handleSubmit">저장</button>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unregisterModal">
+              회원탈퇴
+            </button>
+          </div>
         </div>
 
-        <!-- 탈퇴 클릭 시 모달 -->
-        <div
-          class="modal fade"
-          id="unregisterModal"
-          tabindex="-1"
-          aria-labelledby="unregisterModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-body">
-                <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
-                <button
-                  type="button"
-                  class="member-out btn btn-danger"
-                  @click="confirmDelete"
-                  data-bs-dismiss="modal"
-                >
-                  네, 탈퇴할래요
-                </button>
-              </div>
+        <!-- 오른쪽: 프로필 사진 -->
+        <div class="text-center" style="min-width: 120px">
+          <img
+            src="#"
+            alt="프로필"
+            class="profile-img mb-2"
+            style="width: 100px; height: 100px; background-color: #eee; object-fit: cover"
+          />
+          <div>
+            <button class="btn btn-outline-secondary btn-sm">사진 변경</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 탈퇴 모달 -->
+      <div class="modal fade" id="unregisterModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-light" data-bs-dismiss="modal">취소</button>
+              <button class="btn btn-danger" data-bs-dismiss="modal" @click="confirmDelete">
+                네, 탈퇴할래요
+              </button>
             </div>
           </div>
         </div>
@@ -85,24 +91,64 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const goEdit = () => {
-  router.push('/myPage')
-}
-
 const confirmDelete = () => {
   router.push('/')
 }
 
 const memberInfo = ref([
-  { label: '이름', value: 'ㅇㅇㅇ' },
-  { label: '생년월일', value: '2021.2.17' },
-  { label: 'ID', value: 'qwerty' },
+  { label: '이름', value: '' },
+  { label: '생년월일', value: '' },
+  { label: 'ID', value: '' },
 ])
 
 const contactInfo = ref([
-  { label: '이메일', value: 'qwerty@gmail.com' },
-  { label: '전화번호', value: '010-1234-5678' },
+  { label: '이메일', value: '' },
+  { label: '전화번호', value: '' },
 ])
+
+const errors = ref({})
+
+const validateItem = (item) => {
+  const label = item.label
+  const value = item.value
+
+  switch (label) {
+    case '이름':
+      errors.value[label] = /^[가-힣]{2,5}$/.test(value) ? '' : '이름은 한글 2~5자여야 합니다.'
+      break
+    case '생년월일':
+      errors.value[label] = /^\d{4}\.\d{1,2}\.\d{1,2}$/.test(value)
+        ? ''
+        : '예: 2021.2.17 형식으로 입력해주세요.'
+      break
+    case 'ID':
+      errors.value[label] = /^[a-zA-Z0-9]{4,12}$/.test(value)
+        ? ''
+        : 'ID는 영문/숫자 4~12자여야 합니다.'
+      break
+    case '이메일':
+      errors.value[label] = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+        ? ''
+        : '올바른 이메일 형식이 아닙니다.'
+      break
+    case '전화번호':
+      errors.value[label] = /^01[016789]-\d{3,4}-\d{4}$/.test(value)
+        ? ''
+        : '예: 010-1234-5678 형식으로 입력해주세요.'
+      break
+  }
+}
+
+const handleSubmit = () => {
+  ;[...memberInfo.value, ...contactInfo.value].forEach(validateItem)
+  const isValid = Object.values(errors.value).every((msg) => !msg)
+  if (isValid) {
+    alert('모든 정보가 유효합니다!')
+    // 저장 처리 로직
+  } else {
+    alert('입력값을 확인해주세요.')
+  }
+}
 </script>
 
 <style scoped>
@@ -114,63 +160,67 @@ const contactInfo = ref([
 #mypage {
   font-family: 'Noto Sans KR', sans-serif;
   margin-left: 5rem;
-  padding: 1rem;
-  padding-top: 2rem;
+  /* padding: 1rem; */
+  /* padding-top: 2rem; */
 }
 
-/* 회원, 연락처 정보, 프로필 */
+/* 전체 카드 스타일 */
 .info-card {
-  width: 50rem; /*800px */
+  width: 50rem; /* 800px */
   height: 37.5rem; /* 600px */
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   padding: 2rem 5rem 0rem 2rem;
   margin: 1rem;
   background-color: white;
 }
-/* 회원 정보 */
-.info-title {
+
+/* 제목 텍스트 */
+h5,
+h6 {
+  font-weight: 400;
+  color: #535353;
+}
+
+/* 구분선 스타일 */
+.border-bottom {
   font-weight: 500;
-  color: #4a4a4a;
-  margin-bottom: 2rem;
-  padding-left: 0.5rem;
-  width: 6rem;
+  color: #535353;
+  padding-left: 0.8rem;
+  width: 5.7rem;
+
   background: linear-gradient(to top, #d5d7f2 30%, transparent 40%);
 }
 
-.info-member {
-  width: 10.3rem; /* 164.8px */
-  height: 9rem; /* 144px */
+/* 라벨 스타일 */
+.form-label {
+  font-weight: 400;
+  color: #535353;
+  width: 4rem;
 }
 
-/* 연락처 정보 */
-.info-contact {
-  width: 24.6rem; /* 393px */
-  height: 7rem; /* 102px */
-}
-.info-item {
-  display: flex;
+/* 입력창 스타일 */
+.form-control {
+  display: inline;
   align-items: center;
   margin-bottom: 0.8rem;
-  margin-left: 2rem;
+  margin-left: 5rem;
   width: 15rem;
 }
 
-.value {
-  padding-left: 1rem;
+.form-control:focus {
+  outline-color: red;
 }
 
-.info-item .label {
-  width: 80px;
-  color: #535353;
-  font-weight: 400;
+/* 에러 메시지 */
+.text-danger {
+  font-size: 0.85rem;
+  color: #e53935 !important;
+  margin-left: 5rem;
+  text-align: center;
 }
 
-.info-item .value {
-  flex: 1;
-  color: #535353;
-}
-/* 프로필 */
+/* 프로필 이미지 스타일 */
 .profile-img {
   width: 6rem;
   height: 6rem;
@@ -183,80 +233,42 @@ const contactInfo = ref([
   margin-right: 2rem;
   margin-top: 2rem;
 }
-
-.profile {
-  margin-left: 0.9rem;
-}
-.label,
-.value {
-  width: 10rem;
-  padding: 0.5rem;
-}
-
-.info-input {
-  height: 1.5rem;
-}
-.info-input:focus {
-  outline: 3px solid #9176e0;
-  border: none;
-}
-/* 회원정보, 연락처 정보 경계선 */
 .section-divider {
   border-top: 1px solid #eee;
-  margin: 6rem 0;
-  padding-top: 0;
 }
-/* 수정, 탈퇴 버튼 */
-.btn-group {
+
+/* 버튼 스타일 */
+.button-group {
   display: flex;
-  justify-self: flex-end;
-  gap: 1rem;
-  margin-top: 3.5rem;
-  width: 10rem;
-  height: 2.5rem;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
 }
 
-button {
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  background: white;
-  color: #535353;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.edit {
+.btn-light {
   width: 5rem;
-  margin-right: 1rem;
-}
-.member-out {
-  width: 7rem;
-  border: none;
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  background: white;
+  border: 1px solid #ddd;
+  color: #333;
 }
 
-/* 탈퇴 클릭 시 모달 */
-.modal {
-  /* position: fixed; */
-  top: 10rem;
-  left: 40rem;
-  width: 20rem;
-  height: 30rem;
-  /* display: flex; */
-  align-items: center;
-  justify-content: center;
+.btn-danger {
+  width: 6rem;
+  background-color: #e53935;
+  color: white;
+  border: none;
+}
+
+.btn-outline-secondary {
+  border: 1px solid #bbb;
+  color: #555;
 }
 
 .modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  text-align: center;
+  border-radius: 12px;
 }
 
-.modal-footer {
-  display: flex;
-  justify-content: space-around;
-  margin: 1rem;
+.modal-body p {
+  font-size: 1.05rem;
 }
 </style>

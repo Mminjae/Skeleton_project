@@ -19,31 +19,44 @@ body {
   /* 🎨 COLOR SYSTEM */
 
   /* 배경/기본 색상 */
-  --color-white: #fafafa; /* 배경용 흰색 */
-  --color-black: #535353; /* 글자용 검정 */
+  --color-white: #fafafa;       /* 배경용 흰색 */
+  --color-black: #535353;       /* 글자용 검정 */
   --color-gray-medium: #959595; /* 보조 텍스트 */
-  --color-gray-light: #e4e4e4; /* 구분선 */
-  --color-purple: #d5d7f2; /* 연한 보라색 */
+  --color-gray-light: #e4e4e4;  /* 구분선 */
+  --color-purple: #d5d7f2;      /* 연한 보라색 */
 
   /* 메인 컬러 코드, 도넛 그래프 */
-  --color-purplr1: #5d45db; /* 가장 진한 */
-  --color-purple2: #a698eb;
-  --color-purple3: #d3ccf5;
-  --color-purple4: #ece9ff; /* 가장 연함 */
+  /* 지출 아이콘 */
+  --color-purple1:  #5D45DB;    /* 저축 */
+  --color-purple2:  #9176E0;    /* 교통비 */
+  --color-purple3:  #B9A8F0;    /* 문화생활 */
+  --color-purple4:  #CFC2FA;    /* 기타(지출) */
+  --color-purple5:  #D1B7FF;    /* 식비 */
+  --color-purple6:  #D5D7F2;    /* 쇼핑 */
+  --color-purple7:  #E4DCFF;    /* 생필품 */
+    
+  /* 수입 아이콘 */
+  --color-purple8:  #8660D1;    /* 용돈 */
+  --color-purple9:  #8D92F2;    /* 이월 */
+  --color-purple10: #A698EB;    /* 월급 */
+  --color-purple11: #C1BBE6;    /* 기타(수입) */
+  --color-purple12: #D3CCF5;    /* 금융수입 */
+  
 
   /* 주요 색상 (수입/지출 공통) */
-  --color-blue: #4a90e2; /* 수입 */
-  --color-red: #ff6b6b; /* 지출 */
+  --color-blue: #4a90e2;        /* 수입 */
+  --color-red: #ff6b6b;         /* 지출 */
 
   /* 🅰️ FONT SIZE SYSTEM (rem) */
-  --font-xs: 0.75rem; /* 12px */
-  --font-base: 1rem; /* 16px (기본) */
-  --font-md: 1.125rem; /* 18px */
-  --font-xl: 1.5rem; /* 24px */
+   --font-s: 0.75rem;             /* 14px */
+   --font-base: 1rem;             /* 16px (기본) */
+   --font-m: 1.125rem;            /* 18px */
+   --font-l: 1.25rem;             /* 20px */
+   --font-xl: 1.5rem;             /* 24px */
 
   /* 📐 SPACING SYSTEM (rem) */
-  --space-xs: 0.5rem; /* 8px */
-  --space-md: 1rem; /* 16px */
-  --space-lg: 1.5rem; /* 24px */
-  --space-xl: 2rem; /* 32px */
+  --space-xs: 0.5rem;             /* 8px */
+  --space-md: 1rem;               /* 16px */
+  --space-lg: 1.5rem;             /* 24px */
+  --space-xl: 2rem;               /* 32px */
 }
