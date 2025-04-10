@@ -37,6 +37,11 @@ const router = createRouter({
       component: ViewProfileEdit,
     },
     {
+      path: '/membershipguide',
+      name: 'SignUp',
+      component: ViewSignUp,
+    },
+    {
       path: '/signUp',
       name: 'signUp',
       component: ViewSignUp,
