@@ -132,8 +132,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" @click="resetForm">초기화</button>
-          <button type="button" class="btn btn-primary">완료</button>
+          <button type="button" class="btn btn-secondary">초기화</button>
+          <button type="button" class="btn btn-primary" @click="submitTransaction">완료</button>
         </div>
       </div>
     </div>
@@ -142,30 +142,35 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useTransactionStore } from '@/stores/transactionStore' // ✅ store import
+
+const store = useTransactionStore()
 
 const activeTab = ref('income')
 const selectedDate = ref('')
 const title = ref('')
 const amount = ref('0원')
 const memo = ref('')
-
-// ✅ 탭별 카테고리를 따로 관리
 const categoryIncome = ref('')
 const categoryExpense = ref('')
 
-// 금액 입력 포커스 핸들링
+// 금액 포맷
 const handleFocus = () => {
-  if (amount.value === '0원') {
-    amount.value = ''
-  }
+  if (amount.value === '0원') amount.value = ''
 }
 const handleBlur = () => {
-  if (amount.value.trim() === '') {
-    amount.value = '0원'
+  if (amount.value.trim() === '') amount.value = '0원'
+}
+const formatAmount = (e) => {
+  const raw = e.target.value.replace(/[^0-9]/g, '')
+  if (!raw) {
+    amount.value = ''
+    return
   }
+  amount.value = Number(raw).toLocaleString()
 }
 
-// ✅ 초기화 함수 수정
+// ✅ 초기화
 const resetForm = () => {
   selectedDate.value = ''
   title.value = ''
@@ -173,17 +178,36 @@ const resetForm = () => {
   memo.value = ''
   categoryIncome.value = ''
   categoryExpense.value = ''
+  activeTab.value = 'income'
 }
 
-// 입력 시 숫자만 필터링하고 자동 포맷팅
-const formatAmount = (e) => {
-  const raw = e.target.value.replace(/[^0-9]/g, '') // 숫자만
-  if (!raw) {
-    amount.value = ''
+// ✅ 저장 함수
+const submitTransaction = async () => {
+  const parsedAmount = parseInt(amount.value.replace(/,/g, '')) || 0
+  const category = activeTab.value === 'income' ? categoryIncome.value : categoryExpense.value
+
+  if (!selectedDate.value || !title.value || !parsedAmount || !category) {
+    alert('모든 필드를 입력해주세요.')
     return
   }
-  // 천 단위 쉼표 삽입
-  amount.value = Number(raw).toLocaleString()
+
+  const newTransaction = {
+    type: activeTab.value,
+    date: selectedDate.value,
+    title: title.value,
+    amount: parsedAmount,
+    category,
+    memo: memo.value,
+  }
+
+  await store.addTransaction(newTransaction)
+
+  // 모달 닫기
+  // const modalEl = document.getElementById('ModalAddPost')
+  // const modal = bootstrap.Modal.getInstance(modalEl)
+  // modal.hide()
+
+  resetForm()
 }
 </script>
 
