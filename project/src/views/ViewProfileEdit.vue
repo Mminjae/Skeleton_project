@@ -3,7 +3,7 @@
     <div class="container my-5">
       <h5 class="mb-5">마이페이지</h5>
       <div class="info-card">
-        <div class="d-flex justify-content-between align-items-start mb-4">
+        <div class="d-flex justify-content-between">
           <!-- 회원 정보 -->
           <div class="info-member">
             <div class="info-title">회원정보</div>
@@ -11,13 +11,13 @@
               <div class="label">{{ item.label }}</div>
               <div class="value">
                 <input class="info-input" type="text" />
-                <div v-if="item.error" class="error">{{ item.error }}</div>
               </div>
             </div>
           </div>
 
           <!-- 프로필 -->
-          <div class="profile-img">
+          <div>
+            <img src="#" alt="프로필" class="profile-img" />
             <i class="bi bi-person-fill"></i>
           </div>
         </div>
@@ -36,15 +36,39 @@
         </div>
         <!-- 수정/탈퇴 버튼 -->
         <div class="btn-group">
-          <button class="btn-edit" @click="goEdit">수정</button>
-          <button class="btn-unregister" @click="showModal = true">회원 탈퇴</button>
+          <button class="btn btn-light" @click="goEdit">수정</button>
+          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unregisterModal">
+            회원 탈퇴
+          </button>
         </div>
-        <!-- 모달 -->
-        <div class="modal" v-if="showModal">
-          <div class="modal-content">
-            <p>정말 탈퇴하시겠습니까?</p>
-            <button @click="confirmDelete">네, 탈퇴할래요</button>
-            <button @click="showModal = false">취소</button>
+
+        <!-- 탈퇴 클릭 시 모달 -->
+        <div
+          class="modal fade"
+          id="unregisterModal"
+          tabindex="-1"
+          aria-labelledby="unregisterModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  취소
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  @click="confirmDelete"
+                  data-bs-dismiss="modal"
+                >
+                  네, 탈퇴할래요
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -97,7 +121,7 @@ const contactInfo = ref([
 .info-card {
   width: 50rem; /*800px */
   height: 37.5rem; /* 600px */
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   padding: 2rem 5rem 0rem 2rem;
   margin: 1rem;
@@ -110,7 +134,6 @@ const contactInfo = ref([
   margin-bottom: 2rem;
   padding-left: 0.5rem;
   width: 6rem;
-  /* margin-top: 0rem; */
   background: linear-gradient(to top, #d5d7f2 30%, transparent 40%);
 }
 
@@ -148,14 +171,16 @@ const contactInfo = ref([
 }
 /* 프로필 */
 .profile-img {
-  width: 80px;
-  height: 80px;
+  width: 6rem;
+  height: 6rem;
   background-color: #e6f0ff;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  margin-right: 2rem;
+  margin-top: 2rem;
 }
 
 .profile-img i {
@@ -172,6 +197,10 @@ const contactInfo = ref([
 .info-input {
   height: 1.5rem;
 }
+.info-input:focus {
+  outline: 3px solid #9176e0;
+  border: none;
+}
 /* 회원정보, 연락처 정보 경계선 */
 .section-divider {
   border-top: 1px solid #eee;
@@ -181,30 +210,20 @@ const contactInfo = ref([
 /* 수정, 탈퇴 버튼 */
 .btn-group {
   display: flex;
-  justify-content: flex-end;
+  justify-self: flex-end;
   gap: 10px;
-  margin-top: 2rem;
+  margin-top: 4.5rem;
+  width: 10rem;
 }
 
 button {
   border: 1px solid #535353;
   /* padding: 4px 10px; */
-  border-radius: 5px;
+  /* border-radius: 5px; */
   background: white;
+  color: #535353;
   cursor: pointer;
   transition: 0.3s;
-}
-
-button:hover {
-  background: #f5f5f5;
-}
-
-.btn-edit {
-  width: 3rem;
-}
-.btn-unregister {
-  width: 5rem;
-  color: red;
 }
 
 /* 탈퇴 클릭 시 모달 */

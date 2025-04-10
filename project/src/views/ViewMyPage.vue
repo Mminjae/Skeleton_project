@@ -16,6 +16,7 @@
           <!-- 프로필 -->
           <div>
             <img src="#" alt="프로필" class="profile-img" />
+            <i class="bi bi-person-fill"></i>
           </div>
         </div>
 
@@ -31,27 +32,49 @@
         </div>
         <!-- 수정/탈퇴 버튼 -->
         <div class="btn-group">
-          <button class="btn-edit" @click="goEdit">수정</button>
-          <button class="btn-unregister" @click="showModal = true">회원 탈퇴</button>
+          <button class="btn btn-secondary" @click="goEdit">수정</button>
+          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unregisterModal">
+            회원 탈퇴
+          </button>
         </div>
-        <!-- 모달 -->
-        <div class="modal" v-if="showModal">
-          <div class="modal-content">
-            <p>정말 탈퇴하시겠습니까?</p>
-            <button @click="confirmDelete">네, 탈퇴할래요</button>
-            <button @click="showModal = false">취소</button>
+
+        <!-- 탈퇴 클릭 시 모달 -->
+        <div
+          class="modal fade"
+          id="unregisterModal"
+          tabindex="-1"
+          aria-labelledby="unregisterModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  취소
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  @click="confirmDelete"
+                  data-bs-dismiss="modal"
+                >
+                  네, 탈퇴할래요
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <ModalDetailPost></ModalDetailPost>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import ModalDetailPost from '@/components/modal/ModalDetailPost.vue'
 
 const router = useRouter()
 const showModal = ref(false)
@@ -179,31 +202,25 @@ const contactInfo = ref([
 /* 수정, 탈퇴 버튼 */
 .btn-group {
   display: flex;
-  justify-content: flex-end;
+  justify-self: flex-end;
   gap: 10px;
-  margin-top: 2rem;
+  margin-top: 4.5rem;
+  width: 10rem;
 }
 
 button {
   border: 1px solid #535353;
   /* padding: 4px 10px; */
-  border-radius: 5px;
+  /* border-radius: 5px; */
   background: white;
+  color: #535353;
   cursor: pointer;
   transition: 0.3s;
 }
 
-button:hover {
+/* button:hover {
   background: #f5f5f5;
-}
-
-.btn-edit {
-  width: 3rem;
-}
-.btn-unregister {
-  width: 5rem;
-  color: red;
-}
+} */
 
 /* 탈퇴 클릭 시 모달 */
 .modal {
