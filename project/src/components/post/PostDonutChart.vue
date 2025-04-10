@@ -77,45 +77,72 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
 </script>
 
 <template>
-  <!-- SVG 설정 | 540px -> 33.75rem / 450px -> 28.125rem -->
-  <svg :width="props.sizeX" :height="props.sizeY" :viewBox="`0 0 ${props.sizeX} ${props.sizeY}`">
-    <!-- 퍼센트원 -->
-    <circle
-      v-for="(segment, index) in segmentsWithOffset"
-      :key="index"
-      :cx="centerX"
-      :cy="centerY"
-      :r="radius"
-      fill="none"
-      :stroke="segment.color"
-      stroke-linecap="butt"
-      :stroke-width="props.circleSize / 3"
-      :stroke-dasharray="segment.dashArray"
-      :stroke-dashoffset="segment.dashOffset"
-      :transform="`rotate(${segment.rotation}, ${centerX}, ${centerY})`"
-      @mouseenter="handleMouseEnter(index)"
-      @mouseleave="handleMouseLeave"
-      :style="{
-        transition: 'all 0.3s ease',
-        strokeWidth:
-          hoverIndex === index ? `${props.circleSize / 2.65}` : `${props.circleSize / 3}`, // 커지는거 조절하는 곳
-      }"
-    />
+  <div style="position: relative">
+    <!-- SVG 설정 | 540px -> 33.75rem / 450px -> 28.125rem -->
+    <svg :width="props.sizeX" :height="props.sizeY" :viewBox="`0 0 ${props.sizeX} ${props.sizeY}`">
+      <!-- 퍼센트원 -->
+      <circle
+        v-for="(segment, index) in segmentsWithOffset"
+        :key="index"
+        :cx="centerX"
+        :cy="centerY"
+        :r="radius"
+        fill="none"
+        :stroke="segment.color"
+        stroke-linecap="butt"
+        :stroke-width="props.circleSize / 3"
+        :stroke-dasharray="segment.dashArray"
+        :stroke-dashoffset="segment.dashOffset"
+        :transform="`rotate(${segment.rotation}, ${centerX}, ${centerY})`"
+        @mouseenter="handleMouseEnter(index)"
+        @mouseleave="handleMouseLeave"
+        :style="{
+          transition: 'all 0.3s ease',
+          strokeWidth:
+            hoverIndex === index ? `${props.circleSize / 2.65}` : `${props.circleSize / 3}`, // 커지는거 조절하는 곳
+        }"
+      />
 
-    <!-- 글자 -->
-    <text
-      v-for="(segment, index) in segmentsWithOffset"
-      :key="`text-${index}`"
-      :x="segment.textX"
-      :y="segment.textY"
-      fill="#333"
-      font-size="12"
-      text-anchor="middle"
-      dominant-baseline="middle"
+      <!-- 글자 -->
+      <text
+        v-for="(segment, index) in segmentsWithOffset"
+        :key="`text-${index}`"
+        :x="segment.textX"
+        :y="segment.textY"
+        fill="#333"
+        font-size="12"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        @mouseenter="handleMouseEnter(index)"
+        @mouseleave="handleMouseLeave"
+        style="cursor: default"
+      >
+        {{ segment.label }}
+      </text>
+    </svg>
+    <div
+      v-if="hoverIndex !== null"
+      class="tooltip"
+      :style="{
+        left: `${segmentsWithOffset[hoverIndex].textX}px`,
+        top: `${segmentsWithOffset[hoverIndex].textY - 20}px`,
+      }"
     >
-      {{ segment.label }}
-    </text>
-  </svg>
+      {{ segmentsWithOffset[hoverIndex].label }}
+    </div>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.tooltip {
+  background: rgba(51, 51, 51, 0.9);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+  z-index: 10;
+}
+</style>
