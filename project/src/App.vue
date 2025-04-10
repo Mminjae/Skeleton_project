@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <!-- <TheSidebarLogin /> -->
+    <TheSidebarLogin />
     <TheSidebar />
     <RouterView />
   </div>

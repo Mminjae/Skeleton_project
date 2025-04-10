@@ -1,7 +1,11 @@
 <script setup>
   import { ref ,watch } from 'vue'
   import { useTransactionStore } from '@/stores/useTransactionStore'  //axios를 이용해 필터조건을 전달하기위해, store 호출.
-  
+  //Axios & Pinia용 스크립트
+  const transactionStore = useTransactionStore()
+
+  //Axios & Pinia용 스크립트END
+
   //날짜필터1-라디오버튼(연/월/일)+날짜필터2-달력버튼
   const filters = ref({
   selectedPeriod: null,     // 올해"thisYear", 이번달"thisMonth", 오늘"today", "custom"
@@ -97,13 +101,15 @@ const selectedPaymentMethod = ref(null)  //초기설정
         queryParams.paymentMethod = selectedPaymentMethod.value;
       }
 
-      if (selectedCategories.value.length > 0) {
+      if (selectedType.value && selectedCategories.value.length > 0) {
+        //예외처리:selectedType이 있는 경우 && 카테고리가 하나라도 선택된 상황에만 카테고리 value를 요청할것.
         // JSON Server에서는 category=foodcost&category=shopping 처럼 다중 쿼리가 가능
         queryParams.category = selectedCategories.value;
       }
 
       console.log('쿼리 파라미터:', queryParams);
       // 이걸 기반으로 pinia action 호출하거나 axios 직접 요청 가능
+      transactionStore.fetchFilteredTransactions(queryParams) //Pinia store action 호출
   }
 
 </script>
@@ -197,7 +203,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
             <label for="date-end"></label>
           </div>
           <hr>
-          <!-- 카테고리필터1:수입(default active)체크박스 : 월급/ 금융수입/ 용돈/ 이월/ 기타  -->
+          <!-- 카테고리필터1:수입체크박스 : 월급/ 금융수입/ 용돈/ 이월/ 기타  -->
           <div class="checkbox--category btn-group checkbox--income" 
                v-show="selectedType === 'income'">    <!-- 수입 카테고리박스 조건부 렌더링 -->
                <template v-for="category in incomeCategories" :key="category.id">
@@ -252,7 +258,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
           <!-- 지불수단필터 현금/카드 Radio버튼 (default=Deactive, '지출'활성화시 active) -->
           <!-- 라디오 토글 버튼 그룹:현금/카드 -->
           <div class="btn-group cash-card-group" role="group" aria-label="현금/카드 선택" 
-               v-show="selectedType === 'expense'">
+              >
            <!-- 현금 라디오 버튼 (기본 선택) -->
            <input 
               type="radio" 
@@ -260,8 +266,9 @@ const selectedPaymentMethod = ref(null)  //초기설정
               name="transactionType3" 
               id="cash" 
               value="cash"
-              v-model="selectedPaymentMethod" 
-            />
+              v-model="selectedPaymentMethod"
+              :disabled="selectedType !== 'expense'" 
+            /> <!-- '지출'선택시에만 클릭가능 -->
            <label class="btn btn-primary" for="cash">현금</label>
             <!-- 카드 라디오 버튼 -->
             <input
@@ -271,7 +278,8 @@ const selectedPaymentMethod = ref(null)  //초기설정
               id="card"
               value="card"
               v-model="selectedPaymentMethod"
-            />
+              :disabled="selectedType !== 'expense'"
+            /> <!-- '지출'선택시에만 클릭가능 -->
             <label class="btn btn-primary" for="card">카드</label>
           </div>
         </div>
