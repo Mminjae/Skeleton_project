@@ -5,7 +5,7 @@
         <!-- 헤더 -->
         <div class="modal-header">
           <button class="btn btn-outline-dark" type="button" @click="$emit('close')">
-            <img src="file:///C:/Users/pc/Downloads/%EC%82%AD%EC%A0%9C.svg" alt="닫기" />
+            <img src="#" alt="닫기" />
           </button>
         </div>
 
@@ -27,12 +27,15 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
 
-defineProps({
+// props 정의 → 구조 분해로 바로 사용
+const { foundId } = defineProps({
   foundId: String,
 })
-// ✨ 흔들림 효과용 로직
+
+// 흔들림 효과용 로직
 onMounted(() => {
   const modalEl = document.querySelector('.modal-bg')
+  if (!modalEl) return
 
   const handleClickOutside = (e) => {
     if (e.target === modalEl) {

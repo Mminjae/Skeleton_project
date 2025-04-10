@@ -24,7 +24,8 @@
       "dateDay": 11,
       "dayOfWeek": "월",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-11"
     },
     {
       "id": "2",
@@ -38,7 +39,8 @@
       "dateDay": 21,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-21"
     },
     {
       "id": "3",
@@ -52,7 +54,8 @@
       "dateDay": 10,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-10"
     },
     {
       "id": "4",
@@ -66,7 +69,8 @@
       "dateDay": 3,
       "dayOfWeek": "월",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-03"
     },
     {
       "id": "5",
@@ -80,7 +84,8 @@
       "dateDay": 27,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-27"
     },
     {
       "id": "6",
@@ -94,7 +99,8 @@
       "dateDay": 5,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-05"
     },
     {
       "id": "7",
@@ -108,7 +114,8 @@
       "dateDay": 20,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-20"
     },
     {
       "id": "8",
@@ -122,7 +129,8 @@
       "dateDay": 21,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-21"
     },
     {
       "id": "9",
@@ -136,7 +144,8 @@
       "dateDay": 29,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-29"
     },
     {
       "id": "10",
@@ -150,7 +159,8 @@
       "dateDay": 20,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-20"
     },
     {
       "id": "11",
@@ -164,7 +174,8 @@
       "dateDay": 1,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-01"
     },
     {
       "id": "12",
@@ -178,7 +189,8 @@
       "dateDay": 26,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-26"
     },
     {
       "id": "13",
@@ -192,7 +204,8 @@
       "dateDay": 1,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-01"
     },
     {
       "id": "14",
@@ -206,7 +219,8 @@
       "dateDay": 1,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-04-01"
     },
     {
       "id": "15",
@@ -220,7 +234,8 @@
       "dateDay": 23,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-23"
     },
     {
       "id": "16",
@@ -234,7 +249,8 @@
       "dateDay": 20,
       "dayOfWeek": "금",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-20"
     },
     {
       "id": "17",
@@ -248,7 +264,8 @@
       "dateDay": 3,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-04-03"
     },
     {
       "id": "18",
@@ -262,7 +279,8 @@
       "dateDay": 3,
       "dayOfWeek": "금",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-01-03"
     },
     {
       "id": "19",
@@ -276,7 +294,8 @@
       "dateDay": 8,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-08"
     },
     {
       "id": "20",
@@ -290,7 +309,8 @@
       "dateDay": 22,
       "dayOfWeek": "수",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-01-22"
     },
     {
       "id": "21",
@@ -304,7 +324,8 @@
       "dateDay": 7,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-07"
     },
     {
       "id": "22",
@@ -318,7 +339,8 @@
       "dateDay": 28,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-28"
     },
     {
       "id": "23",
@@ -332,7 +354,8 @@
       "dateDay": 23,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-01-23"
     },
     {
       "id": "24",
@@ -346,7 +369,8 @@
       "dateDay": 26,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-26"
     },
     {
       "id": "25",
@@ -360,7 +384,8 @@
       "dateDay": 18,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-18"
     },
     {
       "id": "26",
@@ -374,7 +399,8 @@
       "dateDay": 7,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-07"
     },
     {
       "id": "27",
@@ -388,7 +414,8 @@
       "dateDay": 6,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-04-06"
     },
     {
       "id": "28",
@@ -402,7 +429,8 @@
       "dateDay": 23,
       "dayOfWeek": "수",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-10-23"
     },
     {
       "id": "29",
@@ -416,7 +444,8 @@
       "dateDay": 21,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-21"
     },
     {
       "id": "30",
@@ -430,7 +459,8 @@
       "dateDay": 12,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-12"
     },
     {
       "id": "31",
@@ -444,7 +474,8 @@
       "dateDay": 19,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-19"
     },
     {
       "id": "32",
@@ -458,7 +489,8 @@
       "dateDay": 21,
       "dayOfWeek": "금",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-21"
     },
     {
       "id": "33",
@@ -473,7 +505,8 @@
       "dateDay": 1,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-03-01"
     },
     {
       "id": "34",
@@ -487,7 +520,8 @@
       "dateDay": 9,
       "dayOfWeek": "일",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-09"
     },
     {
       "id": "35",
@@ -501,7 +535,8 @@
       "dateDay": 11,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-11"
     },
     {
       "id": "36",
@@ -515,7 +550,8 @@
       "dateDay": 15,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-15"
     },
     {
       "id": "37",
@@ -529,7 +565,8 @@
       "dateDay": 5,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-05"
     },
     {
       "id": "38",
@@ -543,7 +580,8 @@
       "dateDay": 3,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-03"
     },
     {
       "id": "39",
@@ -557,7 +595,8 @@
       "dateDay": 25,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-25"
     },
     {
       "id": "40",
@@ -571,7 +610,8 @@
       "dateDay": 20,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-20"
     },
     {
       "id": "41",
@@ -585,7 +625,8 @@
       "dateDay": 24,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-10-24"
     },
     {
       "id": "42",
@@ -599,7 +640,8 @@
       "dateDay": 18,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-18"
     },
     {
       "id": "43",
@@ -613,7 +655,8 @@
       "dateDay": 21,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-21"
     },
     {
       "id": "44",
@@ -627,7 +670,8 @@
       "dateDay": 29,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-29"
     },
     {
       "id": "45",
@@ -641,7 +685,8 @@
       "dateDay": 19,
       "dayOfWeek": "수",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-19"
     },
     {
       "id": "46",
@@ -655,7 +700,8 @@
       "dateDay": 29,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-03-29"
     },
     {
       "id": "47",
@@ -669,7 +715,8 @@
       "dateDay": 24,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-10-24"
     },
     {
       "id": "48",
@@ -683,7 +730,8 @@
       "dateDay": 7,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-07"
     },
     {
       "id": "49",
@@ -697,7 +745,8 @@
       "dateDay": 23,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-03-23"
     },
     {
       "id": "50",
@@ -711,7 +760,8 @@
       "dateDay": 7,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-07"
     },
     {
       "id": "51",
@@ -725,7 +775,8 @@
       "dateDay": 13,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-13"
     },
     {
       "id": "52",
@@ -739,7 +790,8 @@
       "dateDay": 27,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-27"
     },
     {
       "id": "53",
@@ -753,7 +805,8 @@
       "dateDay": 7,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-11-07"
     },
     {
       "id": "54",
@@ -767,7 +820,8 @@
       "dateDay": 2,
       "dayOfWeek": "수",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-04-02"
     },
     {
       "id": "55",
@@ -781,7 +835,8 @@
       "dateDay": 30,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-03-30"
     },
     {
       "id": "56",
@@ -795,7 +850,8 @@
       "dateDay": 21,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-21"
     },
     {
       "id": "57",
@@ -809,7 +865,8 @@
       "dateDay": 25,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-25"
     },
     {
       "id": "58",
@@ -823,7 +880,8 @@
       "dateDay": 30,
       "dayOfWeek": "수",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-10-30"
     },
     {
       "id": "59",
@@ -837,7 +895,8 @@
       "dateDay": 7,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-11-07"
     },
     {
       "id": "60",
@@ -851,7 +910,8 @@
       "dateDay": 23,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-23"
     },
     {
       "id": "61",
@@ -865,7 +925,8 @@
       "dateDay": 13,
       "dayOfWeek": "월",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-01-13"
     },
     {
       "id": "62",
@@ -879,7 +940,8 @@
       "dateDay": 29,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-29"
     },
     {
       "id": "63",
@@ -893,7 +955,8 @@
       "dateDay": 12,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-12"
     },
     {
       "id": "64",
@@ -907,7 +970,8 @@
       "dateDay": 29,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-03-29"
     },
     {
       "id": "65",
@@ -921,7 +985,8 @@
       "dateDay": 1,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-04-01"
     },
     {
       "id": "66",
@@ -935,7 +1000,8 @@
       "dateDay": 22,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-22"
     },
     {
       "id": "67",
@@ -949,7 +1015,8 @@
       "dateDay": 22,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-03-22"
     },
     {
       "id": "68",
@@ -963,7 +1030,8 @@
       "dateDay": 15,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-15"
     },
     {
       "id": "69",
@@ -977,7 +1045,8 @@
       "dateDay": 12,
       "dayOfWeek": "수",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-12"
     },
     {
       "id": "70",
@@ -991,7 +1060,8 @@
       "dateDay": 9,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-09"
     },
     {
       "id": "71",
@@ -1005,7 +1075,8 @@
       "dateDay": 5,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-05"
     },
     {
       "id": "72",
@@ -1019,7 +1090,8 @@
       "dateDay": 10,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-10"
     },
     {
       "id": "73",
@@ -1033,7 +1105,8 @@
       "dateDay": 2,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-04-02"
     },
     {
       "id": "74",
@@ -1047,7 +1120,8 @@
       "dateDay": 5,
       "dayOfWeek": "수",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-05"
     },
     {
       "id": "75",
@@ -1061,7 +1135,8 @@
       "dateDay": 5,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-05"
     },
     {
       "id": "76",
@@ -1075,7 +1150,8 @@
       "dateDay": 24,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-24"
     },
     {
       "id": "77",
@@ -1089,7 +1165,8 @@
       "dateDay": 29,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-10-29"
     },
     {
       "id": "78",
@@ -1103,7 +1180,8 @@
       "dateDay": 21,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-10-21"
     },
     {
       "id": "79",
@@ -1117,7 +1195,8 @@
       "dateDay": 27,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-27"
     },
     {
       "id": "80",
@@ -1131,7 +1210,8 @@
       "dateDay": 23,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-03-23"
     },
     {
       "id": "81",
@@ -1145,7 +1225,8 @@
       "dateDay": 14,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-14"
     },
     {
       "id": "82",
@@ -1159,7 +1240,8 @@
       "dateDay": 12,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-12"
     },
     {
       "id": "83",
@@ -1173,7 +1255,8 @@
       "dateDay": 9,
       "dayOfWeek": "월",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-09"
     },
     {
       "id": "84",
@@ -1187,7 +1270,8 @@
       "dateDay": 28,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-10-28"
     },
     {
       "id": "85",
@@ -1201,7 +1285,8 @@
       "dateDay": 3,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-03"
     },
     {
       "id": "86",
@@ -1215,7 +1300,8 @@
       "dateDay": 9,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-09"
     },
     {
       "id": "87",
@@ -1229,7 +1315,8 @@
       "dateDay": 27,
       "dayOfWeek": "일",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-10-27"
     },
     {
       "id": "88",
@@ -1243,7 +1330,8 @@
       "dateDay": 9,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-02-09"
     },
     {
       "id": "89",
@@ -1257,7 +1345,8 @@
       "dateDay": 23,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-23"
     },
     {
       "id": "90",
@@ -1271,7 +1360,8 @@
       "dateDay": 16,
       "dayOfWeek": "일",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-16"
     },
     {
       "id": "91",
@@ -1285,7 +1375,8 @@
       "dateDay": 16,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-16"
     },
     {
       "id": "92",
@@ -1299,7 +1390,8 @@
       "dateDay": 7,
       "dayOfWeek": "금",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-07"
     },
     {
       "id": "93",
@@ -1313,7 +1405,8 @@
       "dateDay": 4,
       "dayOfWeek": "수",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-04"
     },
     {
       "id": "94",
@@ -1327,7 +1420,8 @@
       "dateDay": 23,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-23"
     },
     {
       "id": "95",
@@ -1341,7 +1435,8 @@
       "dateDay": 23,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-02-23"
     },
     {
       "id": "96",
@@ -1355,7 +1450,8 @@
       "dateDay": 17,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-02-17"
     },
     {
       "id": "97",
@@ -1369,7 +1465,8 @@
       "dateDay": 18,
       "dayOfWeek": "수",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-18"
     },
     {
       "id": "98",
@@ -1383,7 +1480,8 @@
       "dateDay": 20,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-20"
     },
     {
       "id": "99",
@@ -1397,7 +1495,8 @@
       "dateDay": 14,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-01-14"
     },
     {
       "id": "100",
@@ -1411,7 +1510,8 @@
       "dateDay": 27,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-01-27"
     },
     {
       "id": "101",
@@ -1425,7 +1525,8 @@
       "dateDay": 19,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-19"
     },
     {
       "id": "102",
@@ -1439,7 +1540,8 @@
       "dateDay": 26,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-26"
     },
     {
       "id": "103",
@@ -1453,7 +1555,8 @@
       "dateDay": 7,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-01-07"
     },
     {
       "id": "104",
@@ -1467,7 +1570,8 @@
       "dateDay": 5,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-05"
     },
     {
       "id": "105",
@@ -1481,7 +1585,8 @@
       "dateDay": 10,
       "dayOfWeek": "월",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-10"
     },
     {
       "id": "106",
@@ -1495,7 +1600,8 @@
       "dateDay": 26,
       "dayOfWeek": "수",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-26"
     },
     {
       "id": "107",
@@ -1509,7 +1615,8 @@
       "dateDay": 1,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-01"
     },
     {
       "id": "108",
@@ -1523,7 +1630,8 @@
       "dateDay": 12,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-12"
     },
     {
       "id": "109",
@@ -1537,7 +1645,8 @@
       "dateDay": 19,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-01-19"
     },
     {
       "id": "110",
@@ -1551,7 +1660,8 @@
       "dateDay": 4,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-11-04"
     },
     {
       "id": "111",
@@ -1565,7 +1675,8 @@
       "dateDay": 7,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-03-07"
     },
     {
       "id": "112",
@@ -1579,7 +1690,8 @@
       "dateDay": 20,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-20"
     },
     {
       "id": "113",
@@ -1593,7 +1705,8 @@
       "dateDay": 9,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-09"
     },
     {
       "id": "114",
@@ -1607,7 +1720,8 @@
       "dateDay": 3,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-04-03"
     },
     {
       "id": "115",
@@ -1621,7 +1735,8 @@
       "dateDay": 23,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-01-23"
     },
     {
       "id": "116",
@@ -1635,7 +1750,8 @@
       "dateDay": 14,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-14"
     },
     {
       "id": "117",
@@ -1649,7 +1765,8 @@
       "dateDay": 4,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-04"
     },
     {
       "id": "118",
@@ -1663,7 +1780,8 @@
       "dateDay": 18,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-18"
     },
     {
       "id": "119",
@@ -1677,7 +1795,8 @@
       "dateDay": 10,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-10"
     },
     {
       "id": "120",
@@ -1691,7 +1810,8 @@
       "dateDay": 22,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-22"
     },
     {
       "id": "121",
@@ -1705,7 +1825,8 @@
       "dateDay": 30,
       "dayOfWeek": "월",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-30"
     },
     {
       "id": "122",
@@ -1719,7 +1840,8 @@
       "dateDay": 7,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-07"
     },
     {
       "id": "123",
@@ -1733,7 +1855,8 @@
       "dateDay": 21,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-21"
     },
     {
       "id": "124",
@@ -1747,7 +1870,8 @@
       "dateDay": 25,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-25"
     },
     {
       "id": "125",
@@ -1761,7 +1885,8 @@
       "dateDay": 17,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-02-17"
     },
     {
       "id": "126",
@@ -1775,7 +1900,8 @@
       "dateDay": 14,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-14"
     },
     {
       "id": "127",
@@ -1789,7 +1915,8 @@
       "dateDay": 19,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-11-19"
     },
     {
       "id": "128",
@@ -1803,7 +1930,8 @@
       "dateDay": 6,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-03-06"
     },
     {
       "id": "129",
@@ -1817,7 +1945,8 @@
       "dateDay": 9,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-09"
     },
     {
       "id": "130",
@@ -1831,7 +1960,8 @@
       "dateDay": 15,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-15"
     },
     {
       "id": "131",
@@ -1845,7 +1975,8 @@
       "dateDay": 10,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-10"
     },
     {
       "id": "132",
@@ -1859,7 +1990,8 @@
       "dateDay": 11,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-01-11"
     },
     {
       "id": "133",
@@ -1873,7 +2005,8 @@
       "dateDay": 29,
       "dayOfWeek": "일",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-29"
     },
     {
       "id": "134",
@@ -1887,7 +2020,8 @@
       "dateDay": 22,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-22"
     },
     {
       "id": "135",
@@ -1901,7 +2035,8 @@
       "dateDay": 12,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-10-12"
     },
     {
       "id": "136",
@@ -1915,7 +2050,8 @@
       "dateDay": 4,
       "dayOfWeek": "월",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-04"
     },
     {
       "id": "137",
@@ -1929,7 +2065,8 @@
       "dateDay": 19,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-19"
     },
     {
       "id": "138",
@@ -1943,7 +2080,8 @@
       "dateDay": 14,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-01-14"
     },
     {
       "id": "139",
@@ -1957,7 +2095,8 @@
       "dateDay": 12,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-12"
     },
     {
       "id": "140",
@@ -1971,7 +2110,8 @@
       "dateDay": 4,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-01-04"
     },
     {
       "id": "141",
@@ -1985,7 +2125,8 @@
       "dateDay": 27,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-27"
     },
     {
       "id": "142",
@@ -1999,7 +2140,8 @@
       "dateDay": 19,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-10-19"
     },
     {
       "id": "143",
@@ -2013,7 +2155,8 @@
       "dateDay": 31,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-31"
     },
     {
       "id": "144",
@@ -2027,7 +2170,8 @@
       "dateDay": 24,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-11-24"
     },
     {
       "id": "145",
@@ -2041,7 +2185,8 @@
       "dateDay": 10,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-10"
     },
     {
       "id": "146",
@@ -2055,7 +2200,8 @@
       "dateDay": 13,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-13"
     },
     {
       "id": "147",
@@ -2069,7 +2215,8 @@
       "dateDay": 8,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-08"
     },
     {
       "id": "148",
@@ -2083,7 +2230,8 @@
       "dateDay": 5,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-11-05"
     },
     {
       "id": "149",
@@ -2097,7 +2245,8 @@
       "dateDay": 13,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-03-13"
     },
     {
       "id": "150",
@@ -2111,7 +2260,8 @@
       "dateDay": 28,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-28"
     },
     {
       "id": "151",
@@ -2125,7 +2275,8 @@
       "dateDay": 13,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-13"
     },
     {
       "id": "152",
@@ -2139,7 +2290,8 @@
       "dateDay": 5,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-03-05"
     },
     {
       "id": "153",
@@ -2153,7 +2305,8 @@
       "dateDay": 5,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-05"
     },
     {
       "id": "154",
@@ -2167,7 +2320,8 @@
       "dateDay": 4,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-11-04"
     },
     {
       "id": "155",
@@ -2181,7 +2335,8 @@
       "dateDay": 6,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-06"
     },
     {
       "id": "156",
@@ -2195,7 +2350,8 @@
       "dateDay": 14,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-11-14"
     },
     {
       "id": "157",
@@ -2209,7 +2365,8 @@
       "dateDay": 20,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-20"
     },
     {
       "id": "158",
@@ -2223,7 +2380,8 @@
       "dateDay": 30,
       "dayOfWeek": "월",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-30"
     },
     {
       "id": "159",
@@ -2237,7 +2395,8 @@
       "dateDay": 25,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-02-25"
     },
     {
       "id": "160",
@@ -2251,7 +2410,8 @@
       "dateDay": 19,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-19"
     },
     {
       "id": "161",
@@ -2265,7 +2425,8 @@
       "dateDay": 5,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-11-05"
     },
     {
       "id": "162",
@@ -2279,7 +2440,8 @@
       "dateDay": 12,
       "dayOfWeek": "수",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-12"
     },
     {
       "id": "163",
@@ -2293,7 +2455,8 @@
       "dateDay": 27,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-01-27"
     },
     {
       "id": "164",
@@ -2307,7 +2470,8 @@
       "dateDay": 19,
       "dayOfWeek": "일",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-01-19"
     },
     {
       "id": "165",
@@ -2321,7 +2485,8 @@
       "dateDay": 19,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-19"
     },
     {
       "id": "166",
@@ -2335,7 +2500,8 @@
       "dateDay": 28,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-28"
     },
     {
       "id": "167",
@@ -2349,7 +2515,8 @@
       "dateDay": 9,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-09"
     },
     {
       "id": "168",
@@ -2363,7 +2530,8 @@
       "dateDay": 26,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-26"
     },
     {
       "id": "169",
@@ -2377,7 +2545,8 @@
       "dateDay": 19,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-10-19"
     },
     {
       "id": "170",
@@ -2391,7 +2560,8 @@
       "dateDay": 14,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-11-14"
     },
     {
       "id": "171",
@@ -2405,7 +2575,8 @@
       "dateDay": 3,
       "dayOfWeek": "목",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-04-03"
     },
     {
       "id": "172",
@@ -2419,7 +2590,8 @@
       "dateDay": 17,
       "dayOfWeek": "월",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-03-17"
     },
     {
       "id": "173",
@@ -2433,7 +2605,8 @@
       "dateDay": 1,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-02-01"
     },
     {
       "id": "174",
@@ -2447,7 +2620,8 @@
       "dateDay": 19,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-19"
     },
     {
       "id": "175",
@@ -2461,7 +2635,8 @@
       "dateDay": 3,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-01-03"
     },
     {
       "id": "176",
@@ -2475,7 +2650,8 @@
       "dateDay": 31,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-31"
     },
     {
       "id": "177",
@@ -2489,7 +2665,8 @@
       "dateDay": 21,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-21"
     },
     {
       "id": "178",
@@ -2503,7 +2680,8 @@
       "dateDay": 25,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-25"
     },
     {
       "id": "179",
@@ -2517,7 +2695,8 @@
       "dateDay": 26,
       "dayOfWeek": "일",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-01-26"
     },
     {
       "id": "180",
@@ -2531,7 +2710,8 @@
       "dateDay": 27,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-10-27"
     },
     {
       "id": "181",
@@ -2545,7 +2725,8 @@
       "dateDay": 30,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-30"
     },
     {
       "id": "182",
@@ -2559,7 +2740,8 @@
       "dateDay": 24,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2025-01-24"
     },
     {
       "id": "183",
@@ -2573,7 +2755,8 @@
       "dateDay": 8,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-08"
     },
     {
       "id": "184",
@@ -2587,7 +2770,8 @@
       "dateDay": 27,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-27"
     },
     {
       "id": "185",
@@ -2601,7 +2785,8 @@
       "dateDay": 31,
       "dayOfWeek": "월",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-03-31"
     },
     {
       "id": "186",
@@ -2615,7 +2800,8 @@
       "dateDay": 26,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-26"
     },
     {
       "id": "187",
@@ -2629,7 +2815,8 @@
       "dateDay": 1,
       "dayOfWeek": "일",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-01"
     },
     {
       "id": "188",
@@ -2643,7 +2830,8 @@
       "dateDay": 26,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-01-26"
     },
     {
       "id": "189",
@@ -2657,7 +2845,8 @@
       "dateDay": 12,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-12"
     },
     {
       "id": "190",
@@ -2671,7 +2860,8 @@
       "dateDay": 6,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-06"
     },
     {
       "id": "191",
@@ -2685,7 +2875,8 @@
       "dateDay": 4,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-04-04"
     },
     {
       "id": "192",
@@ -2699,7 +2890,8 @@
       "dateDay": 15,
       "dayOfWeek": "일",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-12-15"
     },
     {
       "id": "193",
@@ -2713,7 +2905,8 @@
       "dateDay": 5,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-05"
     },
     {
       "id": "194",
@@ -2727,7 +2920,8 @@
       "dateDay": 26,
       "dayOfWeek": "토",
       "isIncome": false,
-      "paymentMethod": "카드"
+      "paymentMethod": "카드",
+      "date": "2024-10-26"
     },
     {
       "id": "195",
@@ -2741,7 +2935,8 @@
       "dateDay": 28,
       "dayOfWeek": "금",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-02-28"
     },
     {
       "id": "196",
@@ -2755,7 +2950,8 @@
       "dateDay": 11,
       "dayOfWeek": "수",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-12-11"
     },
     {
       "id": "197",
@@ -2769,7 +2965,8 @@
       "dateDay": 7,
       "dayOfWeek": "목",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-11-07"
     },
     {
       "id": "198",
@@ -2783,7 +2980,8 @@
       "dateDay": 31,
       "dayOfWeek": "화",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2024-12-31"
     },
     {
       "id": "199",
@@ -2797,7 +2995,8 @@
       "dateDay": 25,
       "dayOfWeek": "화",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2025-02-25"
     },
     {
       "id": "200",
@@ -2811,7 +3010,8 @@
       "dateDay": 22,
       "dayOfWeek": "금",
       "isIncome": false,
-      "paymentMethod": "현금"
+      "paymentMethod": "현금",
+      "date": "2024-11-22"
     }
   ]
 }

@@ -9,8 +9,8 @@
   //날짜필터1-라디오버튼(연/월/일)+날짜필터2-달력버튼
   const filters = ref({
   selectedPeriod: null,     // 올해"thisYear", 이번달"thisMonth", 오늘"today", "custom"
-  startDate: '',            // YYYY-MM-DD
-  endDate: '',              // YYYY-MM-DD
+  date_gte: '',            // YYYY-MM-DD
+  date_lte: '',              // YYYY-MM-DD
   lastChanged: '',          // "selectedPeriod" or "calendar"
 })
   watch(() => filters.value.selectedPeriod, (newVal) => {
@@ -23,26 +23,26 @@
 
   switch (newVal) {
     case 'today':
-      filters.value.startDate = format(today);
-      filters.value.endDate = format(today);
+      filters.value.date_gte = format(today);
+      filters.value.date_lte = format(today);
       break;
     case 'thisMonth': {
       const start = new Date(today.getFullYear(), today.getMonth(), 1);
       const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-      filters.value.startDate = format(start);
-      filters.value.endDate = format(end);
+      filters.value.date_gte = format(start);
+      filters.value.date_lte = format(end);
       break;
     }
     case 'thisYear': {
       const start = new Date(today.getFullYear(), 0, 1);
       const end = new Date(today.getFullYear(), 11, 31);
-      filters.value.startDate = format(start);
-      filters.value.endDate = format(end);
+      filters.value.date_gte = format(start);
+      filters.value.date_lte = format(end);
       break;
     }
   }
 }); 
- watch([() => filters.value.startDate, () => filters.value.endDate], ([start, end]) => {
+ watch([() => filters.value.date_gte, () => filters.value.date_lte], ([start, end]) => {
   if (!start || !end) return;
 
   // 날짜 선택 시 selectedPeriod는 "custom"으로
@@ -77,8 +77,8 @@ const selectedPaymentMethod = ref(null)  //초기설정
 // '초기화버튼'에 탑재되는 초기화 함수
   const resetFilters = () => {
   filters.value.selectedPeriod = null        //연/월/일 초기화
-  filters.value.startDate = ''             //날짜-시작일 초기화
-  filters.value.endDate = ''
+  filters.value.date_gte = ''             //날짜-시작일 초기화
+  filters.value.date_lte = ''
   filters.value.lastChanged = ''               //날짜-종료일 초기화
   selectedType.value = null          //수입/지출 초기화
   selectedCategories.value = []      //카테고리 초기화
@@ -88,9 +88,9 @@ const selectedPaymentMethod = ref(null)  //초기설정
   const applyFilters = () => {
     const queryParams = {};
 
-      if (filters.value.startDate && filters.value.endDate) {
-        queryParams.date_gte = filters.value.startDate;
-        queryParams.date_lte = filters.value.endDate;
+      if (filters.value.date_gte && filters.value.date_lte) {
+        queryParams.date_gte = filters.value.date_gte;
+        queryParams.date_lte = filters.value.date_lte;
       }
 
       if (selectedType.value) {
@@ -109,7 +109,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
 
       console.log('쿼리 파라미터:', queryParams);
       // 이걸 기반으로 pinia action 호출하거나 axios 직접 요청 가능
-      transactionStore.fetchFilteredTransactions(queryParams) //Pinia store action 호출
+      transactionStore.fetchTransactions(queryParams) //Pinia store action 호출
   }
 
 </script>
@@ -196,10 +196,10 @@ const selectedPaymentMethod = ref(null)  //초기설정
           <!-- 날짜필터2-달력버튼 -->
           <hr />
           <div class="callendar-group">
-            <input type="date" id="start" class="input-callendar" name="date-start" v-model="filters.startDate">
+            <input type="date" id="start" class="input-callendar" name="date-start" v-model="filters.date_gte">
             <label for="date-start"></label>
             <em>~</em>
-            <input type="date" id="end" class="input-callendar" name="date-end" v-model="filters.endDate">
+            <input type="date" id="end" class="input-callendar" name="date-end" v-model="filters.date_lte">
             <label for="date-end"></label>
           </div>
           <hr>
@@ -326,8 +326,9 @@ const selectedPaymentMethod = ref(null)  //초기설정
   justify-content: space-evenly;
   align-items: center;
 
-  border: 1px red solid;
+  border: 1px solid var(--color-gray-light);
   border-radius: 5px;
+  padding-left: 0.5rem;
 
   width: 28.125rem; /* 450px */
   height: 3.438rem; /* 55px */
@@ -340,24 +341,44 @@ const selectedPaymentMethod = ref(null)  //초기설정
   width: 10.16px;
   height: 24.29px;
   text-align: center;
+  padding-right: 1rem;
 }
 .input-callendar{
   width: 12.305rem; /* 196.88px */
   height: 2.5rem;   /* 40px */
+  border: 1px solid var(--color-gray-light);
+  padding-left: 1rem;
 }
 .checkbox--category{
   width: 27.813rem;  /* 445px */
   height: 7.375rem;  /* 118px */
-
 }
 
 .btn{
   width: 6.25rem;  /* 100px */
   height: 2.5rem;  /* 40px */
+}
+.btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
+  border: none;
+}
+.btn-group>.btn, .btn-group>.btn.dropdown-toggle-split:first-child, .btn-group>.btn:not(:last-child):not(.dropdown-toggle) {
   border-radius: 5px;
+}
+.btn:hover {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
+  border: none;
+}
+.modal-footer > .btn:hover {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
+  border: none;
 }
 .btn-primary{
   background-color: var(--color-white);
+  border: 1px solid var(--color-gray-light);
   color: var(--color-black);
 }
 .btn-group{
@@ -379,8 +400,8 @@ const selectedPaymentMethod = ref(null)  //초기설정
 .modal-header .btn {
   background-color: var(--color-white);
   color: var(--color-black);
-  border: var(--color--gray-light) 0.1rem solid;
-  width: 5rem;  /*figma최신화 */
+  border: 1px solid var(--color-gray-light);
+  width: 6rem;  /*figma최신화 */
 }
 .btn-filter-reset{
 
