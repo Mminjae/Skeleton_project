@@ -88,42 +88,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
-import { onMounted } from 'vue'
 
-onMounted(async () => {
-  const res = await axios.get('http://localhost:3000/users/1')
-  const user = res.data
-
-  memberInfo.value = [
-    { label: '이름', value: user.name },
-    { label: '생년월일', value: user.brith.replace(/-/g, '.') },
-    { label: 'ID', value: user.userId.toString() },
-  ]
-
-  contactInfo.value = [
-    { label: '이메일', value: user.email },
-    { label: '전화번호', value: user.phone },
-  ]
-})
-
-const updateMemberInfo = async () => {
-  const payload = {
-    name: memberInfo.value.find((i) => i.label === '이름')?.value,
-    brith: memberInfo.value.find((i) => i.label === '생년월일')?.value.replace(/\./g, '-'),
-    userId: Number(memberInfo.value.find((i) => i.label === 'ID')?.value),
-    email: contactInfo.value.find((i) => i.label === '이메일')?.value,
-    phone: contactInfo.value.find((i) => i.label === '전화번호')?.value,
-  }
-
-  await axios.put('http://localhost:3000/users/1', {
-    id: '1', // 유지
-    password: '12341234', // 패스워드 유지 필요
-    ...payload,
-  })
-
-  alert('저장되었습니다.')
-}
 const router = useRouter()
 
 const confirmDelete = () => {
@@ -157,9 +122,9 @@ const validateItem = (item) => {
         : '예: 2021.2.17 형식으로 입력해주세요.'
       break
     case 'ID':
-      errors.value[label] = /^[a-zA-Z0-9]{4,12}$/.test(value)
+      errors.value[label] = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{4,16}$/.test(value)
         ? ''
-        : 'ID는 영문/숫자 4~12자여야 합니다.'
+        : 'ID는 영문과 숫자를 포함한 4~16자여야 합니다.'
       break
     case '이메일':
       errors.value[label] = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
@@ -167,9 +132,9 @@ const validateItem = (item) => {
         : '올바른 이메일 형식이 아닙니다.'
       break
     case '전화번호':
-      errors.value[label] = /^01[016789]-\d{3,4}-\d{4}$/.test(value)
+      errors.value[label] = /^01[016789]\d{3,4}\d{4}$/.test(value)
         ? ''
-        : '예: 010-1234-5678 형식으로 입력해주세요.'
+        : '예: - 제외 숫자만 입력해주세요.'
       break
   }
 }

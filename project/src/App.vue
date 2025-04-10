@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <!-- <TheSidebar /> -->
+    <TheSidebar />
     <TheSidebarLogin />
     <RouterView />
     <ViewMainLoginOut />
