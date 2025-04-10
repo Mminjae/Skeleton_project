@@ -15,7 +15,10 @@ function formatDate(date) {
 <template>
   <li>
     <button class="item">
-      <p class="date color--gray">{{ formatDate(item.date) }}</p>
+      <p class="date color--gray">
+        <!-- {{ formatDate(item.date) }} -->
+        {{ item.dateYear }}년 {{ item.dateMonth }}월 {{ item.dateDay }}일
+      </p>
       <div class="category">
         <img src="../../assets/imgs/icons_layout/memo.svg" alt="memo">
         <p class="color--black">{{ item.category }}</p>
