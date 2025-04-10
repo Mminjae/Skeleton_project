@@ -79,17 +79,14 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const showModal = ref(false)
 
 const goEdit = () => {
   router.push('/profileEdit')
 }
 
 const confirmDelete = () => {
-  showModal.value = false
-  alert('탈퇴 처리되었습니다.') // 실제론 API 호출
+  router.push('/')
 }
-
 const memberInfo = ref([
   { label: '이름', value: 'ㅇㅇㅇ' },
   { label: '생년월일', value: '2021.2.17' },
@@ -184,11 +181,6 @@ const contactInfo = ref([
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   margin-right: 2rem;
   margin-top: 2rem;
-}
-
-.profile-img i {
-  font-size: var(--font-xl);
-  color: #535353;
 }
 
 .label,

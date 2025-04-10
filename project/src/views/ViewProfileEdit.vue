@@ -16,9 +16,10 @@
           </div>
 
           <!-- 프로필 -->
-          <div>
+          <div class="">
             <img src="#" alt="프로필" class="profile-img" />
             <i class="bi bi-person-fill"></i>
+            <button class="profile btn btn-light">사진 변경</button>
           </div>
         </div>
 
@@ -80,9 +81,17 @@
 
 <script setup>
 import { ref } from 'vue'
-// import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
-// const router = useRouter()
+const router = useRouter()
+
+const goEdit = () => {
+  router.push('/myPage')
+}
+
+const confirmDelete = () => {
+  router.push('/')
+}
 
 const memberInfo = ref([
   { label: '이름', value: 'ㅇㅇㅇ' },
@@ -175,11 +184,9 @@ const contactInfo = ref([
   margin-top: 2rem;
 }
 
-.profile-img i {
-  font-size: var(--font-xl);
-  color: #535353;
+.profile {
+  margin-left: 0.9rem;
 }
-
 .label,
 .value {
   width: 10rem;
@@ -240,21 +247,16 @@ button {
   justify-content: center;
 }
 
-.modal-footer {
-  display: flex;
-  justify-content: space-around;
-  margin: 1rem;
-}
-
 .modal-content {
   background: white;
   padding: 2rem;
   border-radius: 10px;
   text-align: center;
 }
-.error {
-  color: red;
-  font-size: 0.8rem;
-  margin-top: 4px;
+
+.modal-footer {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem;
 }
 </style>
