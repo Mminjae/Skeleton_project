@@ -10,11 +10,11 @@ export const useTransactionStore = defineStore('transaction', {
   }),
 
   actions: {
-    async fetchFilteredTransactions(filters) {  //filters 객체는 필터링 조건들이 담긴 { isIncome, category, date_gte, date_lte, ... } 형태
+    async fetchFilteredTransactions(queryParams) {  //filters 객체는 필터링 조건들이 담긴 { isIncome, category, date_gte, date_lte, ... } 형태
       this.isLoading = true
       try {
         const { data } = await axios.get('http://localhost:3000/transactions', {
-          params: filters     //여기서 쿼리를 전송해줌, GET방식임 주의!!
+          params: queryParams     //여기서 쿼리를 전송해줌, GET방식임 주의!!
         })
         this.transactions = data
       } catch (error) {
