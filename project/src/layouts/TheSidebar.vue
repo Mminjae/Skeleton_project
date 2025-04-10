@@ -1,52 +1,3 @@
-<template>
-  <nav id="nav">
-    <img class="nav-logo" src="https://ifh.cc/g/XGycR8.png" alt="nav로고" />
-
-    <!-- 로그인 폼 영역 -->
-    <div class="nav-login-wrapper">
-      <transition name="slide-fade">
-        <form class="bar-login-form" v-show="showLoginForm">
-          <div class="login-form-wrapper">
-            <label class="login-form-label">ID</label>
-            <input type="text" placeholder="아이디" v-model="id" />
-            <div class="login_id_error">{{ idError }}</div>
-            <label class="login-form-label">PW</label>
-            <input type="password" placeholder="비밀번호" v-model="password" />
-            <div class="login_pw_error">{{ pwError }}</div>
-            <div class="login-form--remember">
-              <input class="login-form--checkbox" type="checkbox" />
-              <span>로그인 정보 저장</span>
-            </div>
-          </div>
-        </form>
-      </transition>
-    </div>
-
-    <!-- 항상 하단에 고정될 버튼 영역 -->
-    <div class="nav-bar__button">
-      <router-link to="/membershipguide" class="router-button" active-class="active"
-        >회원가입</router-link
-      >
-      <button
-        class="nav-bar__button--login"
-        @click="toggleLogin"
-        :class="{ active: isLoginActive }"
-      >
-        로그인
-      </button>
-      <button
-        class="nav-bar__button--idpw"
-        @click="toggleIdPwModal"
-        :class="{ active: isIdPwActive }"
-      >
-        아이디/비밀번호 찾기
-      </button>
-    </div>
-
-    <!-- 모달 -->
-    <ModalIdpw v-if="showModal" @close="handleModalClose" />
-  </nav>
-</template>
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -71,10 +22,6 @@ function handleModalClose() {
 const showLoginForm = ref(false)
 const id = ref('')
 const password = ref('')
-
-function goToGuide() {
-  router.push('/membershipguide')
-}
 
 // 로그인 공란 경고문 출력
 // 로그인 폼 열기, 닫기
@@ -125,32 +72,125 @@ const showModal = ref(false)
 //버튼 엑티브 스크립트
 </script>
 
-<style>
-#nav {
-  display: flex;
-  position: relative;
-  float: left;
-  flex-direction: column;
-  align-items: center;
-  width: 18.75rem; /* 300px */
-  height: 64rem;
-  background-color: var(--color-purple4);
-  justify-content: space-between; /* 위, 아래로 배치 */
-}
+<template>
+  <div :class="navClass">
+    <nav id="nav">
+      <h1><img src="../assets/imgs/logo.png" alt="사이트로고" /></h1>
 
-.nav-logo {
-  display: flex;
+      <!-- 로그인 폼 영역 -->
+      <div class="nav-login-wrapper">
+        <transition name="slide-fade">
+          <form class="bar-login-form" v-show="showLoginForm">
+            <div class="login-form-wrapper">
+              <label class="login-form-label">ID</label>
+              <input type="text" placeholder="아이디" v-model="id" />
+              <div class="login_id_error">{{ idError }}</div>
+              <label class="login-form-label">PW</label>
+              <input type="password" placeholder="비밀번호" v-model="password" />
+              <div class="login_pw_error">{{ pwError }}</div>
+              <div class="login-form--remember">
+                <input class="login-form--checkbox" type="checkbox" />
+                <span>로그인 정보 저장</span>
+              </div>
+            </div>
+          </form>
+        </transition>
+      </div>
+
+      <div class="nav-bar-btnbox">
+        <router-link class="nav-link">
+          <button
+            class="nav-bar-btn nav-bar__button--login"
+            @click="toggleLogin"
+            :class="{ active: isLoginActive }"
+          >
+            로그인
+          </button>
+        </router-link>
+        <router-link class="nav-link" to="/signUp">
+          <button class="nav-bar-btn">회원가입</button>
+        </router-link>
+        <router-link class="nav-link" to="/">
+          <button
+            class="nav-bar-btn nav-bar__button--idpw"
+            @click="toggleIdPwModal"
+            :class="{ active: isIdPwActive }"
+          >
+            아이디/비밀번호 찾기
+          </button>
+        </router-link>
+      </div>
+      <ModalIdpw v-if="showModal" @close="handleModalClose" />
+    </nav>
+  </div>
+</template>
+
+<style scoped>
+#nav {
   position: relative;
-  border-radius: 50%;
-  background-color: #e5e3dc;
-  border: 0.31rem solid var(--color-gray-medium);
-  margin: 5rem 0 0 0;
+  display: flex; /* 1.레이아웃 */
+  flex-direction: column;
+
+  width: 18.75rem; /* 2.BOX */
+  height: 100vh;
+
+  background-color: var(--color-purple); /* 3.배경 */
+}
+#nav,
+#nav > * {
+  align-items: center;
+  text-align: center;
+}
+h1 {
+  margin-top: 2.5rem;
+}
+h1 > img {
   width: 10rem;
   height: 10rem;
 }
+.nav-bar-profile {
+  width: 10rem;
+  height: 10rem;
+  margin-top: 2rem;
+  margin-bottom: 8.875rem;
+}
+.nav-bar-userName {
+  display: block;
+  line-height: 44px;
+  color: var(--color-black);
+  font-size: var(--font-l);
+}
+#nav .nav-bar-btnbox {
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  bottom: 5%;
+}
+.nav-bar-btn {
+  background-color: var(--color-purple);
+  width: 13.125rem; /* 210px */
+  height: 4.25rem; /* 68px */
+  border-radius: 1.875rem; /* 30px */
+  border: none;
+  padding: 0 2.5rem; /* 40px */
+  margin-bottom: 1.2rem;
+  align-items: center;
+  font-size: var(--font-base);
+  color: var(--color-black);
+}
+.nav-bar-btn:hover {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
+}
+.logout {
+  background-color: var(--color-white);
+  color: var(--color-purple9);
+}
+
 .login-form-wrapper {
   display: flex;
-  margin-top: 13rem;
+  margin-top: 10rem;
   flex-direction: column;
   align-items: flex-start;
   width: 12.5rem; /* 인풋과 체크박스 너비를 정확히 맞춤 */
@@ -162,7 +202,7 @@ const showModal = ref(false)
   border-radius: 0.375rem;
   padding: 0 0.625rem;
   /* border: 1px solid var(--color-gray-medium); */
-  border: 1px solid var(--color-purple3);
+  border: 1px solid var(--color-purple9);
   width: 12.5rem;
   margin-bottom: 0.1rem;
 }
@@ -179,7 +219,7 @@ const showModal = ref(false)
   /* 체크박스 기본 틀 */
   width: 1.1rem;
   height: 1.1rem;
-  border: 2px solid var(--color-purple1); /* 연보라 테두리 */
+  border: 1px solid var(--color-purple9); /* 연보라 테두리 */
   border-radius: 0.25rem;
   background-color: var(--color-white);
   cursor: pointer;
@@ -192,8 +232,8 @@ const showModal = ref(false)
 
 /* 체크 시 상태 */
 .login-form--checkbox:checked {
-  background-color: var(--color-purple1); /* 진보라 배경 */
-  border-color: var(--color-purple1);
+  background-color: var(--color-purple9); /* 진보라 배경 */
+  border-color: var(--color-purple9);
 }
 
 /* 체크 마크 만들기 */
@@ -211,7 +251,7 @@ const showModal = ref(false)
 
 /* 마우스 올렸을 때 부드럽게 */
 .login-form--checkbox:hover {
-  border-color: var(--color-purple1);
+  border-color: var(--color-purple9);
 }
 .slide-fade-enter-active,
 .slide-fade-leave-active {
@@ -238,50 +278,12 @@ const showModal = ref(false)
   min-height: 1rem; /* 공간 확보 */
 }
 
-/* 버튼 속성 지정 */
 .router-button,
 .nav-bar__button--login {
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  width: 13.125rem;
-  height: 4.25rem; /* 80px */
-  margin: 0.5rem 0;
-  background-color: var(--color-purple4);
-  border: none;
-  border-radius: 2.5rem; /* 40px */
-  color: var(--color-black);
-  font-weight: 600;
-  font-size: 1.5rem;
-  cursor: pointer;
   transition: background-color 0.3s ease;
-  text-decoration: none;
-  border-radius: 1.875rem; /* 30px */
-  padding: 0 2.5rem; /* 40px */
-  margin-bottom: 1.625rem;
 }
 .nav-bar__button--idpw {
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  width: 13.125rem;
-  height: 4.25rem; /* 80px */
-  margin: 0.5rem 0;
-  border-radius: 1.875rem; /* 30px */
-  padding: 0 2.5rem; /* 40px */
-  margin-bottom: 1.625rem;
-  background-color: var(--color-purple4);
-  border: none;
-  border-radius: 2.5rem; /* 40px */
-  color: var(--color-black);
-  font-weight: 600;
-  cursor: pointer;
   transition: background-color 0.3s ease;
-  text-decoration: none;
-  font-size: 1.2rem;
-  white-space: nowrap;
 }
 
 /* 모달 스타일링링 */
@@ -299,7 +301,7 @@ const showModal = ref(false)
 .nav-bar__button--login.active,
 .nav-bar__button--idpw.active,
 .router-button.active {
-  background-color: var(--color-purple2);
+  background-color: var(--color-purple9);
   color: white;
 }
 @media screen and (max-width: 320px) {
@@ -315,7 +317,7 @@ const showModal = ref(false)
     justify-content: center;
     align-items: center;
     padding: 0.5rem;
-    background-color: var(--color-purple4);
+    background-color: var(--color-purple);
     z-index: 999;
   }
 
@@ -368,7 +370,7 @@ const showModal = ref(false)
   .nav-bar__button--idpw,
   .router-button {
     all: unset;
-    background-color: var(--color-purple2);
+    background-color: var(--color-purple9);
     padding: 0.4rem 0.8rem;
     border-radius: 1rem;
     color: white;
