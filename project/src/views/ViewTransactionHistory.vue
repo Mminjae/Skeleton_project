@@ -4,126 +4,38 @@ import PostItem from '@/components/post/PostItem.vue';
 import ExpenseIcons from '@/components/base/ExpenseIcons.vue';
 import IncomeIcon from '@/components/base/IncomeIcon.vue';
 import IconIcon from '@/components/base/iconIcon.vue';
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
 
 // const pageNumber
 
-const list = [
-  {
-    id: 1,
-    date: "2024-11-11", // 날짜
-    amount: 1885626,  // 금액
-    category: "월급", // 카테고리
-    type: "income", // 수입(income), 지출(expense)
-    merchant: "입금", // 내역
-    memo: "알바비", // 메모
-    userId: "hana11", // 유저 데이터
-    paymentMethod: "", // 결제수단
-  },
-  {
-    id: 2,
-    date: "2024-11-11", // 날짜
-    amount: 1885626,  // 금액
-    category: "식비", // 카테고리
-    type: "expense", // 수입(income), 지출(expense)
-    merchant: "하이디라오", // 내역
-    memo: "", // 메모
-    userId: "hana11", // 유저 데이터
-    paymentMethod: "카드", // 결제수단
-  },
-  {
-    id: 3,
-    date: "2024-11-11", // 날짜
-    amount: 1885626,  // 금액
-    category: "쇼핑", // 카테고리
-    type: "expense", // 수입(income), 지출(expense)
-    merchant: "무신사", // 내역
-    memo: "", // 메모
-    userId: "hana11", // 유저 데이터
-    paymentMethod: "현금", // 결제수단
-  },
-  {
-    id: 4,
-    date: "2024-11-11", // 날짜
-    amount: 1885626,  // 금액
-    category: "월급", // 카테고리
-    type: "income", // 수입(income), 지출(expense)
-    merchant: "입금", // 내역
-    memo: "알바비", // 메모
-    userId: "hana11", // 유저 데이터
-    paymentMethod: "", // 결제수단
-  },
-  {
-    id: 5,
-    date: "2024-11-11", // 날짜
-    amount: 1885626,  // 금액
-    category: "월급", // 카테고리
-    type: "income", // 수입(income), 지출(expense)
-    merchant: "입금", // 내역
-    memo: "", // 메모
-    userId: "hana11", // 유저 데이터
-    paymentMethod: "", // 결제수단
-  },
-  {
-    id: 6,
-    date: "2024-11-11", // 날짜
-    amount: 1885626,  // 금액
-    category: "월급", // 카테고리
-    type: "income", // 수입(income), 지출(expense)
-    merchant: "입금", // 내역
-    memo: "알바비", // 메모
-    userId: "hana11", // 유저 데이터
-    paymentMethod: "", // 결제수단
-  },
-  {
-    id: 7,
-    date: "2024-11-11", // 날짜
-    amount: 1885626,  // 금액
-    category: "월급", // 카테고리
-    type: "income", // 수입(income), 지출(expense)
-    merchant: "입금", // 내역
-    memo: "알바비", // 메모
-    userId: "hana11", // 유저 데이터
-    paymentMethod: "", // 결제수단
-  },
-  {
-    id: 8,
-    date: "2024-11-11", // 날짜
-    amount: 1885626,  // 금액
-    category: "월급", // 카테고리
-    type: "income", // 수입(income), 지출(expense)
-    merchant: "입금", // 내역
-    memo: "알바비", // 메모
-    userId: "hana11", // 유저 데이터
-    paymentMethod: "", // 결제수단
-  },
-  {
-    id: 9,
-    date: "2024-11-11", // 날짜
-    amount: 1885626,  // 금액
-    category: "월급", // 카테고리
-    type: "income", // 수입(income), 지출(expense)
-    merchant: "입금", // 내역
-    memo: "", // 메모
-    userId: "hana11", // 유저 데이터
-    paymentMethod: "", // 결제수단
-  },
-  {
-    id: 10,
-    date: "2024-11-11", // 날짜
-    amount: 1885626,  // 금액
-    category: "월급", // 카테고리
-    type: "income", // 수입(income), 지출(expense)
-    merchant: "입금", // 내역
-    memo: "알바비", // 메모
-    userId: "hana11", // 유저 데이터
-    paymentMethod: "", // 결제수단
-  },
-]
 
+const itemsPerPage = 10; // 한 페이지당 10개
 let currentPage = ref(1);
 let pageCount = ref(0);
-let maxPage = ref(21);
+const transactions = ref([]); //json.server에서 불러올 리스트 초기값 설정
+const maxPage = computed(() => Math.ceil(transactions.value.length / itemsPerPage)); //transactions의 데이터 개수(길이)를 기반으로 동적으로 변경
+
+//페이지별 리스트계산 - 우리는 한페이지당 10개의 리스트
+const paginatedList = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return transactions.value.slice(start, end);
+});
+
+
+//JSON Server에서 데이터 불러오기
+const fetchTransactions = async () => {
+  try {
+    const res = await axios.get('http://localhost:3000/transactions');
+    transactions.value = res.data;
+  } catch (error) {
+    console.error('데이터 가져오기 실패:', error);
+  }
+};
+onMounted(() => {
+  fetchTransactions();
+});
 
 </script>
 
@@ -137,7 +49,7 @@ let maxPage = ref(21);
 
     <ul class="list" >
       <PostItem
-        v-for="item in list"
+        v-for="item in paginatedList"
         :key="item.id"
         :item="item"
       />
