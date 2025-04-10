@@ -145,14 +145,26 @@ errors.email = regex.test(form.email) ? '' : '유효한 이메일 형식이 아�
 
 // 비밀번호 유효성 검사
 const validatePassword = () => {
-const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{6,}$/
-if (regex.test(form.password)) {
-  errors.password = ''
-  passwordSuccess.value = '사용 가능한 비밀번호입니다.'
-} else {
-  errors.password = '숫자 및 특수문자를 포함해 6자리 이상 입력해주세요.'
-  passwordSuccess.value = ''
-}
+  const password = form.password
+
+  const lengthValid = password.length >= 10
+
+  // 각 조건 검사
+  const hasLower = /[a-z]/.test(password)
+  const hasUpper = /[A-Z]/.test(password)
+  const hasNumber = /[0-9]/.test(password)
+  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password)
+
+  // 총 몇 가지 종류가 포함되어 있는지 확인
+  const typesCount = [hasLower, hasUpper, hasNumber, hasSpecial].filter(Boolean).length
+
+  if (!lengthValid || typesCount < 2) {
+    errors.password = '비밀번호는 10자 이상이며, 대소문자/숫자/특수문자 중 2가지 이상을 포함해야 합니다.'
+    passwordSuccess.value = ''
+  } else {
+    errors.password = ''
+    passwordSuccess.value = '사용 가능한 비밀번호입니다.'
+  }
 }
 
 const passwordSuccess = ref('')
@@ -400,6 +412,11 @@ button[type="submit"] {
   color: var(--color-red);
   font-size: var(--font-s);
   
+}
+
+.success-text {
+  color: var( --color-blue);
+  font-size: var(--font-s);
 }
 
 /* 사진첨부 버튼 */

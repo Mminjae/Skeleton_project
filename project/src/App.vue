@@ -1,7 +1,12 @@
 <template>
   <div class="app-container">
+<<<<<<< HEAD
     <TheSidebar v-if="!isLogin" @login-success="handleLoginSuccess" />
     <TheSidebarLogin v-if="isLogin" />
+=======
+    <!-- <TheSidebar /> -->
+    <TheSidebarLogin />
+>>>>>>> e44a00e99187234e0bd45b08fdd3940767f37b25
     <RouterView />
 
     <!-- 메인 영역 컴포넌트 조건부 표시 -->
