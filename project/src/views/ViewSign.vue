@@ -37,13 +37,31 @@
         <input v-model="form.passwordRepeat" type="password" @blur="validatePasswordRepeat" />
         <span v-if="errors.passwordRepeat">{{ errors.passwordRepeat }}</span>
       </div>
+      
+      <!-- 이미지 미리보기 영역 추가 -->
+      <div v-if="imagePreview" class="image-preview">
+        <img :src="imagePreview" alt="프로필사진" />
+      </div>
+      <!-- 이미지 업로드 필드 추가 -->
+      <label for="imageInput"></label>
+      <input
+          type="file"
+          id="imageInput"
+          accept="image/*"
+          @change="handleImageChange"
+          />
+
+      <!-- 회원가입 버튼 -->
       <button type="joinSubmit">회원가입</button>
     </form>
+    
+    
   </div>
+
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 const form = reactive({
   name: '',
@@ -71,7 +89,7 @@ const validatePhone = () => {
 }
 // 아이디 유효성 검사
 const validateuserId = () => {
-  const userId = form.userId.trim()
+const userId = form.userId.trim()
 
   // 특수문자 제외: 영문자 + 숫자만 허용 (4~16자)
   const regex = /^[a-zA-Z0-9]{4,16}$/
@@ -102,14 +120,46 @@ const validatePasswordRepeat = () => {
     : '비밀번호가 일치하지 않습니다.'
 }
 
-// const submitForm = () => {
-//   console.log('제출됨:', form.name)
-// }
+const imageFile = ref(null) // 이미지 파일 참조 추가
+const imagePreview = ref('') // 이미지 미리보기 URL 참조 추가
+
+// 이미지 파일 변경 시 처리 함수
+const handleImageChange = event => {
+  const file = event.target.files[0]
+  if (!file) {
+    imageFile.value = null
+    imagePreview.value = ''
+    return
+  }
+
+  // 파일 크기 제한 (5MB)
+  if (file.size > 5 * 1024 * 1024) {
+    toastStore.showToast('이미지 크기는 5MB 이하여야 합니다.', 'error')
+    event.target.value = '' // 파일 입력 초기화
+    return
+  }
+
+  // 이미지 파일 타입 검증
+  if (!file.type.match('image.*')) {
+    toastStore.showToast('이미지 파일만 첨부할 수 있습니다.', 'error')
+    event.target.value = '' // 파일 입력 초기화
+    return
+  }
+
+  imageFile.value = file
+
+  // 이미지 미리보기 생성
+  const reader = new FileReader()
+  reader.onload = e => {
+    imagePreview.value = e.target.result
+  }
+  reader.readAsDataURL(file)
+}
 
 // 입력값 중복 검사
 const submitForm = () => {
   validatePhone()
-  validateUsername()
+  validateuserId()
   validateEmail()
   validatePassword()
   validatePasswordRepeat()
@@ -126,3 +176,8 @@ const hasError = Object.values(errors).some(e => e)
 
 //초기화 넣어두기
 </script>
+
+
+<style scoped>
+  
+</style>
