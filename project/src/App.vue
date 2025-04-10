@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
-    <!-- <TheSidebarLogin /> -->
-    <TheSidebar />
+    <TheSidebarLogin />
+    <!-- <TheSidebar /> -->
     <RouterView />
   </div>
   <ModalAddPost />
   <ModalEditPost />
   <ModalExpenditure />
   <ModalImport />
-  <ModalFilter/>
+  <ModalFilter />
 </template>
 <script>
 import TheSidebarLogin from '@/layouts/TheSidebarLogin.vue'
@@ -21,7 +21,15 @@ import ModalFilter from './components/modal/ModalFilter.vue'
 
 export default {
   name: 'App',
-  components: { TheSidebar, TheSidebarLogin, ModalAddPost, ModalEditPost, ModalExpenditure, ModalImport, ModalFilter },
+  components: {
+    TheSidebar,
+    TheSidebarLogin,
+    ModalAddPost,
+    ModalEditPost,
+    ModalExpenditure,
+    ModalImport,
+    ModalFilter,
+  },
 }
 </script>
 <style scoped>
