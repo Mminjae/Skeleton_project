@@ -1,10 +1,45 @@
 <script setup>
+// import { useRouter } from 'vue-router'
+import axios from 'axios'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineEmits } from 'vue'
+//로그인 구현 코드
+const emit = defineEmits(['login-success'])
 
-const router = useRouter()
-// 버튼 활성화 상태 변수
+const id = ref('')
+const password = ref('')
+const idError = ref('')
+const pwError = ref('')
+const showLoginForm = ref(false)
 const isLoginActive = ref(false)
+
+async function login() {
+  try {
+    const res = await axios.get(
+      `http://localhost:3000/users?username=${id.value}&password=${password.value}`,
+    )
+
+    if (res.data.length > 0) {
+      alert('로그인 성공!')
+      emit('login-success') // App.vue로 이벤트 보냄
+    } else {
+      alert('아이디 또는 비밀번호가 틀렸습니다.')
+    }
+  } catch (error) {
+    console.error('로그인 에러:', error)
+    alert('서버 오류가 발생했습니다.')
+  } finally {
+    showLoginForm.value = false
+    id.value = ''
+    password.value = ''
+    idError.value = ''
+    pwError.value = ''
+    isLoginActive.value = false
+  }
+}
+
+// const router = useRouter()
+// 버튼 활성화 상태 변수
 const isIdPwActive = ref(false)
 
 // 아이디/비밀번호 찾기 버튼 클릭 시 모달 열기 + 버튼 활성화
@@ -19,14 +54,8 @@ function handleModalClose() {
   isIdPwActive.value = false
 }
 
-const showLoginForm = ref(false)
-const id = ref('')
-const password = ref('')
-
 // 로그인 공란 경고문 출력
 // 로그인 폼 열기, 닫기
-const idError = ref('')
-const pwError = ref('')
 function toggleLogin() {
   if (!showLoginForm.value) {
     // 처음 클릭 → 로그인 폼 열기
@@ -56,15 +85,6 @@ function toggleLogin() {
   }
 }
 
-function login() {
-  alert(`로그인 시도! ID: ${id.value}, PW: ${password.value}`)
-  showLoginForm.value = false
-  id.value = ''
-  password.value = ''
-  idError.value = ''
-  pwError.value = ''
-  isLoginActive.value = false
-}
 // 모달 스크립트
 import ModalIdpw from '@/components/modal/ModalIdpw.vue'
 const showModal = ref(false)
