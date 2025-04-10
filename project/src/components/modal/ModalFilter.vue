@@ -65,8 +65,9 @@ const selectedPaymentMethod = ref(null)  //초기설정
     data-bs-toggle="modal"
     data-bs-target="#FilterModal"
     data-bs-whatever="@mdo"
-  >
-    <!-- <div class=".button--filterIcon__layout" alt="필터아이콘"></div> -->
+    @click="resetFilters"   
+  ><!-- 모달을 닫았다 다시 열경우, 필터 초기화 -->
+  <!-- <div class=".button--filterIcon__layout" alt="필터아이콘"></div> -->
     필터
   </button>
   <!-- 필터모달을 Open하는 button END -->
