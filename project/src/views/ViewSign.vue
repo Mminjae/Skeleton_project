@@ -1,5 +1,5 @@
 <template>
-  <div id="join">
+  <div id="joinpage">
     <h3 id="joinHeader">회원가입</h3>
     <form @submit.prevent="submitForm">
       <!-- 이름 입력창 -->
@@ -7,9 +7,16 @@
         <label>이름</label>
         <input v-model="form.name" type="text" />
       </div>
-      <!-- 휴대폰 번호 입력창 -->
+      <!-- 생년월일 -->
+      <!-- 이메일 입력창 -->
       <div>
-        <label>핸드폰 번호</label>
+        <label>이메일</label>
+        <input v-model="form.email" type="text" @blur="validateEmail" />
+        <span v-if="errors.email">{{ errors.email }}</span>
+      </div>
+      <!-- 전화번호 입력창 -->
+      <div>
+        <label>전화번호</label>
         <input v-model="form.phone" type="text" @blur="validatePhone"/>
         <span v-if="errors.phone">{{ errors.phone }}</span>
       </div>
@@ -18,12 +25,6 @@
         <label>아이디</label>
         <input v-model="form.userId" type="text" @blur="validateuserId" />
         <span v-if="errors.userId">{{ errors.userId }}</span>
-      </div>
-      <!-- 이메일 입력창 -->
-      <div>
-        <label>이메일</label>
-        <input v-model="form.email" type="text" @blur="validateEmail" />
-        <span v-if="errors.email">{{ errors.email }}</span>
       </div>
       <!-- 비밀번호 -->
       <div>
@@ -38,24 +39,31 @@
         <span v-if="errors.passwordRepeat">{{ errors.passwordRepeat }}</span>
       </div>
       
-      <!-- 이미지 미리보기 영역 추가 -->
-      <div v-if="imagePreview" class="image-preview">
-        <img :src="imagePreview" alt="프로필사진" />
-      </div>
-      <!-- 이미지 업로드 필드 추가 -->
-      <label for="imageInput"></label>
-      <input
-          type="file"
-          id="imageInput"
-          accept="image/*"
-          @change="handleImageChange"
-          />
+    <!-- 프로필 이미지 영역: 기본이미지 or 업로드 이미지 -->
+    <div class="profile-image-wrapper">
+      <img
+      :src="imagePreview || defaultImage"
+      alt="프로필사진"
+      class="profile-image"
+    />
+    </div>
+
+      <!-- 이미지 (숨긴 input) (기본 파일 input 감추기) -->
+    <input
+    type="file"
+    id="imageInput"
+    accept="image/*"
+    @change="handleImageChange"
+    style="display: none;"
+    />
+
+      <!-- 라벨 버튼으로 사용자 업로드 유도 -->
+      <label for="imageInput" class="upload-button">사진등록</label>
+
 
       <!-- 회원가입 버튼 -->
       <button type="submit">회원가입</button>
     </form>
-    
-    
   </div>
 
 </template>
@@ -155,6 +163,9 @@ const handleImageChange = event => {
   }
   reader.readAsDataURL(file)
 }
+  // 디폴트 이미지 보여주기
+  import defaultImageUrl from '@/assets/imgs/user.png'
+  const defaultImage = defaultImageUrl
 
 // 입력값 중복 검사
 const submitForm = () => {
@@ -169,14 +180,28 @@ const submitForm = () => {
     alert('입력값을 다시 확인해주세요.')
     return
   }
-
   alert('회원가입 완료!')
 }
-
 //초기화 넣어두기
 </script>
 
 
 <style scoped>
-  
+.upload-button {
+  display: inline-block;
+  background-color: #f5f5f5; /* 연회색 배경 */
+  color: #333; /* 글자색 */
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+  background-color: #e0e0e0; /* hover 시 살짝 진한 회색 */
+}
 </style>
