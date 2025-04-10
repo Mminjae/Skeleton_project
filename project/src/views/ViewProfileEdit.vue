@@ -36,7 +36,7 @@
         </div>
         <!-- 수정/탈퇴 버튼 -->
         <div class="btn-group">
-          <button class="edit btn btn-light" @click="goEdit">수정</button>
+          <button class="edit btn btn-light" @click="goEdit">저장</button>
           <button
             class="member-out btn btn-danger"
             data-bs-toggle="modal"
@@ -60,9 +60,7 @@
                 <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                  취소
-                </button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
                 <button
                   type="button"
                   class="btn btn-danger"
@@ -88,7 +86,7 @@ import { ref } from 'vue'
 const showModal = ref(false)
 
 const goEdit = () => {
-  alert('수정 되었습니다.')
+  alert('저장 되었습니다.')
 }
 
 const confirmDelete = () => {
@@ -253,6 +251,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem;
 }
 
 .modal-content {
