@@ -86,25 +86,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const router = useRouter()
+const userStore = useUserStore()
 
-const confirmDelete = () => {
-  router.push('/')
-}
-
-const memberInfo = ref([
-  { label: '이름', value: '' },
-  { label: '생년월일', value: '' },
-  { label: 'ID', value: '' },
-])
-
-const contactInfo = ref([
-  { label: '이메일', value: '' },
-  { label: '전화번호', value: '' },
-])
+const memberInfo = computed(() => userStore.memberInfo)
+const contactInfo = computed(() => userStore.contactInfo)
 
 const errors = ref({})
 
@@ -117,14 +108,14 @@ const validateItem = (item) => {
       errors.value[label] = /^[가-힣]{2,5}$/.test(value) ? '' : '이름은 한글 2~5자여야 합니다.'
       break
     case '생년월일':
-      errors.value[label] = /^\d{4}\.\d{1,2}\.\d{1,2}$/.test(value)
+      errors.value[label] = /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(value)
         ? ''
-        : '예: 2021.2.17 형식으로 입력해주세요.'
+        : '예: 2021-2-17 형식으로 입력해주세요.'
       break
     case 'ID':
-      errors.value[label] = /^[a-zA-Z0-9]{4,12}$/.test(value)
+      errors.value[label] = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{4,16}$/.test(value)
         ? ''
-        : 'ID는 영문/숫자 4~12자여야 합니다.'
+        : 'ID는 영문+숫자 조합 4~16자여야 합니다.'
       break
     case '이메일':
       errors.value[label] = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
@@ -139,15 +130,39 @@ const validateItem = (item) => {
   }
 }
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   ;[...memberInfo.value, ...contactInfo.value].forEach(validateItem)
   const isValid = Object.values(errors.value).every((msg) => !msg)
-  if (isValid) {
-    alert('모든 정보가 유효합니다!')
-    // 저장 처리 로직
-  } else {
+
+  if (!isValid) {
     alert('입력값을 확인해주세요.')
+    return
   }
+
+  // 1. payload 생성
+  const payload = {
+    name: memberInfo.value.find((i) => i.label === '이름')?.value,
+    brith: memberInfo.value.find((i) => i.label === '생년월일')?.value,
+    userId: Number(memberInfo.value.find((i) => i.label === 'ID')?.value),
+    email: contactInfo.value.find((i) => i.label === '이메일')?.value,
+    phone: contactInfo.value.find((i) => i.label === '전화번호')?.value,
+    password: '12341234', // 기존 비밀번호 유지
+    id: '1', // user의 고유 id
+  }
+
+  // 2. 서버에 저장
+  try {
+    await axios.put('http://localhost:3000/users/1', payload)
+    alert('저장되었습니다.')
+    router.push('/mypage')
+  } catch (e) {
+    console.error('저장 실패:', e)
+    alert('저장에 실패했습니다.')
+  }
+}
+
+const confirmDelete = () => {
+  router.push('/')
 }
 </script>
 
