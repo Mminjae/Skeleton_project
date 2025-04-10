@@ -16,6 +16,7 @@ export const useTransactionStore = defineStore('useTransactionStore', {
         const res = await axios.get('http://localhost:3000/transactions', {
           params: queryParams     //여기서 쿼리를 전송해줌, GET방식임 주의!!
         })
+        console.log('📦 필터링 결과:', res.data)
         this.transactions = res.data
       } catch (error) {
         console.error('거래 데이터 불러오기 실패:', error)
