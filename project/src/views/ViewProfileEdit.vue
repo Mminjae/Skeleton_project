@@ -36,7 +36,7 @@
         </div>
         <!-- 수정/탈퇴 버튼 -->
         <div class="btn-group">
-          <button class="btn btn-light" @click="goEdit">수정</button>
+          <button class="edit btn btn-light" @click="goEdit">수정</button>
           <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unregisterModal">
             회원 탈퇴
           </button>
@@ -214,6 +214,7 @@ const contactInfo = ref([
   gap: 10px;
   margin-top: 4.5rem;
   width: 10rem;
+  height: 2.5rem;
 }
 
 button {
@@ -224,6 +225,9 @@ button {
   color: #535353;
   cursor: pointer;
   transition: 0.3s;
+}
+.edit {
+  width: 3rem;
 }
 
 /* 탈퇴 클릭 시 모달 */
