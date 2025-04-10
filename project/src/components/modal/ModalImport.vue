@@ -14,7 +14,7 @@
     class="modal fade"
     id="ModalImport"
     tabindex="-1"
-    aria-labelledby="incomeModalLabel"
+    aria-labelledby="ModalImportLabel"
     aria-hidden="true"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
@@ -72,7 +72,7 @@
           <div class="memo-group">
             <label class="memo-label">메모</label>
             <hr />
-            <textarea class="form-control" id="memo-expense" v-model="memo"></textarea>
+            <p>메모 내용</p>
           </div>
         </div>
 

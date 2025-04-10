@@ -14,7 +14,7 @@
     class="modal fade"
     id="ModalEditPost"
     tabindex="-1"
-    aria-labelledby="exampleModalLabel"
+    aria-labelledby="ModalEditPostLabel"
     aria-hidden="true"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
