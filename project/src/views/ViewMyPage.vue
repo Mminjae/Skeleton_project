@@ -15,7 +15,7 @@
 
           <!-- 프로필 -->
           <div>
-            <img src="#" alt="프로필" class="profile-img" />
+            <img src="" alt="프로필" class="profile-img" />
             <i class="bi bi-person-fill"></i>
           </div>
         </div>
@@ -75,8 +75,39 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
+
+const user = ref(null)
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/users/1')
+    user.value = response.data
+
+    // 데이터 분배
+    memberInfo.value = [
+      { label: '이름', value: user.value.name },
+      { label: '생년월일', value: user.value.brith },
+      { label: 'ID', value: String(user.value.userId) },
+    ]
+
+    contactInfo.value = [
+      { label: '이메일', value: user.value.email },
+      { label: '전화번호', value: formatPhone(user.value.phone) },
+    ]
+  } catch (error) {
+    console.error('데이터 로드 실패:', error)
+  }
+})
+const memberInfo = ref([])
+const contactInfo = ref([])
+
+const formatPhone = (number) => {
+  if (!number) return ''
+  return number.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3')
+}
 
 const router = useRouter()
 
@@ -87,16 +118,16 @@ const goEdit = () => {
 const confirmDelete = () => {
   router.push('/')
 }
-const memberInfo = ref([
-  { label: '이름', value: 'ㅇㅇㅇ' },
-  { label: '생년월일', value: '2021.2.17' },
-  { label: 'ID', value: 'qwerty' },
-])
+// const memberInfo = ref([
+//   { label: '이름', value: user.value.name },
+//   { label: '생년월일', value: '2021.2.17' },
+//   { label: 'ID', value: 'qwerty' },
+// ])
 
-const contactInfo = ref([
-  { label: '이메일', value: 'qwerty@gmail.com' },
-  { label: '전화번호', value: '010-1234-5678' },
-])
+// const contactInfo = ref([
+//   { label: '이메일', value: 'qwerty@gmail.com' },
+//   { label: '전화번호', value: '010-1234-5678' },
+// ])
 </script>
 
 <style scoped>
