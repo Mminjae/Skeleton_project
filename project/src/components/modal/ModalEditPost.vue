@@ -195,11 +195,11 @@ const formatAmount = (e) => {
 }
 
 .tab-button {
-  padding: 0.5rem 1.5rem;
+  padding: 0.4rem 1.5rem;
   margin: 2rem 0 0 1.2rem;
   border: 1px solid #ddd;
   border-radius: 0.5rem;
-  background-color: #f9f9f9;
+  background-color: var(--color-white);
   color: #555;
   font-weight: 600;
   cursor: pointer;
@@ -209,7 +209,7 @@ const formatAmount = (e) => {
 }
 
 .tab-button.active {
-  background-color: #a79df0;
+  background-color: var(--color-purple9);
   color: white;
   border-color: transparent;
 }
@@ -217,6 +217,13 @@ const formatAmount = (e) => {
 .modal-footer {
   border: 0;
 }
+.modal-footer .btn:hover,
+.modal-header .btn:hover {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
+  width: 5rem;
+}
+
 .modal-header .btn-primary {
   margin: 0 1rem 0 0;
 }
@@ -234,14 +241,40 @@ const formatAmount = (e) => {
 }
 .modal-footer .btn,
 .modal-header .btn {
-  background-color: #fafafa;
-  color: #535353;
-  border: #e4e4e4 0.1rem solid;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border: 1px solid var(--color-gray-light);
   width: 5rem;
 }
 
+.modal-header {
+  padding-top: 0;
+}
+.modal-footer {
+  padding: 0 5% 5% 0;
+}
+
 .modal-header .btn-primary {
-  background-color: #8d92f2;
-  color: #fafafa;
+  background-color: var(--color-purple9);
+  background-color: var(--color-white);
+}
+
+.col-form-label {
+  padding: 0 0.5rem 0 1.5rem;
+  color: var(--color-black);
+}
+
+.mb-3 {
+  display: flex;
+  align-items: center;
+}
+.mb-3 input, 
+.mb-3 select,
+.mb-3 textarea {
+  width: 20rem;
+}
+
+.btn-close {
+  padding-right: 2rem;
 }
 </style>
