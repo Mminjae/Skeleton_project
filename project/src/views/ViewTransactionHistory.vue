@@ -6,14 +6,17 @@ import IncomeIcon from '@/components/base/IncomeIcon.vue';
 import IconIcon from '@/components/base/iconIcon.vue';
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
-
+//리스트 컴포넌트에서 Store 사용하도록 수정
+import { useTransactionStore } from '@/stores/useTransactionStore';
+const transactionStore = useTransactionStore();
 // const pageNumber
 
 
 const itemsPerPage = 10; // 한 페이지당 10개
 let currentPage = ref(1);
 let pageCount = ref(0);
-const transactions = ref([]); //json.server에서 불러올 리스트 초기값 설정
+// const transactions = ref([]); //json.server에서 불러올 리스트 초기값 설정
+const transactions = computed(() => transactionStore.transactions); //이제 store에서 불러온다.
 const maxPage = computed(() => Math.ceil(transactions.value.length / itemsPerPage)); //transactions의 데이터 개수(길이)를 기반으로 동적으로 변경
 
 //페이지별 리스트계산 - 우리는 한페이지당 10개의 리스트
@@ -34,7 +37,7 @@ const fetchTransactions = async () => {
   }
 };
 onMounted(() => {
-  fetchTransactions();
+  transactionStore.fetchTransactions(); // 초기에 전체 데이터 가져오기
 });
 
 </script>
