@@ -1,16 +1,22 @@
 <template>
+  <ModalAddPost />
+  <ModalEditPost />
+  <ModalExpenditure />
+  <ModalImport />
   <!-- <TheSidebar /> -->
-  <!-- <ModalDetailPost /> -->
-  <TheSidebarLogin/>
-  <RouterView />
-
+  <!-- <RouterView /> -->
 </template>
+
 <script>
-import TheSidebar from '@/layouts/TheSidebar.vue'
-import ModalDetailPost from '@/components/modal/ModalDetailPost.vue'
-import TheSidebarLogin from '@/layouts/TheSidebarLogin.vue'
+import ModalAddPost from './components/modal/ModalAddPost.vue'
+import ModalEditPost from './components/modal/ModalEditPost.vue'
+import ModalExpenditure from '@/components/modal/ModalExpenditure.vue'
+import ModalImport from '@/components/modal/ModalImport.vue'
+
+// import TheSidebar from '@/layouts/TheSidebar.vue'
 export default {
   name: 'App',
-  components: { TheSidebar, ModalDetailPost,TheSidebarLogin },
+  components: { ModalAddPost, ModalEditPost, ModalExpenditure, ModalImport },
+
 }
 </script>
