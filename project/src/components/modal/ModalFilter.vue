@@ -1,5 +1,55 @@
 <script setup>
-  const selectedType = ref(null) // 'expense' 또는 'income' 상태관리
+  import { ref } from 'vue'
+  
+  //날짜필터1-라디오버튼(연/월/일)
+  const selectedPeriod = ref(null)
+  //날짜필터1-라디오버튼(연/월/일)END
+  //날짜필터2-달력버튼
+  const startDate = ref(null) //초기설정
+  const endDate = ref(null)   //초기설정
+  //날짜필터2-달력버튼END
+
+  //expense' 또는 'income' 상태관리
+  const selectedType = ref(null) // 초기설정
+  // 2종류의 카테고리 박스(수입/지출) 배열로 상태관리
+  const incomeCategories = [
+    { id: 'salary', label: '월급' },
+    { id: 'allowance', label: '용돈' },
+    { id: 'carryover', label: '이월' },
+    { id: 'investment', label: '금융소득' },
+    { id: 'miscIncome', label: '기타' }
+  ]
+  const expenseCategories = [
+  { id: 'foodcost', label: '식비' },
+  { id: 'saving', label: '저축' },
+  { id: 'transport', label: '교통비' },
+  { id: 'culture', label: '문화생활' },
+  { id: 'essential', label: '생필품' },
+  { id: 'shopping', label: '쇼핑' },
+  { id: 'miscExpense', label: '기타' }
+]
+const selectedCategories = ref([])  //초기설정
+// 2종류의 카테고리 박스(수입/지출) 배열로 상태관리 END
+
+// 지불수단 선택(현금/카드) 라디오박스 상태
+const selectedPaymentMethod = ref(null)  //초기설정
+
+// '초기화버튼'에 탑재되는 초기화 함수
+  const resetFilters = () => {
+  selectedPeriod.value = null        //연/월/일 초기화
+  startDate.value = null             //날짜-시작일 초기화
+  endDate.value = null               //날짜-종료일 초기화
+  selectedType.value = null          //수입/지출 초기화
+  selectedCategories.value = []      //카테고리 초기화
+  selectedPaymentMethod.value = null //지불수단(현금/카드)초기화
+  }
+// '완료버튼'에 탑재되는 저장함수 (나중에 db.json과 연동하여 거래데이터transactions 이용하여 필터적용)
+  const applyFilters = () => {
+    console.log('선택된 날짜 필터:', startDate.value, '~', endDate.value)
+    console.log('선택된 타입 필터:', selectedType.value)
+    console.log('선택된 카테고리 필터:', selectedCategories.value)
+    console.log('선택된 지불수단 필터:', selectedPaymentMethod.value)
+  }
 
 </script>
 
@@ -169,7 +219,7 @@
         <!-- 하단 버튼(초기화, 완료) -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-filter-reset" @click="resetFilters">초기화</button>
-          <button type="button" class="btn btn-primary btn-filter-done">완료</button>
+          <button type="button" class="btn btn-primary btn-filter-done" @click="applyFilters">완료</button>
         </div>
       </div>
     </div>
