@@ -19,7 +19,7 @@ body {
   /* 🎨 COLOR SYSTEM */
 
   /* 배경/기본 색상 */
-  --color-white: #fafafa;       /* 배경용 흰색 */
+  --color-white: #ffffff;       /* 배경용 흰색 */
   --color-black: #535353;       /* 글자용 검정 */
   --color-gray-medium: #959595; /* 보조 텍스트 */
   --color-gray-light: #e4e4e4;  /* 구분선 */

@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
-    <TheSidebarLogin />
+    <!-- <TheSidebarLogin /> -->
+    <TheSidebar />
     <RouterView />
   </div>
   <ModalAddPost />
@@ -11,7 +12,7 @@
 </template>
 <script>
 import TheSidebarLogin from '@/layouts/TheSidebarLogin.vue'
-
+import TheSidebar from '@/layouts/TheSidebar.vue'
 import ModalAddPost from './components/modal/ModalAddPost.vue'
 import ModalEditPost from './components/modal/ModalEditPost.vue'
 import ModalExpenditure from '@/components/modal/ModalExpenditure.vue'
@@ -20,7 +21,7 @@ import ModalFilter from './components/modal/ModalFilter.vue'
 
 export default {
   name: 'App',
-  components: { TheSidebarLogin, ModalAddPost, ModalEditPost, ModalExpenditure, ModalImport, ModalFilter },
+  components: { TheSidebar, TheSidebarLogin, ModalAddPost, ModalEditPost, ModalExpenditure, ModalImport, ModalFilter },
 }
 </script>
 <style scoped>
