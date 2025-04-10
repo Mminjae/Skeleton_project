@@ -5,11 +5,6 @@ const props = defineProps({
     required: true,
   },
 })
-
-function formatDate(date) {
-  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  return new Date(date).toLocaleDateString('ko-KR', options);
-}
 </script>
 
 <template>
@@ -17,7 +12,7 @@ function formatDate(date) {
     <button class="item">
       <p class="date color--gray">
         <!-- {{ formatDate(item.date) }} -->
-        {{ item.dateYear }}년 {{ item.dateMonth }}월 {{ item.dateDay }}일
+        {{ item.dateYear }}.{{ item.dateMonth }}.{{ item.dateDay }}({{ item.dayOfWeek }})
       </p>
       <div class="category">
         <img src="../../assets/imgs/icons_layout/memo.svg" alt="memo">
@@ -27,8 +22,8 @@ function formatDate(date) {
       <div class="payment">
         <p class="color--gray">{{ item.paymentMethod }}</p>
         <span class="amount">
-          <p :class="item.type === 'income' ? 'color--black color--blue' : 'color--black color--red'">
-            {{ item.type === 'income' ? '+' : '-' }}
+          <p :class="item.isIncome === true ? 'color--black color--blue' : 'color--black color--red'">
+            {{ item.isIncome === true ? '+' : '-' }}
             {{ item.amount.toLocaleString() }}</p>
           <p>원</p>
         </span>
