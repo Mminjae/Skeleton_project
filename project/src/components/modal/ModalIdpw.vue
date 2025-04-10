@@ -5,7 +5,7 @@
         <!-- 입력 폼들 -->
         <div class="modal-header">
           <button class="btn btn-outline-dark" type="button" @click="$emit('close')">
-            <img src="" alt="닫기" />
+            <img src="#" alt="닫기" />
           </button>
         </div>
         <div class="modal-idpw">
