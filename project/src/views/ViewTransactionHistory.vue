@@ -1,8 +1,8 @@
 <script setup>
 
 import PostItem from '@/components/post/PostItem.vue';
-import ExpenseIcons from '@/components/base/ExpenseIcons.vue';
-import IncomeIcon from '@/components/base/IncomeIcon.vue';
+// import ExpenseIcons from '@/components/base/ExpenseIcons.vue';
+// import IncomeIcon from '@/components/base/IncomeIcon.vue';
 import IconIcon from '@/components/base/iconIcon.vue';
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';

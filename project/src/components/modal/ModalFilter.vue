@@ -109,7 +109,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
 
       console.log('쿼리 파라미터:', queryParams);
       // 이걸 기반으로 pinia action 호출하거나 axios 직접 요청 가능
-      transactionStore.fetchFilteredTransactions(queryParams) //Pinia store action 호출
+      transactionStore.fetchTransactions(queryParams) //Pinia store action 호출
   }
 
 </script>
