@@ -3,19 +3,14 @@
     <TheSidebar v-if="!isLogin" @login-success="handleLoginSuccess" />
     <TheSidebarLogin v-if="isLogin" />
     <RouterView />
-
-    <!-- 메인 영역 컴포넌트 조건부 표시 -->
-    <!-- <ViewMainLoginOut v-if="!isLogin" /> -->
     <ViewMainLogin v-if="isLogin" />
-
-    <!-- 모달들 -->
-    <ModalAddPost />
-    <ModalEditPost />
-    <ModalExpenditure />
-    <ModalImport />
-    <ModalFilter />
   </div>
-  <ModalIdpw v-if="showModalIdpw" @found-id="openResultModal" @close="showModalIdpw = false" />
+  <ModalAddPost />
+  <ModalEditPost />
+  <ModalExpenditure />
+  <ModalImport />
+  <ModalFilter />
+  <ModalIdpw v-if="showModalIdpw" @found-user="openResultModal" @close="showModalIdpw = false" />
   <ModalResultid v-if="showModalResult" :found-id="foundId" @close="showModalResult = false" />
 </template>
 
@@ -24,7 +19,7 @@ import { ref, provide } from 'vue'
 
 import TheSidebar from '@/layouts/TheSidebar.vue'
 import TheSidebarLogin from '@/layouts/TheSidebarLogin.vue'
-import ViewMainLoginOut from '@/views/ViewMainLoginOut.vue'
+// import ViewMainLoginOut from '@/views/ViewMainLoginOut.vue'
 import ViewMainLogin from '@/views/ViewMainLogin.vue'
 import ModalAddPost from './components/modal/ModalAddPost.vue'
 import ModalEditPost from './components/modal/ModalEditPost.vue'
@@ -44,8 +39,9 @@ function handleLoginSuccess() {
 //ID 찾기 함수
 
 const foundId = ref('')
-const showModalIdpw = ref(true)
+const showModalIdpw = ref(false)
 const showModalResult = ref(false)
+const foundUser = ref(null)
 // ModalIdpw에서 ID를 찾았을 때
 function openResultModal(id) {
   foundId.value = id

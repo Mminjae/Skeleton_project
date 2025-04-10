@@ -1,5 +1,5 @@
 <script setup>
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { ref } from 'vue'
 import { defineEmits } from 'vue'
@@ -38,7 +38,7 @@ async function login() {
   }
 }
 
-const router = useRouter()
+// const router = useRouter()
 // 버튼 활성화 상태 변수
 const isIdPwActive = ref(false)
 

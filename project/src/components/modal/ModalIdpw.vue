@@ -110,8 +110,9 @@ const idError = ref('')
 const entireError = ref('')
 
 // 이벤트 정의
-const emit = defineEmits(['found-id', 'close'])
+const emit = defineEmits(['found-id', 'found-user', 'close'])
 
+// 모드 전환
 function switchToID() {
   mode.value = 'id'
   clearErrors()
@@ -124,6 +125,7 @@ function switchToPW() {
   clearInputs()
 }
 
+// 에러 및 입력 초기화
 function clearErrors() {
   nameError.value = ''
   emailError.value = ''
@@ -137,8 +139,8 @@ function clearInputs() {
   id.value = ''
 }
 
-// ID 찾기
-async function handleFindID() {
+// ✅ ID 찾기
+function handleFindID() {
   clearErrors()
 
   const isNameEmpty = !name.value.trim()
@@ -152,25 +154,24 @@ async function handleFindID() {
   }
   if (isNameEmpty || isEmailEmpty) return
 
-  try {
-    const res = await axios.get(
-      `http://localhost:3000/users?name=${name.value}&email=${email.value}`,
-    )
-
-    if (res.data.length > 0) {
-      const user = res.data[0]
-      emit('found-id', user.username)
-      emit('close')
-    } else {
-      entireError.value = '회원 정보가 일치하지 않습니다.'
-    }
-  } catch (error) {
-    console.error('ID 찾기 오류:', error)
-    entireError.value = '서버 오류가 발생했습니다.'
-  }
+  axios
+    .get(`http://localhost:3000/users?name=${name.value}&email=${email.value}`)
+    .then((res) => {
+      if (res.data.length > 0) {
+        const user = res.data[0]
+        emit('found-user', user)
+        emit('close')
+      } else {
+        entireError.value = '회원 정보가 일치하지 않습니다.'
+      }
+    })
+    .catch((error) => {
+      console.error('ID 찾기 오류:', error)
+      entireError.value = '서버 오류가 발생했습니다.'
+    })
 }
 
-// PW 찾기 (보너스 - 구현 예정)
+// ✅ PW 찾기
 function handleFindPW() {
   clearErrors()
 
@@ -185,8 +186,21 @@ function handleFindPW() {
   }
   if (isIdEmpty || isEmailEmpty) return
 
-  // 여기에 실제 비밀번호 찾기 로직 구현하면 됨
-  entireError.value = '회원 정보가 일치하지 않습니다.'
+  axios
+    .get(`http://localhost:3000/users?id=${id.value}&email=${email.value}`)
+    .then((res) => {
+      if (res.data.length > 0) {
+        const user = res.data[0]
+        emit('found-user', user)
+        emit('close')
+      } else {
+        entireError.value = '회원 정보가 일치하지 않습니다.'
+      }
+    })
+    .catch((error) => {
+      console.error('PW 찾기 오류:', error)
+      entireError.value = '서버 오류가 발생했습니다.'
+    })
 }
 </script>
 <style scoped>
