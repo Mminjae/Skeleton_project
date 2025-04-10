@@ -1,5 +1,9 @@
 <template>
   <div class="app-container">
+<<<<<<< HEAD
+=======
+    <!-- <TheSidebarLogin /> -->
+>>>>>>> ff0fe1d2af24386723fe46eca1cabe6caa7c5a0e
     <TheSidebar />
     <RouterView />
     <ViewMainLoginOut />
@@ -11,7 +15,11 @@
   <ModalFilter />
 </template>
 <script>
+<<<<<<< HEAD
 import ViewMainLoginOut from './views/ViewMainLoginOut.vue'
+=======
+import TheSidebarLogin from '@/layouts/TheSidebarLogin.vue'
+>>>>>>> ff0fe1d2af24386723fe46eca1cabe6caa7c5a0e
 import TheSidebar from '@/layouts/TheSidebar.vue'
 import ModalAddPost from './components/modal/ModalAddPost.vue'
 import ModalEditPost from './components/modal/ModalEditPost.vue'
@@ -21,6 +29,7 @@ import ModalFilter from './components/modal/ModalFilter.vue'
 
 export default {
   name: 'App',
+<<<<<<< HEAD
   components: {
     ViewMainLoginOut,
     TheSidebar,
@@ -30,6 +39,9 @@ export default {
     ModalImport,
     ModalFilter,
   },
+=======
+  components: { TheSidebar, TheSidebarLogin, ModalAddPost, ModalEditPost, ModalExpenditure, ModalImport, ModalFilter },
+>>>>>>> ff0fe1d2af24386723fe46eca1cabe6caa7c5a0e
 }
 </script>
 <style scoped>
