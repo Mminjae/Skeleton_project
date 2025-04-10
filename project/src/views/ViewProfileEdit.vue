@@ -88,7 +88,42 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
+import { onMounted } from 'vue'
 
+onMounted(async () => {
+  const res = await axios.get('http://localhost:3000/users/1')
+  const user = res.data
+
+  memberInfo.value = [
+    { label: '이름', value: user.name },
+    { label: '생년월일', value: user.brith.replace(/-/g, '.') },
+    { label: 'ID', value: user.userId.toString() },
+  ]
+
+  contactInfo.value = [
+    { label: '이메일', value: user.email },
+    { label: '전화번호', value: user.phone },
+  ]
+})
+
+const updateMemberInfo = async () => {
+  const payload = {
+    name: memberInfo.value.find((i) => i.label === '이름')?.value,
+    brith: memberInfo.value.find((i) => i.label === '생년월일')?.value.replace(/\./g, '-'),
+    userId: Number(memberInfo.value.find((i) => i.label === 'ID')?.value),
+    email: contactInfo.value.find((i) => i.label === '이메일')?.value,
+    phone: contactInfo.value.find((i) => i.label === '전화번호')?.value,
+  }
+
+  await axios.put('http://localhost:3000/users/1', {
+    id: '1', // 유지
+    password: '12341234', // 패스워드 유지 필요
+    ...payload,
+  })
+
+  alert('저장되었습니다.')
+}
 const router = useRouter()
 
 const confirmDelete = () => {
