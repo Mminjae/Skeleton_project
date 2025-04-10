@@ -52,66 +52,68 @@
            <input 
               type="radio" 
               class="btn-check" 
-              name="transactionType1" 
-              id="year" 
-              autocomplete="on" 
+              name="period" 
+              id="year"
+              value="year" 
+              v-model="selectedPeriod"
               />
            <label class="btn btn-primary" for="year">연</label>
             <!-- '월' 라디오 버튼 -->
             <input
               type="radio"
               class="btn-check"
-              name="transactionType1"
+              name="period"
               id="month"
-              autocomplete="off"
+              value="month"
+              v-model="selectedPeriod"
             />
             <label class="btn btn-primary" for="month">월</label>
             <!-- '일' 라디오 버튼 -->
             <input
               type="radio"
               class="btn-check"
-              name="transactionType1"
+              name="period"
               id="day"
-              autocomplete="off"
+              value="day"
+              v-model="selectedPeriod"
             />
             <label class="btn btn-primary" for="day">일</label>
           </div>
           <!-- 날짜필터2-달력버튼 -->
           <hr />
-          <div class="btn-box callendar-group">
-            <input type="date" id="start" name="date-start" value="">
-            <label for="dae"></label>
+          <div class="callendar-group">
+            <input type="date" id="start" class="input-callendar" name="date-start" value="" v-model="startDate">
+            <label for="date"></label>
+            <em>~</em>
+            <input type="date" id="end" class="input-callendar" name="date-end" value="" v-model="endDate">
+            <label for="date"></label>
           </div>
           <hr>
           <!-- 카테고리필터1:수입(default active)체크박스 : 월급/ 금융수입/ 용돈/ 이월/ 기타  -->
-          <div class="checkbox--category btn-group checkbox--income ">
-            <input type="checkbox" class="btn-check" id="salary" autocomplete="off"> <!-- 월급 -->
-            <label class="btn btn-primary" for="salary">월급</label>
-            <input type="checkbox" class="btn-check" id="finance" autocomplete="off"> <!-- 금융수입 -->
-            <label class="btn btn-primary" for="finance">금융수입</label>
-            <input type="checkbox" class="btn-check" id="alowance" autocomplete="off"> <!-- 용돈 -->
-            <label class="btn btn-primary" for="alowance">용돈</label>
-            <input type="checkbox" class="btn-check" id="carryover" autocomplete="off"> <!-- 이월 -->
-            <label class="btn btn-primary" for="carryover">이월</label>
-            <input type="checkbox" class="btn-check" id="miscIncome" autocomplete="off">  <!-- 기타-수입 -->
-            <label class="btn btn-primary" for="miscIncome">기타</label>
+          <div class="checkbox--category btn-group checkbox--income" 
+               v-show="selectedType === 'income'">    <!-- 수입 카테고리박스 조건부 렌더링 -->
+               <template v-for="category in incomeCategories" :key="category.id">
+                 <input
+                    type="checkbox"
+                    class="btn-check"
+                    :id="category.id"
+                    :value="category.id"
+                    v-model="selectedCategories"/>
+                 <label class="btn btn-primary" :for="category.id">{{ category.label }}</label>
+               </template>
           </div>
           <!-- 카테고리필터2:지출-체크박스                : 식비/저축/교통비/문화생활/생필품/쇼핑 -->
-          <div class="checkbox--category btn-group checkbox--expense ">
-            <input type="checkbox" class="btn-check" id="foodcost" autocomplete="off"> <!-- 식비 -->
-            <label class="btn btn-primary" for="foodcost">식비</label>
-            <input type="checkbox" class="btn-check" id="saving" autocomplete="off"> <!-- 저축 -->
-            <label class="btn btn-primary" for="saving">저축</label>
-            <input type="checkbox" class="btn-check" id="transport" autocomplete="off"> <!-- 교통비 -->
-            <label class="btn btn-primary" for="transport">교통비</label>
-            <input type="checkbox" class="btn-check" id="culture" autocomplete="off"> <!-- 문화생활 -->
-            <label class="btn btn-primary" for="culture">문화생활</label>
-            <input type="checkbox" class="btn-check" id="essential" autocomplete="off"> <!-- 생필품 -->
-            <label class="btn btn-primary" for="essential">생필품</label>
-            <input type="checkbox" class="btn-check" id="shopping" autocomplete="off"> <!-- 쇼핑 -->
-            <label class="btn btn-primary" for="shopping">쇼핑</label>
-            <input type="checkbox" class="btn-check" id="miscExpense" autocomplete="off">  <!-- 기타-지출 -->
-            <label class="btn btn-primary" for="miscExpense">기타</label>
+          <div class="checkbox--category btn-group checkbox--expense "
+               v-show="selectedType === 'expense'">    <!-- 지출 카테고리박스 조건부 렌더링 -->
+           <template v-for="category in expenseCategories" :key="category.id">
+            <input
+              type="checkbox"
+              class="btn-check"
+              :id="category.id"
+              :value="category.id"
+              v-model="selectedCategories"/>
+            <label class="btn btn-primary" :for="category.id">{{ category.label }}</label>
+           </template>  
           </div>
           <hr>
           <!-- 분류필터 수입/지출 Radio버튼-->
@@ -121,21 +123,22 @@
            <input
               type="radio"
               id="typeIncome" 
-              value="expense" 
+              value="income" 
               class="btn-check" 
               name="transactionType2"  
-              autocomplete="on" 
+              v-model="selectedType" 
              />
-           <label class="btn btn-primary" for="typeincome">수입</label>
+           <label class="btn btn-primary" for="typeIncome">수입</label>
             <!-- 지출 라디오 버튼 -->
             <input
-              type="radio"
-              class="btn-check"
+            type="radio"
+              id="typeExpense" 
+              value="expense" 
+              class="btn-check" 
               name="transactionType2"
-              id="expense"
-              autocomplete="off"
+              v-model="selectedType"
             />
-            <label class="btn btn-primary" for="expense">지출</label>
+            <label class="btn btn-primary" for="typeExpense">지출</label>
           </div>
           <hr>
           <!-- 지불수단필터 현금/카드 Radio버튼 (default=Deactive, '지출'활성화시 active) -->
@@ -147,7 +150,8 @@
               class="btn-check" 
               name="transactionType3" 
               id="cash" 
-              autocomplete="on" 
+              value="cash"
+              v-model="selectedPaymentMethod" 
             />
            <label class="btn btn-primary" for="cash">현금</label>
             <!-- 카드 라디오 버튼 -->
@@ -156,7 +160,8 @@
               class="btn-check"
               name="transactionType3"
               id="card"
-              autocomplete="off"
+              value="card"
+              v-model="selectedPaymentMethod"
             />
             <label class="btn btn-primary" for="card">카드</label>
           </div>
