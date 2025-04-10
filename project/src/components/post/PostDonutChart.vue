@@ -40,7 +40,9 @@ const handleMouseLeave = () => {
 const segmentsWithOffset = computed(() => {
   let cumulativePercent = 0 // 지금까지 그린 퍼센트의 누적 합계
 
-  return props.segments.map((segment) => {
+  const sortedSegments = [...props.segments].sort((a, b) => b.percentage - a.percentage)
+
+  return sortedSegments.map((segment) => {
     // 원 비율 계산
     const startOffset = circumference.value * (1 - cumulativePercent / 100) //비워질 길이 (전체 - 누적 퍼센트) 이 segment의 시작점 계산 (이전까지 그려진것만큼 비워야 하니까)
     const segmentLength = circumference.value * (segment.percentage / 100) // segment가 차지하는 원 둘레의 길이
