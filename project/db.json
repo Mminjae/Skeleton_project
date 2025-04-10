@@ -7,9 +7,7 @@
       "name": "김하나",
       "phone": "01012345678",
       "email": "qwerty@gmail.com",
-      "password": "12341234",
-      "카드": "",
-      "현금": ""
+      "password": "12341234"
     }
   ],
   "loggedInUser": null,

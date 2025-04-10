@@ -22,8 +22,8 @@ const router = createRouter({
       component: ViewMainLogin,
     },
     {
-      path: '/History',
-      name: 'History',
+      path: '/history',
+      name: 'history',
       component: ViewTransactionHistory,
     },
     {
