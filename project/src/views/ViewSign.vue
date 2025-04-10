@@ -71,18 +71,40 @@ const validatePhone = () => {
 }
 // 아이디 유효성 검사
 const validateuserId = () => {
-  const regex = /^[a-zA-Z0-9!@#$%^&*]{4,20}$/
-  errors.userId = regex.test(form.userId) ? '' : '영문, 숫자, 특수문자 포함 4자 이상'
+  const userId = form.userId.trim()
+
+  // 특수문자 제외: 영문자 + 숫자만 허용 (4~16자)
+  const regex = /^[a-zA-Z0-9]{4,16}$/
+
+  if (!userId) {
+    errors.userId = '아이디를 입력해주세요.'
+  } else if (!regex.test(userId)) {
+    errors.userId = '아이디는 영문자와 숫자만 포함해 4~16자여야 합니다.'
+  } else {
+    errors.userId = ''
+  }
 }
-// 이메일 유효성 검사사
+// 이메일 유효성 검사
 const validateEmail = () => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   errors.email = regex.test(form.email) ? '' : '유효한 이메일 형식이 아닙니다.'
 }
-
-const submitForm = () => {
-  console.log('제출됨:', form.name)
+const validatePassword = () => {
+  const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{6,}$/
+  errors.password = regex.test(form.password)
+    ? ''
+    : '숫자 및 특수문자를 포함해 6자리 이상 입력해주세요.'
 }
+
+const validatePasswordRepeat = () => {
+  errors.passwordRepeat = form.password === form.passwordRepeat
+    ? ''
+    : '비밀번호가 일치하지 않습니다.'
+}
+
+// const submitForm = () => {
+//   console.log('제출됨:', form.name)
+// }
 
 // 입력값 중복 검사
 const submitForm = () => {
