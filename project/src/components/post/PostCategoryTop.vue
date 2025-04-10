@@ -6,7 +6,7 @@
       <li v-for="(item, index) in top3" :key="index" class="list-item">
         <div class="left">
           <span class="rank">{{ index + 1 }}</span>
-          <span class="icon"><IncomeIcons :icon="item.name" /></span>
+          <span class="icon"><ExpenseIcons :icon="item.name" /></span>
           <span class="name">{{ item.name }}</span>
         </div>
         <span class="amount">{{ formatAmount(item.amount) }}</span>
@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import IncomeIcons from '../base/IncomeIcons.vue'
+import ExpenseIcons from '../base/ExpenseIcons.vue'
 
 const top3 = ref([
   { name: 'foodcost', amount: 150000 },
