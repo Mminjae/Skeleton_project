@@ -25,6 +25,8 @@ const donutData = [
 
     <PostCategoryTop />
     <hr />
+    <PostLineGraph />
+    <hr />
 
     <PostRecentHistory />
     <hr />
@@ -35,7 +37,5 @@ const donutData = [
       :circleSize="remToPx(20.36125)"
       :segments="donutData"
     />
-
-    <PostLineGraph />
   </div>
 </template>
