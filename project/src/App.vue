@@ -1,7 +1,7 @@
 <template>
   <!-- <TheSidebar /> -->
   <!-- <ModalDetailPost /> -->
-  <TheSidebarLogin/>
+  <!-- <TheSidebarLogin/> -->
   <RouterView />
 
 </template>

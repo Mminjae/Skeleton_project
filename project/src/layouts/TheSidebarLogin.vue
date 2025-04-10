@@ -10,7 +10,7 @@
       </div>
       <div class="nav-bar-btnbox">
         <router-link class="nav-link" to="/login"><button class="nav-bar-btn">재정요약</button></router-link>
-        <router-link class="nav-link" to="/recentDeals"><button class="nav-bar-btn">거래내역조회</button></router-link>
+        <router-link class="nav-link" to="/history"><button class="nav-bar-btn">거래내역조회</button></router-link>
         <router-link class="nav-link" to="/myPage"><button class="nav-bar-btn">마이페이지</button></router-link>
         <router-link class="nav-link" to="/"><button class="nav-bar-btn">로그아웃</button></router-link>
       </div>
