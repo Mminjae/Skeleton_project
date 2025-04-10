@@ -7,7 +7,19 @@
         <label>이름</label>
         <input v-model="form.name" type="text" />
       </div>
-      <!-- 생년월일 -->
+       <!-- 생년월일 입력 -->
+    <div class="form-group">
+    <label for="birth">생년월일</label>
+    <input
+      id="birth"
+      v-model="form.birth"
+      type="date"
+      class="form-input"
+      @blur="validateBirth"
+      placeholder="YYYY-MM-DD"
+      />
+    <span v-if="errors.birth" class="error-text">{{ errors.birth }}</span>
+    </div>
       <!-- 이메일 입력창 -->
       <div>
         <label>이메일</label>
@@ -73,6 +85,7 @@ import { reactive, ref } from 'vue'
 
 const form = reactive({
   name: '',
+  birth: '',
   phone: '',
   userId: '',
   email: '',
@@ -83,12 +96,22 @@ const form = reactive({
 
 // 에러
 const errors = reactive({
+  birth: '',
   phone: '',
   userId: '',
   email: '',
   password: '',
   passwordRepeat: ''
 })
+
+// 생년월일 유효성 검사
+const validateBirth = () => {
+  if (!form.birth) {
+    errors.birth = '생년월일을 입력해주세요.'
+  } else {
+    errors.birth = ''
+  }
+}
 
 // 전화번호 유효성 검사
 const validatePhone = () => { 
