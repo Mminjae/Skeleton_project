@@ -117,7 +117,10 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
         @mouseleave="handleMouseLeave"
         style="cursor: default"
       >
-        {{ segment.label }}
+        <!-- {{ segment.label }} -->
+        <tspan :x="segment.textX" dy="-0.4em">{{ segment.label }}</tspan>
+        <!-- 두 번째 줄은 아래로 조금 더 내림 -->
+        <tspan :x="segment.textX" dy="1.2em">{{ segment.percentage }}%</tspan>
       </text>
     </svg>
     <div

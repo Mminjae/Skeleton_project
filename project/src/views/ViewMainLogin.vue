@@ -7,7 +7,7 @@ import PostCategoryTop from '../components/post/PostCategoryTop.vue'
 const remToPx = (rem) => rem * 16
 
 const donutData = [
-  { percentage: 25, color: '#FF3B30', label: '식비 25%', tooltip: '이번 달 식비: 25%' },
+  { percentage: 25, color: '#FF3B30', label: '식비', tooltip: '이번 달 식비: 25%' },
   { percentage: 15, color: '#007AFF', label: '교통', tooltip: '교통비: 15%' },
   { percentage: 10, color: '#FF9500', label: '쇼핑', tooltip: '쇼핑 지출: 10%' },
   { percentage: 20, color: '#34C759', label: '여가/문화', tooltip: '여가 및 문화생활: 20%' },
