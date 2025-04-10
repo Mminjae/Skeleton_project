@@ -75,32 +75,29 @@
 </template>
 
 <script setup>
-import { onMounted, computed } from 'vue'
-import { useUserStore } from '@/stores/userStore' // 또는 '../stores/userStore'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { axios } from 'axios'
+import axios from 'axios'
 
-const userStore = useUserStore()
 const router = useRouter()
-onMounted(() => {
-  userStore.fetchUser()
+
+// 상태를 직접 컴포넌트에서 관리
+const memberInfo = ref(null)
+const contactInfo = ref(null)
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('/api/user') // 실제 API 경로로 수정
+    memberInfo.value = response.data.memberInfo
+    contactInfo.value = response.data.contactInfo
+  } catch (error) {
+    console.error('사용자 정보 불러오기 실패:', error)
+  }
 })
-const memberInfo = computed(() => userStore.memberInfo)
-const contactInfo = computed(() => userStore.contactInfo)
+
 const goEdit = () => {
   router.push('/profileEdit')
 }
-
-// const memberInfo = ref([
-//   { label: '이름', value: user.value.name },
-//   { label: '생년월일', value: '2021.2.17' },
-//   { label: 'ID', value: 'qwerty' },
-// ])
-
-// const contactInfo = ref([
-//   { label: '이메일', value: 'qwerty@gmail.com' },
-//   { label: '전화번호', value: '010-1234-5678' },
-// ])
 </script>
 
 <style scoped>
