@@ -5,7 +5,11 @@
         <!-- 입력 폼들 -->
         <div class="modal-header">
           <button class="btn btn-outline-dark" type="button" @click="$emit('close')">
+<<<<<<< HEAD
             <img src="" alt="닫기" />
+=======
+            <img src="#" alt="닫기" />
+>>>>>>> fa41f80fbb0797ffaf030bf47203a51581c3b5a8
           </button>
         </div>
         <div class="modal-idpw">
