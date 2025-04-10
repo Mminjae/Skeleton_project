@@ -17,6 +17,5 @@ import ModalImport from '@/components/modal/ModalImport.vue'
 export default {
   name: 'App',
   components: { ModalAddPost, ModalEditPost, ModalExpenditure, ModalImport },
-
 }
 </script>
