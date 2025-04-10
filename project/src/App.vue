@@ -1,19 +1,19 @@
 <template>
   <div class="app-container">
+    <TheSidebar />
     <TheSidebarLogin />
-    <!-- <TheSidebar /> -->
     <RouterView />
     <ViewMainLoginOut />
+    <ModalAddPost />
+    <ModalEditPost />
+    <ModalExpenditure />
+    <ModalImport />
+    <ModalFilter />
   </div>
-  <ModalAddPost />
-  <ModalEditPost />
-  <ModalExpenditure />
-  <ModalImport />
-  <ModalFilter />
 </template>
 <script>
-import TheSidebarLogin from '@/layouts/TheSidebarLogin.vue'
 import TheSidebar from '@/layouts/TheSidebar.vue'
+import TheSidebarLogin from '@/layouts/TheSidebarLogin.vue'
 import ModalAddPost from './components/modal/ModalAddPost.vue'
 import ModalEditPost from './components/modal/ModalEditPost.vue'
 import ModalExpenditure from '@/components/modal/ModalExpenditure.vue'

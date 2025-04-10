@@ -9,27 +9,28 @@
         <span class="nav-bar-userName">000님</span>
       </div>
       <div class="nav-bar-btnbox">
-        <router-link class="nav-link" to="/login"
-          ><button class="nav-bar-btn">재정요약</button></router-link
-        >
-        <router-link class="nav-link" to="/history"
-          ><button class="nav-bar-btn">거래내역조회</button></router-link
-        >
-        <router-link class="nav-link" to="/myPage"
-          ><button class="nav-bar-btn">마이페이지</button></router-link
-        >
-        <router-link class="nav-link" to="/"
-          ><button class="nav-bar-btn logout">로그아웃</button></router-link
-        >
+        <router-link class="nav-link" to="/login">
+          <button class="nav-bar-btn">재정요약</button>
+        </router-link>
+        <router-link class="nav-link" to="/history">
+          <button class="nav-bar-btn">거래내역조회</button>
+        </router-link>
+        <router-link class="nav-link" to="/myPage">
+          <button class="nav-bar-btn">마이페이지</button>
+        </router-link>
+        <router-link class="nav-link" to="/">
+          <button class="nav-bar-btn logout">로그아웃</button>
+        </router-link>
       </div>
     </nav>
   </div>
 </template>
 
-<style>
+<style scoped>
 /*---nav아웃라인---*/
 
 #nav {
+  position: relative;
   display: flex; /* 1.레이아웃 */
   flex-direction: column;
 
@@ -43,7 +44,6 @@
 #nav > * {
   align-items: center;
   text-align: center;
-  font-family: 'Noto Sans KR', sans-serif;
 }
 h1 {
   margin-top: 2.5rem;
@@ -71,9 +71,11 @@ h1 > img {
 
 /*---nav버튼박스(재정요약/거래내역조회/마이페이지/로그아웃)---*/
 #nav .nav-bar-btnbox {
+  position: absolute;
   display: flex;
   flex-direction: column;
-  margin-bottom: 3.875rem;
+  margin-top: 3.875rem;
+  bottom: 5%;
 }
 .nav-bar-btn {
   background-color: var(--color-purple);
@@ -94,12 +96,6 @@ h1 > img {
 .logout {
   background-color: var(--color-white);
   color: var(--color-purple9);
-}
-.nav-bar-btnbox .nav-bar-btn:nth-of-type(4) {
-  margin-bottom: 0;
-}
-.nav-bar-btnbox .nav-bar-btn:nth-of-type(1) {
-  /* margin-top: 2.25rem;   36px */
 }
 /*---nav버튼박스(재정요약/거래내역조회/마이페이지/로그아웃)END---*/
 </style>
