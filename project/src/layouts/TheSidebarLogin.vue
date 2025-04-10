@@ -9,7 +9,7 @@
         <span class="nav-bar-userName">000님</span>
       </div>
       <div class="nav-bar-btnbox">
-        <router-link class="nav-link" to="/login">
+        <router-link class="nav-link" to="/main">
           <button class="nav-bar-btn">재정요약</button>
         </router-link>
         <router-link class="nav-link" to="/history">
