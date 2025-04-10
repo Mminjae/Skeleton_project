@@ -176,6 +176,7 @@ let maxPage = ref(21);
 }
 h2 {
   padding: var(--space-xl) 0 var(--space-xl) 2.5rem;
+  color: var(--color-black);
 }
 button {
   border: none;
