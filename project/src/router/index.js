@@ -22,8 +22,8 @@ const router = createRouter({
       component: ViewMainLogin,
     },
     {
-      path: '/History',
-      name: 'History',
+      path: '/history',
+      name: 'history',
       component: ViewTransactionHistory,
     },
     {
@@ -35,6 +35,11 @@ const router = createRouter({
       path: '/profileEdit',
       name: 'profileEdit',
       component: ViewProfileEdit,
+    },
+    {
+      path: '/membershipguide',
+      name: 'SignUp',
+      component: ViewSignUp,
     },
     {
       path: '/signUp',

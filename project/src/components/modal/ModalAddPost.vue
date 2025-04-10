@@ -81,11 +81,11 @@
                 <label for="category-income" class="col-form-label">카테고리</label>
                 <select class="form-select" id="category-income" v-model="categoryIncome">
                   <option value="" selected>선택</option>
-                  <option value="월급">🟣월급</option>
-                  <option value="금융 수입">🟣금융 수입</option>
-                  <option value="용돈">🟣용돈</option>
-                  <option value="이월">🟣이월</option>
-                  <option value="기타">🟣기타</option>
+                  <option value="salary">🟣월급</option>
+                  <option value="finance">🟣금융 수입</option>
+                  <option value="allowance">🟣용돈</option>
+                  <option value="carryover">🟣이월</option>
+                  <option value="miscIncome">🟣기타</option>
                 </select>
               </div>
               <div class="mb-3">
@@ -114,13 +114,13 @@
                 <label for="category-expense" class="col-form-label">카테고리</label>
                 <select class="form-select" id="category-expense" v-model="categoryExpense">
                   <option value="">선택</option>
-                  <option value="식비">🟣식비</option>
-                  <option value="저축">🟣저축</option>
-                  <option value="교통비">🟣교통비</option>
-                  <option value="문화생활">🟣문화생활</option>
-                  <option value="생필품">🟣생필품</option>
-                  <option value="쇼핑">🟣쇼핑</option>
-                  <option value="기타">🟣기타</option>
+                  <option value="foodcost">🟣식비</option>
+                  <option value="saving">🟣저축</option>
+                  <option value="transport">🟣교통비</option>
+                  <option value="culture">🟣문화생활</option>
+                  <option value="essentials">🟣생필품</option>
+                  <option value="shopping">🟣쇼핑</option>
+                  <option value="miscExpense">🟣기타</option>
                 </select>
               </div>
               <div class="mb-3">
@@ -133,7 +133,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="resetForm">초기화</button>
-          <button type="button" class="btn btn-primary">완료</button>
+          <button type="button" class="btn btn-primary" @click="submitTransaction">완료</button>
         </div>
       </div>
     </div>
@@ -142,30 +142,33 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useTransactionStore } from '@/stores/transactionStore'
+
+const store = useTransactionStore()
 
 const activeTab = ref('income')
 const selectedDate = ref('')
 const title = ref('')
 const amount = ref('0원')
 const memo = ref('')
-
-// ✅ 탭별 카테고리를 따로 관리
 const categoryIncome = ref('')
 const categoryExpense = ref('')
 
-// 금액 입력 포커스 핸들링
 const handleFocus = () => {
-  if (amount.value === '0원') {
-    amount.value = ''
-  }
+  if (amount.value === '0원') amount.value = ''
 }
 const handleBlur = () => {
-  if (amount.value.trim() === '') {
-    amount.value = '0원'
+  if (amount.value.trim() === '') amount.value = '0원'
+}
+const formatAmount = (e) => {
+  const raw = e.target.value.replace(/[^0-9]/g, '')
+  if (!raw) {
+    amount.value = ''
+    return
   }
+  amount.value = Number(raw).toLocaleString()
 }
 
-// ✅ 초기화 함수 수정
 const resetForm = () => {
   selectedDate.value = ''
   title.value = ''
@@ -173,17 +176,52 @@ const resetForm = () => {
   memo.value = ''
   categoryIncome.value = ''
   categoryExpense.value = ''
+  activeTab.value = 'income'
 }
 
-// 입력 시 숫자만 필터링하고 자동 포맷팅
-const formatAmount = (e) => {
-  const raw = e.target.value.replace(/[^0-9]/g, '') // 숫자만
-  if (!raw) {
-    amount.value = ''
+const getKoreanDay = (dateObj) => {
+  const days = ['일', '월', '화', '수', '목', '금', '토']
+  return days[dateObj.getDay()]
+}
+
+const submitTransaction = async () => {
+  const parsedAmount = parseInt(amount.value.replace(/,/g, '')) || 0
+  const category = activeTab.value === 'income' ? categoryIncome.value : categoryExpense.value
+
+  if (!selectedDate.value || !title.value || !parsedAmount || !category) {
+    alert('모든 필드를 입력해주세요.')
     return
   }
-  // 천 단위 쉼표 삽입
-  amount.value = Number(raw).toLocaleString()
+
+  const dateObj = new Date(selectedDate.value)
+  const isValidDate = !isNaN(dateObj.getTime())
+
+  if (!isValidDate) {
+    alert('유효한 날짜를 선택해주세요.')
+    return
+  }
+
+  const lastId = store.transactions.length
+    ? Math.max(...store.transactions.map((t) => Number(t.id)))
+    : 0
+
+  const newTransaction = {
+    id: String(lastId + 500),
+    amount: parsedAmount,
+    category,
+    merchant: title.value,
+    memo: memo.value,
+    userId: 1,
+    dateYear: dateObj.getFullYear(),
+    dateMonth: dateObj.getMonth() + 1,
+    dateDay: dateObj.getDate(),
+    dayOfWeek: getKoreanDay(dateObj),
+    isIncome: activeTab.value === 'income',
+    paymentMethod: activeTab.value === 'income' ? '' : '현금',
+  }
+
+  await store.addTransaction(newTransaction)
+  resetForm()
 }
 </script>
 
@@ -195,11 +233,11 @@ const formatAmount = (e) => {
 }
 
 .tab-button {
-  padding: 0.5rem 1.5rem;
+  padding: 0.4rem 1.5rem;
   margin: 2rem 0 0 1.2rem;
   border: 1px solid #ddd;
   border-radius: 0.5rem;
-  background-color: #f9f9f9;
+  background-color: var(--color-white);
   color: #555;
   font-weight: 600;
   cursor: pointer;
@@ -209,7 +247,7 @@ const formatAmount = (e) => {
 }
 
 .tab-button.active {
-  background-color: #a79df0;
+  background-color: var(--color-purple9);
   color: white;
   border-color: transparent;
 }
@@ -234,14 +272,46 @@ const formatAmount = (e) => {
 }
 .modal-footer .btn,
 .modal-header .btn {
-  background-color: #fafafa;
-  color: #535353;
-  border: #e4e4e4 0.1rem solid;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border: 1px solid var(--color-gray-light);
+  width: 5rem;
+}
+.modal-footer .btn:hover,
+.modal-header .btn:hover {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
   width: 5rem;
 }
 
+.modal-header {
+  padding-top: 0;
+}
+.modal-footer {
+  padding: 0 5% 5% 0;
+}
+
 .modal-header .btn-primary {
-  background-color: #8d92f2;
-  color: #fafafa;
+  background-color: var(--color-purple9);
+  background-color: var(--color-white);
+}
+
+.col-form-label {
+  padding: 0 0.5rem 0 1.5rem;
+  color: var(--color-black);
+}
+
+.mb-3 {
+  display: flex;
+  align-items: center;
+}
+.mb-3 input, 
+.mb-3 select,
+.mb-3 textarea {
+  width: 20rem;
+}
+
+.btn-close {
+  padding-right: 2rem;
 }
 </style>

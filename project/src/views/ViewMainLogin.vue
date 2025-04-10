@@ -8,13 +8,13 @@ import PostRecentHistory from '../components/post/PostRecentHistory.vue'
 const remToPx = (rem) => rem * 16
 
 const donutData = [
-  { percentage: 25, color: '#FF3B30', label: '식비 25%', tooltip: '이번 달 식비: 25%' },
-  { percentage: 15, color: '#007AFF', label: '교통', tooltip: '교통비: 15%' },
-  { percentage: 10, color: '#FF9500', label: '쇼핑', tooltip: '쇼핑 지출: 10%' },
-  { percentage: 20, color: '#34C759', label: '여가/문화', tooltip: '여가 및 문화생활: 20%' },
-  { percentage: 5, color: '#AF52DE', label: '기타', tooltip: '기타 지출: 5%' },
-  { percentage: 15, color: '#FFCC00', label: '정기구독', tooltip: '정기구독 서비스: 15%' },
-  { percentage: 10, color: '#5AC8FA', label: '저축', tooltip: '저축 비율: 10%' },
+  { percentage: 25, color: '#D1B7FF', label: '식비', tooltip: '이번 달 식비: 25%' },
+  { percentage: 15, color: '#9176E0', label: '교통', tooltip: '교통비: 15%' },
+  { percentage: 10, color: '#D5D7F2', label: '쇼핑', tooltip: '쇼핑 지출: 10%' },
+  { percentage: 20, color: '#B9A8F0', label: '여가/문화', tooltip: '여가 및 문화생활: 20%' },
+  { percentage: 5, color: '#C1BBE6', label: '기타', tooltip: '기타 지출: 5%' },
+  { percentage: 15, color: '#E4DCFF', label: '생필품', tooltip: '정기구독 서비스: 15%' },
+  { percentage: 10, color: '#5D45DB', label: '저축', tooltip: '저축 비율: 10%' },
 ]
 
 // 페이지네이션

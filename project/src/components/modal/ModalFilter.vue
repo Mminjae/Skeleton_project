@@ -1,14 +1,54 @@
 <script setup>
-  import { ref } from 'vue'
-  
-  //날짜필터1-라디오버튼(연/월/일)
-  const selectedPeriod = ref(null)
-  //날짜필터1-라디오버튼(연/월/일)END
-  //날짜필터2-달력버튼
-  const startDate = ref(null) //초기설정
-  const endDate = ref(null)   //초기설정
-  //날짜필터2-달력버튼END
+  import { ref ,watch } from 'vue'
+  import { useTransactionStore } from '@/stores/useTransactionStore'  //axios를 이용해 필터조건을 전달하기위해, store 호출.
+  //Axios & Pinia용 스크립트
+  const transactionStore = useTransactionStore()
 
+  //Axios & Pinia용 스크립트END
+
+  //날짜필터1-라디오버튼(연/월/일)+날짜필터2-달력버튼
+  const filters = ref({
+  selectedPeriod: null,     // 올해"thisYear", 이번달"thisMonth", 오늘"today", "custom"
+  startDate: '',            // YYYY-MM-DD
+  endDate: '',              // YYYY-MM-DD
+  lastChanged: '',          // "selectedPeriod" or "calendar"
+})
+  watch(() => filters.value.selectedPeriod, (newVal) => {
+  if (!newVal) return;
+
+  filters.value.lastChanged = 'selectedPeriod';
+
+  const today = new Date();
+  const format = (d) => d.toISOString().slice(0, 10);
+
+  switch (newVal) {
+    case 'today':
+      filters.value.startDate = format(today);
+      filters.value.endDate = format(today);
+      break;
+    case 'thisMonth': {
+      const start = new Date(today.getFullYear(), today.getMonth(), 1);
+      const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+      filters.value.startDate = format(start);
+      filters.value.endDate = format(end);
+      break;
+    }
+    case 'thisYear': {
+      const start = new Date(today.getFullYear(), 0, 1);
+      const end = new Date(today.getFullYear(), 11, 31);
+      filters.value.startDate = format(start);
+      filters.value.endDate = format(end);
+      break;
+    }
+  }
+}); 
+ watch([() => filters.value.startDate, () => filters.value.endDate], ([start, end]) => {
+  if (!start || !end) return;
+
+  // 날짜 선택 시 selectedPeriod는 "custom"으로
+  filters.value.selectedPeriod = 'custom';
+  filters.value.lastChanged = 'calendar';
+});
   //expense' 또는 'income' 상태관리
   const selectedType = ref(null) // 초기설정
   // 2종류의 카테고리 박스(수입/지출) 배열로 상태관리
@@ -36,29 +76,48 @@ const selectedPaymentMethod = ref(null)  //초기설정
 
 // '초기화버튼'에 탑재되는 초기화 함수
   const resetFilters = () => {
-  selectedPeriod.value = null        //연/월/일 초기화
-  startDate.value = null             //날짜-시작일 초기화
-  endDate.value = null               //날짜-종료일 초기화
+  filters.value.selectedPeriod = null        //연/월/일 초기화
+  filters.value.startDate = ''             //날짜-시작일 초기화
+  filters.value.endDate = ''
+  filters.value.lastChanged = ''               //날짜-종료일 초기화
   selectedType.value = null          //수입/지출 초기화
   selectedCategories.value = []      //카테고리 초기화
   selectedPaymentMethod.value = null //지불수단(현금/카드)초기화
   }
 // '완료버튼'에 탑재되는 저장함수 (나중에 db.json과 연동하여 거래데이터transactions 이용하여 필터적용)
   const applyFilters = () => {
-    console.log('선택된 날짜 필터:', startDate.value, '~', endDate.value)
-    console.log('선택된 타입 필터:', selectedType.value)
-    console.log('선택된 카테고리 필터:', selectedCategories.value)
-    console.log('선택된 지불수단 필터:', selectedPaymentMethod.value)
+    const queryParams = {};
+
+      if (filters.value.startDate && filters.value.endDate) {
+        queryParams.date_gte = filters.value.startDate;
+        queryParams.date_lte = filters.value.endDate;
+      }
+
+      if (selectedType.value) {
+        queryParams.isIncome = selectedType.value === 'income';
+      }
+
+      if (selectedType.value === 'expense' && selectedPaymentMethod.value) {
+        queryParams.paymentMethod = selectedPaymentMethod.value;
+      }
+
+      if (selectedType.value && selectedCategories.value.length > 0) {
+        //예외처리:selectedType이 있는 경우 && 카테고리가 하나라도 선택된 상황에만 카테고리 value를 요청할것.
+        // JSON Server에서는 category=foodcost&category=shopping 처럼 다중 쿼리가 가능
+        queryParams.category = selectedCategories.value;
+      }
+
+      console.log('쿼리 파라미터:', queryParams);
+      // 이걸 기반으로 pinia action 호출하거나 axios 직접 요청 가능
+      transactionStore.fetchFilteredTransactions(queryParams) //Pinia store action 호출
   }
 
 </script>
 
 <template>
-  <h1>필터 모달 (page4)</h1>
   <!-- 필터모달을 Open하는 button 
       1.data-bs-toggle: 버튼 클릭 시 모달이 열리도록 설정.
-      2.data-bs-target: 열릴 모달의 ID를 지정.
-      3.-->
+      2.data-bs-target: 열릴 모달의 ID를 지정.-->
   <button
     type="button"
     class="btn-fillter"
@@ -83,8 +142,10 @@ const selectedPaymentMethod = ref(null)  //초기설정
     tabindex="-1"
     aria-labelledby="FilterModalLabel"
     aria-hidden="true"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <!-- 모달 헤더 (Exit버튼) -->
         <div class="modal-header">
@@ -98,49 +159,51 @@ const selectedPaymentMethod = ref(null)  //초기설정
         <!-- 모달 본문(필터 툴:날짜필터1,2 + 카테고리필터 + 수입/지출 + 현금/카드) -->
         <div class="modal-body">
           <!-- 날짜필터1-연/월/일 Radio버튼 -->
+          
           <div class="btn-group y-m-d-group" role="group" aria-label="연,월,일 선택">
+
            <!-- '연' 라디오 버튼 (기본 선택) -->
            <input 
               type="radio" 
               class="btn-check" 
               name="period" 
-              id="year"
-              value="year" 
-              v-model="selectedPeriod"
+              id="thisYear"
+              value="thisYear" 
+              v-model="filters.selectedPeriod"
               />
-           <label class="btn btn-primary" for="year">연</label>
+           <label class="btn btn-primary" for="thisYear">올해</label>
             <!-- '월' 라디오 버튼 -->
             <input
               type="radio"
               class="btn-check"
               name="period"
-              id="month"
-              value="month"
-              v-model="selectedPeriod"
+              id="thisMonth"
+              value="thisMonth"
+              v-model="filters.selectedPeriod"
             />
-            <label class="btn btn-primary" for="month">월</label>
+            <label class="btn btn-primary" for="thisMonth">이번달</label>
             <!-- '일' 라디오 버튼 -->
             <input
               type="radio"
               class="btn-check"
               name="period"
-              id="day"
-              value="day"
-              v-model="selectedPeriod"
+              id="today"
+              value="today"
+              v-model="filters.selectedPeriod"
             />
-            <label class="btn btn-primary" for="day">일</label>
+            <label class="btn btn-primary" for="today">오늘</label>
           </div>
           <!-- 날짜필터2-달력버튼 -->
           <hr />
           <div class="callendar-group">
-            <input type="date" id="start" class="input-callendar" name="date-start" value="" v-model="startDate">
-            <label for="date"></label>
+            <input type="date" id="start" class="input-callendar" name="date-start" v-model="filters.startDate">
+            <label for="date-start"></label>
             <em>~</em>
-            <input type="date" id="end" class="input-callendar" name="date-end" value="" v-model="endDate">
-            <label for="date"></label>
+            <input type="date" id="end" class="input-callendar" name="date-end" v-model="filters.endDate">
+            <label for="date-end"></label>
           </div>
           <hr>
-          <!-- 카테고리필터1:수입(default active)체크박스 : 월급/ 금융수입/ 용돈/ 이월/ 기타  -->
+          <!-- 카테고리필터1:수입체크박스 : 월급/ 금융수입/ 용돈/ 이월/ 기타  -->
           <div class="checkbox--category btn-group checkbox--income" 
                v-show="selectedType === 'income'">    <!-- 수입 카테고리박스 조건부 렌더링 -->
                <template v-for="category in incomeCategories" :key="category.id">
@@ -194,7 +257,8 @@ const selectedPaymentMethod = ref(null)  //초기설정
           <hr>
           <!-- 지불수단필터 현금/카드 Radio버튼 (default=Deactive, '지출'활성화시 active) -->
           <!-- 라디오 토글 버튼 그룹:현금/카드 -->
-          <div class="btn-group cash-card-group" role="group" aria-label="현금/카드 선택">
+          <div class="btn-group cash-card-group" role="group" aria-label="현금/카드 선택" 
+              >
            <!-- 현금 라디오 버튼 (기본 선택) -->
            <input 
               type="radio" 
@@ -202,8 +266,9 @@ const selectedPaymentMethod = ref(null)  //초기설정
               name="transactionType3" 
               id="cash" 
               value="cash"
-              v-model="selectedPaymentMethod" 
-            />
+              v-model="selectedPaymentMethod"
+              :disabled="selectedType !== 'expense'" 
+            /> <!-- '지출'선택시에만 클릭가능 -->
            <label class="btn btn-primary" for="cash">현금</label>
             <!-- 카드 라디오 버튼 -->
             <input
@@ -213,7 +278,8 @@ const selectedPaymentMethod = ref(null)  //초기설정
               id="card"
               value="card"
               v-model="selectedPaymentMethod"
-            />
+              :disabled="selectedType !== 'expense'"
+            /> <!-- '지출'선택시에만 클릭가능 -->
             <label class="btn btn-primary" for="card">카드</label>
           </div>
         </div>
@@ -260,8 +326,9 @@ const selectedPaymentMethod = ref(null)  //초기설정
   justify-content: space-evenly;
   align-items: center;
 
-  border: 1px red solid;
+  border: 1px solid var(--color-gray-light);
   border-radius: 5px;
+  padding-left: 0.5rem;
 
   width: 28.125rem; /* 450px */
   height: 3.438rem; /* 55px */
@@ -274,24 +341,44 @@ const selectedPaymentMethod = ref(null)  //초기설정
   width: 10.16px;
   height: 24.29px;
   text-align: center;
+  padding-right: 1rem;
 }
 .input-callendar{
   width: 12.305rem; /* 196.88px */
   height: 2.5rem;   /* 40px */
+  border: 1px solid var(--color-gray-light);
+  padding-left: 1rem;
 }
 .checkbox--category{
   width: 27.813rem;  /* 445px */
   height: 7.375rem;  /* 118px */
-
 }
 
 .btn{
   width: 6.25rem;  /* 100px */
   height: 2.5rem;  /* 40px */
+}
+.btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
+  border: none;
+}
+.btn-group>.btn, .btn-group>.btn.dropdown-toggle-split:first-child, .btn-group>.btn:not(:last-child):not(.dropdown-toggle) {
   border-radius: 5px;
+}
+.btn:hover {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
+  border: none;
+}
+.modal-footer > .btn:hover {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
+  border: none;
 }
 .btn-primary{
   background-color: var(--color-white);
+  border: 1px solid var(--color-gray-light);
   color: var(--color-black);
 }
 .btn-group{
@@ -313,8 +400,8 @@ const selectedPaymentMethod = ref(null)  //초기설정
 .modal-header .btn {
   background-color: var(--color-white);
   color: var(--color-black);
-  border: var(--color--gray-light) 0.1rem solid;
-  width: 5rem;  /*figma최신화 */
+  border: 1px solid var(--color-gray-light);
+  width: 6rem;  /*figma최신화 */
 }
 .btn-filter-reset{
 
