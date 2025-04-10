@@ -1,7 +1,7 @@
 <template>
   <div id="mypage">
     <div class="container my-5">
-      <h5 class="mb-4">마이페이지</h5>
+      <h5 class="mb-5">마이페이지</h5>
       <div class="info-card">
         <div class="d-flex justify-content-between align-items-start mb-4">
           <!-- 회원 정보 -->
@@ -14,8 +14,8 @@
           </div>
 
           <!-- 프로필 -->
-          <div class="profile-img">
-            <i class="bi bi-person-fill"></i>
+          <div>
+            <img src="#" alt="프로필" class="profile-img" />
           </div>
         </div>
 
@@ -45,11 +45,13 @@
       </div>
     </div>
   </div>
+  <ModalDetailPost></ModalDetailPost>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import ModalDetailPost from '@/components/modal/ModalDetailPost.vue'
 
 const router = useRouter()
 const showModal = ref(false)
@@ -147,14 +149,16 @@ const contactInfo = ref([
 }
 /* 프로필 */
 .profile-img {
-  width: 80px;
-  height: 80px;
+  width: 6rem;
+  height: 6rem;
   background-color: #e6f0ff;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  margin-right: 2rem;
+  margin-top: 2rem;
 }
 
 .profile-img i {

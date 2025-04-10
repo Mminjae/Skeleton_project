@@ -1,7 +1,7 @@
 <template>
   <div id="mypage">
     <div class="container my-5">
-      <h5 class="mb-4">마이페이지</h5>
+      <h5 class="mb-5">마이페이지</h5>
       <div class="info-card">
         <div class="d-flex justify-content-between align-items-start mb-4">
           <!-- 회원 정보 -->
@@ -10,7 +10,7 @@
             <div class="info-item" v-for="(item, index) in memberInfo" :key="index">
               <div class="label">{{ item.label }}</div>
               <div class="value">
-                <input class="info-input" :type="item.type" />
+                <input class="info-input" type="text" />
                 <div v-if="item.error" class="error">{{ item.error }}</div>
               </div>
             </div>
@@ -30,7 +30,7 @@
           <div class="info-item" v-for="(item, index) in contactInfo" :key="index">
             <div class="label">{{ item.label }}</div>
             <div class="value">
-              <input class="info-input" :type="item.type" />
+              <input class="info-input" type="text" />
             </div>
           </div>
         </div>
@@ -69,35 +69,15 @@ const confirmDelete = () => {
 }
 
 const memberInfo = ref([
-  { label: '이름', model: ref(''), type: 'text', rules: /^[가-힣a-zA-Z]{2,10}$/, error: '' },
-  { label: '생년월일', model: ref(''), type: 'text', rules: /^\d{4}-\d{2}-\d{2}$/, error: '' },
-  { label: 'ID', model: ref(''), type: 'text', rules: /^[a-zA-Z0-9]{5,12}$/, error: '' },
+  { label: '이름', value: 'ㅇㅇㅇ' },
+  { label: '생년월일', value: '2021.2.17' },
+  { label: 'ID', value: 'qwerty' },
 ])
 
 const contactInfo = ref([
-  {
-    label: '이메일',
-    model: ref(''),
-    type: 'email',
-    rules: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    error: '',
-  },
-  {
-    label: '전화번호',
-    model: ref(''),
-    type: 'text',
-    rules: /^01[0|1|6-9]-\d{3,4}-\d{4}$/,
-    error: '',
-  },
+  { label: '이메일', value: 'qwerty@gmail.com' },
+  { label: '전화번호', value: '010-1234-5678' },
 ])
-
-const validateField = (item) => {
-  if (!item.rules.test(item.model.value)) {
-    item.error = `${item.label} 형식이 올바르지 않습니다.`
-  } else {
-    item.error = ''
-  }
-}
 </script>
 
 <style scoped>
