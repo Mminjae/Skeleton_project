@@ -7,7 +7,7 @@
   <ModalEditPost />
   <ModalExpenditure />
   <ModalImport />
-  <ModalFilter/>
+  <ModalFilter />
 </template>
 <script>
 import TheSidebarLogin from '@/layouts/TheSidebarLogin.vue'
@@ -20,7 +20,14 @@ import ModalFilter from './components/modal/ModalFilter.vue'
 
 export default {
   name: 'App',
-  components: { TheSidebarLogin, ModalAddPost, ModalEditPost, ModalExpenditure, ModalImport, ModalFilter },
+  components: {
+    TheSidebarLogin,
+    ModalAddPost,
+    ModalEditPost,
+    ModalExpenditure,
+    ModalImport,
+    ModalFilter,
+  },
 }
 </script>
 <style scoped>

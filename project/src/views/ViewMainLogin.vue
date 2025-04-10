@@ -1,8 +1,9 @@
 <script setup>
 // import { ref } from 'vue'
-import PostDonutChart from '../components/post/PostDonutChart.vue'
-import PostCategoryTop from '../components/post/PostCategoryTop.vue'
-import PostRecentHistory from '../components/post/PostRecentHistory.vue'
+import PostDonutChart from '@/components/post/PostDonutChart.vue'
+import PostCategoryTop from '@/components/post/PostCategoryTop.vue'
+import PostRecentHistory from '@/components/post/PostRecentHistory.vue'
+import PostLineGraph from '@/components/post/PostLineGraph.vue'
 
 // Svg 좌표 내부에서는 px만 사용할 수 있기 때문에 Rem을 px로 계산하는 코드 (1rem = 16px 기준)
 const remToPx = (rem) => rem * 16
@@ -35,6 +36,6 @@ const donutData = [
       :segments="donutData"
     />
 
-    <!-- 도넛 데이터 db 연결하기 -->
+    <PostLineGraph />
   </div>
 </template>
