@@ -1,5 +1,6 @@
 <script setup>
   import { ref ,watch } from 'vue'
+  import { useTransactionStore } from '@/stores/useTransactionStore'  //axios를 이용해 필터조건을 전달하기위해, store 호출.
   
   //날짜필터1-라디오버튼(연/월/일)+날짜필터2-달력버튼
   const filters = ref({
@@ -81,16 +82,33 @@ const selectedPaymentMethod = ref(null)  //초기설정
   }
 // '완료버튼'에 탑재되는 저장함수 (나중에 db.json과 연동하여 거래데이터transactions 이용하여 필터적용)
   const applyFilters = () => {
-    console.log('선택된 날짜 필터:', startDate.value, '~', endDate.value)
-    console.log('선택된 타입 필터:', selectedType.value)
-    console.log('선택된 카테고리 필터:', selectedCategories.value)
-    console.log('선택된 지불수단 필터:', selectedPaymentMethod.value)
+    const queryParams = {};
+
+      if (filters.value.startDate && filters.value.endDate) {
+        queryParams.date_gte = filters.value.startDate;
+        queryParams.date_lte = filters.value.endDate;
+      }
+
+      if (selectedType.value) {
+        queryParams.isIncome = selectedType.value === 'income';
+      }
+
+      if (selectedType.value === 'expense' && selectedPaymentMethod.value) {
+        queryParams.paymentMethod = selectedPaymentMethod.value;
+      }
+
+      if (selectedCategories.value.length > 0) {
+        // JSON Server에서는 category=foodcost&category=shopping 처럼 다중 쿼리가 가능
+        queryParams.category = selectedCategories.value;
+      }
+
+      console.log('쿼리 파라미터:', queryParams);
+      // 이걸 기반으로 pinia action 호출하거나 axios 직접 요청 가능
   }
 
 </script>
 
 <template>
-  <h1>필터 모달 (page4)</h1>
   <!-- 필터모달을 Open하는 button 
       1.data-bs-toggle: 버튼 클릭 시 모달이 열리도록 설정.
       2.data-bs-target: 열릴 모달의 ID를 지정.-->
