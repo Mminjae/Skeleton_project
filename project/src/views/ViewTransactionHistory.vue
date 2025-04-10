@@ -1,7 +1,10 @@
 <script setup>
 
 import PostItem from '@/components/post/PostItem.vue';
-import { ref, computed } from 'vue';
+import ExpenseIcons from '@/components/base/ExpenseIcons.vue';
+import IncomeIcon from '@/components/base/IncomeIcon.vue';
+import IconIcon from '@/components/base/iconIcon.vue';
+import { ref } from 'vue';
 
 // const pageNumber
 
@@ -127,8 +130,9 @@ let maxPage = ref(21);
 <template>
   <div class="viewtransactionhistory">
     <h2>거래내역조회</h2>
-    <button class="filter"><img src="../assets/imgs/icons_layout/filter.svg" alt="filter"></button>
-    <button class="write"><img src="../assets/imgs/icons_layout/write.svg" alt="write"></button>
+    <!-- <button class="filter"><img src="../assets/imgs/icons_layout/filter.svg" alt="filter"></button> -->
+    <button class="filter"><IconIcon icon="filter" scale="1.5"/></button>
+    <button class="write"><IconIcon icon="write" scale="1.5"/></button>
     <hr>
 
     <ul class="list" >
@@ -167,6 +171,7 @@ let maxPage = ref(21);
   position: relative;
   background-color: var(--color-white);
   color: var(--color-gray-black);
+  width: 100%;
   height: 100vh;
 }
 h2 {
