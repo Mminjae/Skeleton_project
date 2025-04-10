@@ -56,12 +56,10 @@
                 <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                  취소
-                </button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
                 <button
                   type="button"
-                  class="btn btn-danger"
+                  class="member-out btn btn-danger"
                   @click="confirmDelete"
                   data-bs-dismiss="modal"
                 >
@@ -222,11 +220,11 @@ button {
   transition: 0.3s;
 }
 .edit {
-  border: none;
-  width: 4rem;
+  width: 5rem;
+  margin-right: 1rem;
 }
 .member-out {
-  width: 5rem;
+  width: 7rem;
   border: none;
   border-radius: 2px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
@@ -249,5 +247,11 @@ button {
   padding: 2rem;
   border-radius: 10px;
   text-align: center;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem;
 }
 </style>

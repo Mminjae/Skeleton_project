@@ -63,7 +63,7 @@
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
                 <button
                   type="button"
-                  class="btn btn-danger"
+                  class="member-out btn btn-danger"
                   @click="confirmDelete"
                   data-bs-dismiss="modal"
                 >
@@ -83,16 +83,6 @@ import { ref } from 'vue'
 // import { useRouter } from 'vue-router'
 
 // const router = useRouter()
-const showModal = ref(false)
-
-const goEdit = () => {
-  alert('저장 되었습니다.')
-}
-
-const confirmDelete = () => {
-  showModal.value = false
-  alert('탈퇴 처리되었습니다.') // 실제론 API 호출
-}
 
 const memberInfo = ref([
   { label: '이름', value: 'ㅇㅇㅇ' },
@@ -220,22 +210,19 @@ const contactInfo = ref([
 }
 
 button {
-  /* border: 1px solid #535353; */
   border-radius: 2px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  /* padding: 4px 10px; */
-  /* border-radius: 5px; */
   background: white;
   color: #535353;
   cursor: pointer;
   transition: 0.3s;
 }
 .edit {
-  width: 4rem;
+  width: 5rem;
   margin-right: 1rem;
 }
 .member-out {
-  width: 5rem;
+  width: 7rem;
   border: none;
   border-radius: 2px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
