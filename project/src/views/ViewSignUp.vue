@@ -146,6 +146,7 @@ const validatePassword = () => {
   } else {
     errors.password = '숫자 및 특수문자를 포함해 6자리 이상 입력해주세요.'
     passwordSuccess.value = ''
+
   }
 }
 
@@ -407,6 +408,11 @@ button[type='submit'] {
 /* 유효성 검증 메시지 */
 .error-text {
   color: var(--color-red);
+  font-size: var(--font-s);
+}
+
+.success-text {
+  color: var( --color-blue);
   font-size: var(--font-s);
 }
 
