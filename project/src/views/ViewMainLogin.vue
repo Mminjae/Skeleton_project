@@ -34,6 +34,7 @@ const donutData = [
       :circleSize="remToPx(20.36125)"
       :segments="donutData"
     />
+
     <!-- 도넛 데이터 db 연결하기 -->
   </div>
 </template>

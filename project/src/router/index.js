@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // View 컴포넌트들 import
-import TheMainView from '../views/TheMainView.vue'
-import TheLoginView from '../views/TheLoginView.vue'
-import RecentDealView from '../views/RecentDealView.vue'
-import MyPageView from '../views/MyPageView.vue'
-import ProfileEdit from '../views/ProfileEdit.vue'
-import MembershipGuide from '../views/MembershipGuide.vue'
+import ViewMainLoginOut from '../views/ViewMainLoginOut.vue'
+import ViewMainLogin from '../views/ViewMainLogin.vue'
+import ViewTransactionHistory from '../views/ViewTransactionHistory.vue'
+import ViewMyPage from '../views/ViewMyPage.vue'
+import ViewProfileEdit from '../views/ViewProfileEdit.vue'
+import ViewSignUp from '../views/ViewSignUp.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,32 +14,32 @@ const router = createRouter({
     {
       path: '/',
       name: 'main',
-      component: TheMainView,
+      component: ViewMainLoginOut,
     },
     {
       path: '/login',
       name: 'login',
-      component: TheLoginView,
+      component: ViewMainLogin,
     },
     {
-      path: '/recentdeals',
-      name: 'recentdeals',
-      component: RecentDealView,
+      path: '/History',
+      name: 'History',
+      component: ViewTransactionHistory,
     },
     {
-      path: '/mypage',
-      name: 'mypage',
-      component: MyPageView,
+      path: '/myPage',
+      name: 'myPage',
+      component: ViewMyPage,
     },
     {
-      path: '/editprofile',
-      name: 'editprofile',
-      component: ProfileEdit,
+      path: '/profileEdit',
+      name: 'profileEdit',
+      component: ViewProfileEdit,
     },
     {
-      path: '/membershipguide',
-      name: 'membershipguide',
-      component: MembershipGuide,
+      path: '/signUp',
+      name: 'signUp',
+      component: ViewSignUp,
     },
   ],
 })
