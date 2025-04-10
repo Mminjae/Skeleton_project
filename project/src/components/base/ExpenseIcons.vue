@@ -7,7 +7,6 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-
     <g :transform="`scale(${scale})`">
       <circle cx="18" cy="18" r="18" fill="#5D45DB" />
       <path
@@ -35,7 +34,6 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-
     <g :transform="`scale(${scale})`">
       <circle cx="18" cy="18" r="18" fill="#9176E0" />
       <path
@@ -109,7 +107,6 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-
     <g :transform="`scale(${scale})`">
       <circle cx="18" cy="18" r="18" fill="#B9A8F0" />
       <path
@@ -130,7 +127,6 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-
     <g :transform="`scale(${scale})`">
       <circle cx="18" cy="18" r="18" fill="#D1B7FF" />
       <g clip-path="url(#clip0_0_1)">
@@ -171,7 +167,6 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-
     <g :transform="`scale(${scale})`">
       <circle cx="18" cy="18" r="18" fill="#D5D7F2" />
       <path
@@ -203,7 +198,6 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-
     <g :transform="`scale(${scale})`">
       <path
         d="M36 18C36 27.9411 27.9411 36 18 36C8.05887 36 0 27.9411 0 18C0 8.05887 8.05887 0 18 0C27.9411 0 36 8.05887 36 18Z"
@@ -244,7 +238,6 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-
     <g :transform="`scale(${scale})`">
       <circle cx="18" cy="18" r="18" fill="#CFC2FA" />
       <path

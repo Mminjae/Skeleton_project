@@ -1,0 +1,10 @@
+diff a/project/db.json b/project/db.json	(rejected hunks)
+@@ -13,7 +13,7 @@
+   "loggedInUser": null,
+   "transactions": [
+     {
+-      "id": 1,
++      "id": "1",
+       "amount": 1885626,
+       "category": "salary",
+       "merchant": "입금",
