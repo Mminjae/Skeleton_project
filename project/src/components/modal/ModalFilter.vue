@@ -1,15 +1,9 @@
 <script setup>
   import { ref ,watch } from 'vue'
   
-  //날짜필터1-라디오버튼(연/월/일)
-  // const selectedPeriod = ref(null)
-  //날짜필터1-라디오버튼(연/월/일)END
-  //날짜필터2-달력버튼
-  // const startDate = ref(null) //초기설정
-  // const endDate = ref(null)   //초기설정
-  //날짜필터2-달력버튼END
+  //날짜필터1-라디오버튼(연/월/일)+날짜필터2-달력버튼
   const filters = ref({
-  selectedPeriod: null,     // "today", "thisWeek", "thisMonth", "custom"
+  selectedPeriod: null,     // 올해"thisYear", 이번달"thisMonth", 오늘"today", "custom"
   startDate: '',            // YYYY-MM-DD
   endDate: '',              // YYYY-MM-DD
   lastChanged: '',          // "selectedPeriod" or "calendar"
@@ -124,8 +118,10 @@ const selectedPaymentMethod = ref(null)  //초기설정
     tabindex="-1"
     aria-labelledby="FilterModalLabel"
     aria-hidden="true"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <!-- 모달 헤더 (Exit버튼) -->
         <div class="modal-header">
@@ -237,7 +233,8 @@ const selectedPaymentMethod = ref(null)  //초기설정
           <hr>
           <!-- 지불수단필터 현금/카드 Radio버튼 (default=Deactive, '지출'활성화시 active) -->
           <!-- 라디오 토글 버튼 그룹:현금/카드 -->
-          <div class="btn-group cash-card-group" role="group" aria-label="현금/카드 선택">
+          <div class="btn-group cash-card-group" role="group" aria-label="현금/카드 선택" 
+               v-show="selectedType === 'expense'">
            <!-- 현금 라디오 버튼 (기본 선택) -->
            <input 
               type="radio" 
