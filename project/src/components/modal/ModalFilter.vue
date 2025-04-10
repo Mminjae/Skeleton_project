@@ -1,14 +1,55 @@
 <script setup>
-  import { ref } from 'vue'
-  
+  import { ref ,watch } from 'vue'
+  import DateFilter from '@/components/base/DateFilter.vue'
   //날짜필터1-라디오버튼(연/월/일)
-  const selectedPeriod = ref(null)
+  // const selectedPeriod = ref(null)
   //날짜필터1-라디오버튼(연/월/일)END
   //날짜필터2-달력버튼
-  const startDate = ref(null) //초기설정
-  const endDate = ref(null)   //초기설정
+  // const startDate = ref(null) //초기설정
+  // const endDate = ref(null)   //초기설정
   //날짜필터2-달력버튼END
+  const filters = ref({
+  selectedPeriod: null,     // "today", "thisWeek", "thisMonth", "custom"
+  startDate: '',            // YYYY-MM-DD
+  endDate: '',              // YYYY-MM-DD
+  lastChanged: '',          // "selectedPeriod" or "calendar"
+})
+  watch(() => filters.value.selectedPeriod, (newVal) => {
+  if (!newVal) return;
 
+  filters.value.lastChanged = 'selectedPeriod';
+
+  const today = new Date();
+  const format = (d) => d.toISOString().slice(0, 10);
+
+  switch (newVal) {
+    case 'today':
+      filters.value.startDate = format(today);
+      filters.value.endDate = format(today);
+      break;
+    case 'thisMonth': {
+      const start = new Date(today.getFullYear(), today.getMonth(), 1);
+      const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+      filters.value.startDate = format(start);
+      filters.value.endDate = format(end);
+      break;
+    }
+    case 'thisYear': {
+      const start = new Date(today.getFullYear(), 0, 1);
+      const end = new Date(today.getFullYear(), 11, 31);
+      filters.value.startDate = format(start);
+      filters.value.endDate = format(end);
+      break;
+    }
+  }
+}); 
+ watch([() => filters.value.startDate, () => filters.value.endDate], ([start, end]) => {
+  if (!start || !end) return;
+
+  // 날짜 선택 시 selectedPeriod는 "custom"으로
+  filters.value.selectedPeriod = 'custom';
+  filters.value.lastChanged = 'calendar';
+});
   //expense' 또는 'income' 상태관리
   const selectedType = ref(null) // 초기설정
   // 2종류의 카테고리 박스(수입/지출) 배열로 상태관리
@@ -36,9 +77,10 @@ const selectedPaymentMethod = ref(null)  //초기설정
 
 // '초기화버튼'에 탑재되는 초기화 함수
   const resetFilters = () => {
-  selectedPeriod.value = null        //연/월/일 초기화
-  startDate.value = null             //날짜-시작일 초기화
-  endDate.value = null               //날짜-종료일 초기화
+  filters.value.selectedPeriod = null        //연/월/일 초기화
+  filters.value.startDate = ''             //날짜-시작일 초기화
+  filters.value.endDate = ''
+  filters.value.lastChanged = ''               //날짜-종료일 초기화
   selectedType.value = null          //수입/지출 초기화
   selectedCategories.value = []      //카테고리 초기화
   selectedPaymentMethod.value = null //지불수단(현금/카드)초기화
@@ -57,8 +99,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
   <h1>필터 모달 (page4)</h1>
   <!-- 필터모달을 Open하는 button 
       1.data-bs-toggle: 버튼 클릭 시 모달이 열리도록 설정.
-      2.data-bs-target: 열릴 모달의 ID를 지정.
-      3.-->
+      2.data-bs-target: 열릴 모달의 ID를 지정.-->
   <button
     type="button"
     class="btn-fillter"
@@ -98,46 +139,48 @@ const selectedPaymentMethod = ref(null)  //초기설정
         <!-- 모달 본문(필터 툴:날짜필터1,2 + 카테고리필터 + 수입/지출 + 현금/카드) -->
         <div class="modal-body">
           <!-- 날짜필터1-연/월/일 Radio버튼 -->
+          
           <div class="btn-group y-m-d-group" role="group" aria-label="연,월,일 선택">
+
            <!-- '연' 라디오 버튼 (기본 선택) -->
            <input 
               type="radio" 
               class="btn-check" 
               name="period" 
-              id="year"
-              value="year" 
-              v-model="selectedPeriod"
+              id="thisYear"
+              value="thisYear" 
+              v-model="filters.selectedPeriod"
               />
-           <label class="btn btn-primary" for="year">연</label>
+           <label class="btn btn-primary" for="thisYear">올해</label>
             <!-- '월' 라디오 버튼 -->
             <input
               type="radio"
               class="btn-check"
               name="period"
-              id="month"
-              value="month"
-              v-model="selectedPeriod"
+              id="thisMonth"
+              value="thisMonth"
+              v-model="filters.selectedPeriod"
             />
-            <label class="btn btn-primary" for="month">월</label>
+            <label class="btn btn-primary" for="thisMonth">이번달</label>
             <!-- '일' 라디오 버튼 -->
             <input
               type="radio"
               class="btn-check"
               name="period"
-              id="day"
-              value="day"
-              v-model="selectedPeriod"
+              id="today"
+              value="today"
+              v-model="filters.selectedPeriod"
             />
-            <label class="btn btn-primary" for="day">일</label>
+            <label class="btn btn-primary" for="today">오늘</label>
           </div>
           <!-- 날짜필터2-달력버튼 -->
           <hr />
           <div class="callendar-group">
-            <input type="date" id="start" class="input-callendar" name="date-start" value="" v-model="startDate">
-            <label for="date"></label>
+            <input type="date" id="start" class="input-callendar" name="date-start" v-model="filters.startDate">
+            <label for="date-start"></label>
             <em>~</em>
-            <input type="date" id="end" class="input-callendar" name="date-end" value="" v-model="endDate">
-            <label for="date"></label>
+            <input type="date" id="end" class="input-callendar" name="date-end" v-model="filters.endDate">
+            <label for="date-end"></label>
           </div>
           <hr>
           <!-- 카테고리필터1:수입(default active)체크박스 : 월급/ 금융수입/ 용돈/ 이월/ 기타  -->
