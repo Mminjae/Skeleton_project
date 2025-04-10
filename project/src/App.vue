@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <!-- <TheSidebarLogin /> -->
-    <TheSidebar />
+    <TheSidebarLogin />
+    <!-- <TheSidebar /> -->
     <RouterView />
     <ViewMainLoginOut />
   </div>
