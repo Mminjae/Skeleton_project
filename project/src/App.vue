@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <TheSidebar v-if="!isLogin" @login-success="handleLoginSuccess" />
-    <TheSidebarLogin v-if="isLogin" />
+    <!-- <TheSidebar v-if="!isLogin" @login-success="handleLoginSuccess" /> -->
+    <TheSidebarLogin />
     <RouterView />
     <ViewMainLogin v-if="isLogin" />
   </div>

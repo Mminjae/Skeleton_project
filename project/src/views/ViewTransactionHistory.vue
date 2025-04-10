@@ -1,4 +1,5 @@
 <script setup>
+<<<<<<< HEAD
 import PostItem from '@/components/post/PostItem.vue'
 import ExpenseIcons from '@/components/base/ExpenseIcons.vue'
 // import IncomeIcon from '@/components/base/IncomeIcon.vue'
@@ -123,6 +124,49 @@ const list = [
 let currentPage = ref(1)
 let pageCount = ref(0)
 let maxPage = ref(21)
+=======
+
+import PostItem from '@/components/post/PostItem.vue';
+// import ExpenseIcons from '@/components/base/ExpenseIcons.vue';
+// import IncomeIcon from '@/components/base/IncomeIcon.vue';
+import IconIcon from '@/components/base/iconIcon.vue';
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
+//리스트 컴포넌트에서 Store 사용하도록 수정
+import { useTransactionStore } from '@/stores/useTransactionStore';
+const transactionStore = useTransactionStore();
+// const pageNumber
+
+
+const itemsPerPage = 10; // 한 페이지당 10개
+let currentPage = ref(1);
+let pageCount = ref(0);
+// const transactions = ref([]); //json.server에서 불러올 리스트 초기값 설정
+const transactions = computed(() => transactionStore.transactions); //이제 store에서 불러온다.
+const maxPage = computed(() => Math.ceil(transactions.value.length / itemsPerPage)); //transactions의 데이터 개수(길이)를 기반으로 동적으로 변경
+
+//페이지별 리스트계산 - 우리는 한페이지당 10개의 리스트
+const paginatedList = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return transactions.value.slice(start, end);
+});
+
+
+//JSON Server에서 데이터 불러오기
+const fetchTransactions = async () => {
+  try {
+    const res = await axios.get('http://localhost:3000/transactions');
+    transactions.value = res.data;
+  } catch (error) {
+    console.error('데이터 가져오기 실패:', error);
+  }
+};
+onMounted(() => {
+  transactionStore.fetchTransactions(); // 초기에 전체 데이터 가져오기
+});
+
+>>>>>>> 4512f6462594a47e291eb6bbb0e28f58bb055293
 </script>
 
 <template>
@@ -133,8 +177,17 @@ let maxPage = ref(21)
     <button class="write"><IconIcon icon="write" scale="1.5" /></button>
     <hr />
 
+<<<<<<< HEAD
     <ul class="list">
       <PostItem v-for="item in list" :key="item.id" :item="item" />
+=======
+    <ul class="list" >
+      <PostItem
+        v-for="item in paginatedList"
+        :key="item.id"
+        :item="item"
+      />
+>>>>>>> 4512f6462594a47e291eb6bbb0e28f58bb055293
     </ul>
 
     <div class="pagination">
