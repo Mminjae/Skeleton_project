@@ -1,4 +1,7 @@
-<script setup></script>
+<script setup>
+  const selectedType = ref(null) // 'expense' 또는 'income' 상태관리
+
+</script>
 
 <template>
   <h1>필터 모달 (page4)</h1>
@@ -13,7 +16,7 @@
     data-bs-target="#FilterModal"
     data-bs-whatever="@mdo"
   >
-    <!-- <div class=".button--filterIcon__layout" alt="필터아이콘콘"></div> -->
+    <!-- <div class=".button--filterIcon__layout" alt="필터아이콘"></div> -->
     필터
   </button>
   <!-- 필터모달을 Open하는 button END -->
@@ -52,7 +55,7 @@
               name="transactionType1" 
               id="year" 
               autocomplete="on" 
-              checked/>
+              />
            <label class="btn btn-primary" for="year">연</label>
             <!-- '월' 라디오 버튼 -->
             <input
@@ -75,6 +78,11 @@
           </div>
           <!-- 날짜필터2-달력버튼 -->
           <hr />
+          <div class="btn-box callendar-group">
+            <input type="date" id="start" name="date-start" value="">
+            <label for="dae"></label>
+          </div>
+          <hr>
           <!-- 카테고리필터1:수입(default active)체크박스 : 월급/ 금융수입/ 용돈/ 이월/ 기타  -->
           <div class="checkbox--category btn-group checkbox--income ">
             <input type="checkbox" class="btn-check" id="salary" autocomplete="off"> <!-- 월급 -->
@@ -110,14 +118,15 @@
           <!-- 라디오 토글 버튼 그룹:수입/지출 -->
           <div class="btn-group income-expense-group" role="group" aria-label="수입/지출 선택">
            <!-- 수입 라디오 버튼 (기본 선택) -->
-           <input 
-              type="radio" 
+           <input
+              type="radio"
+              id="typeIncome" 
+              value="expense" 
               class="btn-check" 
-              name="transactionType2" 
-              id="income" 
+              name="transactionType2"  
               autocomplete="on" 
-              checked/>
-           <label class="btn btn-primary" for="income">수입</label>
+             />
+           <label class="btn btn-primary" for="typeincome">수입</label>
             <!-- 지출 라디오 버튼 -->
             <input
               type="radio"
@@ -154,7 +163,7 @@
         </div>
         <!-- 하단 버튼(초기화, 완료) -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-filter-reset">초기화</button>
+          <button type="button" class="btn btn-secondary btn-filter-reset" @click="resetFilters">초기화</button>
           <button type="button" class="btn btn-primary btn-filter-done">완료</button>
         </div>
       </div>
@@ -179,20 +188,16 @@
 
 
 /*---------------------필터모달 CSS-------------------*/
-.modal {
-  /* width: 43.75rem;    700px */
-  /* height: 40.375rem;  646px */
-
-  /* background-color:var(--color-white) ; */
-}
-.modal-dialog{
-}
 .modal-content{
+  overflow: scroll;
 
   width: 37.5rem;    /* 600px */
   height: 31.25rem;  /* 500px */
 
   background-color:var(--color-white) ;
+}
+.callendar-group{
+  border: 1px var(--color--gray-light) solid;
 }
 .checkbox--category{
   width: 27.813rem;  /* 445px */

@@ -2,8 +2,8 @@
   <ModalFilter/>
   <!-- <TheSidebar /> -->
   <!-- <ModalDetailPost /> -->
-  <!-- <TheSidebarLogin/> -->
-   <ModalAddPost/>
+  <TheSidebarLogin/>
+   <!-- <ModalAddPost/> -->
   <RouterView />
 
 </template>
