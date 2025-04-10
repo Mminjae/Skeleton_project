@@ -1,33 +1,6 @@
 <template>
-<<<<<<< HEAD
-  <div :class="navClass">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <router-link class="nav-link nav-link-small" to="/">비로그인 홈</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/login">기기로그인 월별재정요약</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/History">최근 거래</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/mypage">마이페이지</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/profileEdit">회원 정보 수정</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/signUp">회원가입</router-link>
-        >>>>>>> main
-      </li>
-    </ul>
-  </div>
-</template>
-=======
   <nav id="nav">
     <img class="nav-logo" src="https://ifh.cc/g/XGycR8.png" alt="nav로고" />
->>>>>>> b59f2c2f4348634b97da3360075aa407b8c6e9e8
 
     <!-- 로그인 폼 영역 -->
     <div class="nav-login-wrapper">
