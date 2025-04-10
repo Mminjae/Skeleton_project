@@ -1,5 +1,11 @@
 <template>
-  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    class="PinmoneyIcon"
+    height="36"
+    viewBox="0 0 36 36"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <circle cx="18" cy="18" r="18" fill="#8660D1" />
     <g clip-path="url(#clip0_124_2806)">
       <path

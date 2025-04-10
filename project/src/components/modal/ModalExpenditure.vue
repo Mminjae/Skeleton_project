@@ -26,7 +26,7 @@
         <div class="modal-header">
           <div class="header-left">
             <div class="icon-box">
-              <SaveingO />
+              <IconIcon :class="SaveingIcon" />
               <span class="category-text">저축</span>
             </div>
           </div>
@@ -67,7 +67,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import SaveingO from '../base/expend/SaveingO.vue'
+import IconIcon from '../base/IconIcon.vue'
 
 const days = ['일', '월', '화', '수', '목', '금', '토']
 const now = new Date()

@@ -1,5 +1,11 @@
 <template>
-  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    class="FinancialIncomeIcon"
+    height="36"
+    viewBox="0 0 36 36"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <circle cx="18" cy="18" r="18" fill="#D3CCF5" />
     <path
       d="M18 28C23.5228 28 28 23.5228 28 18C28 12.4771 23.5228 8 18 8C12.4771 8 8 12.4771 8 18C8 23.5228 12.4771 28 18 28Z"
