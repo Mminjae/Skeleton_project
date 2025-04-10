@@ -175,11 +175,16 @@ const formattedDate = ref(`${year}.${month}.${date}(${day})`)
 
 .modal-footer .btn {
   width: 5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-gray-light);
   margin-left: 0.5rem;
 }
 
 .btn-outline-danger {
   color: red;
+}
+
+.btn:hover {
+  background-color: var(--color-purple9);
+  color: var(--color-white);
 }
 </style>
