@@ -23,10 +23,10 @@ function formatDate(date) {
       <p class="description color--black">{{ item.merchant }}</p>
       <div class="payment">
         <p class="color--gray">{{ item.paymentMethod }}</p>
-        <span>
+        <span class="amount">
           <p :class="item.type === 'income' ? 'color--black color--blue' : 'color--black color--red'">
             {{ item.type === 'income' ? '+' : '-' }}
-            {{ item.amount }}</p>
+            {{ item.amount.toLocaleString() }}</p>
           <p>원</p>
         </span>
       </div >
@@ -60,11 +60,18 @@ function formatDate(date) {
   align-items: center;
   padding: var(--space-md) var(--space-md);
 }
+.item * {
+  margin: 0;
+}
 .item p {
   display: inline-block;
 }
-.item * {
-  margin: 0;
+.item:hover {
+  box-shadow: 0 10px 6px -6px rgba(0, 0, 0, 0.1);
+}
+.item:hover * {
+  transform: translate(-1px, -1px);
+  transition: transform 0.2s ease;
 }
 
 .date {
@@ -87,6 +94,10 @@ function formatDate(date) {
   display: flex;
   justify-content: space-between;
   width: 10rem;
+}
+.amount {
+  display: flex;
+  gap: var(--space-xs);
 }
 
 .memo,

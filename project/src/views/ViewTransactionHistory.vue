@@ -1,6 +1,9 @@
 <script setup>
 
 import PostItem from '@/components/post/PostItem.vue';
+import { ref, computed } from 'vue';
+
+// const pageNumber
 
 const list = [
   {
@@ -54,7 +57,7 @@ const list = [
     category: "월급", // 카테고리
     type: "income", // 수입(income), 지출(expense)
     merchant: "입금", // 내역
-    memo: "알바비", // 메모
+    memo: "", // 메모
     userId: "hana11", // 유저 데이터
     paymentMethod: "", // 결제수단
   },
@@ -98,7 +101,7 @@ const list = [
     category: "월급", // 카테고리
     type: "income", // 수입(income), 지출(expense)
     merchant: "입금", // 내역
-    memo: "알바비", // 메모
+    memo: "", // 메모
     userId: "hana11", // 유저 데이터
     paymentMethod: "", // 결제수단
   },
@@ -115,8 +118,9 @@ const list = [
   },
 ]
 
-let currentPage = 1;
-let pageCount = 0;
+let currentPage = ref(1);
+let pageCount = ref(0);
+let maxPage = ref(21);
 
 </script>
 
@@ -136,15 +140,24 @@ let pageCount = 0;
     </ul>
 
     <div class="pagination">
-      <button class="button--front"><img src="../assets/imgs/icons_layout/move_front.svg" alt=""></button>
-      <button class="button--previous"><img src="../assets/imgs/icons_layout/move_previous.svg" alt=""></button>
-
-      <button v-for="n in 5" :key="n">
-        <span :class="{ activePage: currentPage === n }">{{ n + pageCount }}</span>
+      <button class="button--front" @click="pageCount = 0; currentPage = 1;">
+        <img src="../assets/imgs/icons_layout/move_front.svg" alt="front">
+      </button>
+      <button class="button--previous" @click="pageCount >= 5 ? pageCount -= 5 : pageCount; currentPage = pageCount + 5;">
+        <img src="../assets/imgs/icons_layout/move_previous.svg" alt="previous">
       </button>
 
-      <button class="button--next"><img src="../assets/imgs/icons_layout/move_next.svg" alt=""></button>
-      <button class="button--rear"><img src="../assets/imgs/icons_layout/move_rear.svg" alt=""></button>
+      <button
+        v-for="n in 5" :key="n"
+        @click="currentPage = n + pageCount"
+        :class="{ hidden: n + pageCount > maxPage }">
+        <span :class="{ activePage: currentPage === n + pageCount }">{{ n + pageCount }}</span>
+      </button>
+
+      <button class="button--next" @click="pageCount + 5 < maxPage ? pageCount += 5 : pageCount; currentPage = pageCount + 1;">
+        <img src="../assets/imgs/icons_layout/move_next.svg" alt="next">
+      </button>
+      <button class="button--rear" @click="pageCount = Math.floor((maxPage - 1) / 5) * 5; currentPage = maxPage"><img src="../assets/imgs/icons_layout/move_rear.svg" alt="rear"></button>
     </div>
   </div>
 </template>
@@ -153,6 +166,7 @@ let pageCount = 0;
 .viewtransactionhistory {
   position: relative;
   background-color: var(--color-white);
+  color: var(--color-gray-black);
   height: 100vh;
 }
 h2 {
@@ -207,9 +221,8 @@ hr {
   color: var(--color-purple9);
   text-decoration: underline;
 }
-
-.button--previous,
-.button--next {
+.hidden {
+  display: none;
 }
 
 </style>
