@@ -6,10 +6,9 @@
         <div class="d-flex justify-content-between align-items-start mb-4">
           <!-- 회원 정보 -->
           <div class="info-member">
-            <div class="info-title member">회원정보</div>
+            <div class="info-title">회원정보</div>
             <div class="info-item" v-for="(item, index) in memberInfo" :key="index">
               <div class="label">{{ item.label }}</div>
-              <!-- <div class="bar"></div> -->
               <div class="value">{{ item.value }}</div>
             </div>
           </div>
@@ -24,10 +23,9 @@
 
         <!-- 연락처 정보 -->
         <div class="info-contact">
-          <div class="info-title contract">연락처정보</div>
+          <div class="info-title">연락처정보</div>
           <div class="info-item" v-for="(item, index) in contactInfo" :key="index">
             <div class="label">{{ item.label }}</div>
-            <!-- <div class="bar"></div> -->
             <div class="value">{{ item.value }}</div>
           </div>
         </div>
@@ -85,25 +83,29 @@ const contactInfo = ref([
 }
 #mypage {
   font-family: 'Noto Sans KR', sans-serif;
-  margin: 1rem;
+  margin-left: 5rem;
   padding: 1rem;
+  padding-top: 2rem;
 }
+
 /* 회원, 연락처 정보, 프로필 */
 .info-card {
-  width: 29.4rem; /*470px */
-  height: 25rem; /* 400px */
+  width: 50rem; /*800px */
+  height: 37.5rem; /* 600px */
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  padding: 2rem;
+  padding: 2rem 5rem 0rem 2rem;
+  margin: 1rem;
   background-color: white;
 }
 /* 회원 정보 */
 .info-title {
   font-weight: 500;
   color: #4a4a4a;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   padding-left: 0.5rem;
   width: 6rem;
+  /* margin-top: 0rem; */
   background: linear-gradient(to top, #d5d7f2 30%, transparent 40%);
 }
 
@@ -114,8 +116,8 @@ const contactInfo = ref([
 
 /* 연락처 정보 */
 .info-contact {
-  width: 14.5rem; /* 232px */
-  height: 6.4rem; /* 102px */
+  width: 24.6rem; /* 393px */
+  height: 7rem; /* 102px */
 }
 .info-item {
   display: flex;
@@ -159,17 +161,23 @@ const contactInfo = ref([
   font-size: var(--font-xl);
   color: #535353;
 }
+
+.label,
+.value {
+  padding: 0.5rem;
+}
 /* 회원정보, 연락처 정보 경계선 */
 .section-divider {
   border-top: 1px solid #eee;
-  margin: 1.5rem 0;
+  margin: 6rem 0;
+  padding-top: 0;
 }
 /* 수정, 탈퇴 버튼 */
 .btn-group {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 button {
@@ -190,14 +198,15 @@ button:hover {
 }
 .btn-unregister {
   width: 5rem;
+  color: red;
 }
 
 /* 탈퇴 클릭 시 모달 */
 .modal {
   position: fixed;
-  top: 5rem;
-  left: 15rem;
-  width: 25rem;
+  top: 10rem;
+  left: 40rem;
+  width: 20rem;
   height: 30rem;
   display: flex;
   align-items: center;
