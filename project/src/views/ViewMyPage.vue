@@ -32,8 +32,12 @@
         </div>
         <!-- 수정/탈퇴 버튼 -->
         <div class="btn-group">
-          <button class="btn btn-secondary" @click="goEdit">수정</button>
-          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unregisterModal">
+          <button class="edit btn btn-secondary" @click="goEdit">수정</button>
+          <button
+            class="member-out btn btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#unregisterModal"
+          >
             회원 탈퇴
           </button>
         </div>
@@ -203,19 +207,33 @@ const contactInfo = ref([
 .btn-group {
   display: flex;
   justify-self: flex-end;
-  gap: 10px;
-  margin-top: 4.5rem;
+  gap: 1rem;
+  margin-top: 3.5rem;
   width: 10rem;
+  height: 2.5rem;
 }
 
 button {
-  border: 1px solid #535353;
+  /* border: 1px solid #535353; */
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   /* padding: 4px 10px; */
   /* border-radius: 5px; */
   background: white;
   color: #535353;
   cursor: pointer;
   transition: 0.3s;
+}
+
+.edit {
+  width: 4rem;
+  margin-right: 1rem;
+}
+.member-out {
+  width: 5rem;
+  border: none;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
 /* button:hover {
