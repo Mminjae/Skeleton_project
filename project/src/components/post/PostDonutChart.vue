@@ -40,7 +40,9 @@ const handleMouseLeave = () => {
 const segmentsWithOffset = computed(() => {
   let cumulativePercent = 0 // 지금까지 그린 퍼센트의 누적 합계
 
-  return props.segments.map((segment) => {
+  const sortedSegments = [...props.segments].sort((a, b) => b.percentage - a.percentage)
+
+  return sortedSegments.map((segment) => {
     // 원 비율 계산
     const startOffset = circumference.value * (1 - cumulativePercent / 100) //비워질 길이 (전체 - 누적 퍼센트) 이 segment의 시작점 계산 (이전까지 그려진것만큼 비워야 하니까)
     const segmentLength = circumference.value * (segment.percentage / 100) // segment가 차지하는 원 둘레의 길이
@@ -58,6 +60,10 @@ const segmentsWithOffset = computed(() => {
     const textX = centerX.value + labelRadius * Math.cos(radians) // 0.75는 중앙보다 조금 안쪽으로
     const textY = centerY.value + labelRadius * Math.sin(radians)
 
+    // ✅ 1. 바깥 위치 계산 (툴팁용 좌표)
+    const labelOutsideX = centerX.value + (radius.value + 110) * Math.cos(radians)
+    const labelOutsideY = centerY.value + (radius.value + 90) * Math.sin(radians)
+
     cumulativePercent += segment.percentage // 다음 segment가 그릴 시작 위치를 알기 위해 누적 퍼센트 업데이트
 
     return {
@@ -67,6 +73,8 @@ const segmentsWithOffset = computed(() => {
       rotation: -90,
       textX,
       textY,
+      labelOutsideX, // ✅ 3. return에 추가
+      labelOutsideY, // ✅ 3. return에 추가
       label: segment.label || `${segment.percentage}%`, // label이 있으면 표시, 없으면 %로 표시
     }
   })
@@ -77,45 +85,89 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
 </script>
 
 <template>
-  <!-- SVG 설정 | 540px -> 33.75rem / 450px -> 28.125rem -->
-  <svg :width="props.sizeX" :height="props.sizeY" :viewBox="`0 0 ${props.sizeX} ${props.sizeY}`">
-    <!-- 퍼센트원 -->
-    <circle
-      v-for="(segment, index) in segmentsWithOffset"
-      :key="index"
-      :cx="centerX"
-      :cy="centerY"
-      :r="radius"
-      fill="none"
-      :stroke="segment.color"
-      stroke-linecap="butt"
-      :stroke-width="props.circleSize / 3"
-      :stroke-dasharray="segment.dashArray"
-      :stroke-dashoffset="segment.dashOffset"
-      :transform="`rotate(${segment.rotation}, ${centerX}, ${centerY})`"
-      @mouseenter="handleMouseEnter(index)"
-      @mouseleave="handleMouseLeave"
-      :style="{
-        transition: 'all 0.3s ease',
-        strokeWidth:
-          hoverIndex === index ? `${props.circleSize / 2.65}` : `${props.circleSize / 3}`, // 커지는거 조절하는 곳
-      }"
-    />
+  <div style="position: relative">
+    <!-- SVG 설정 | 540px -> 33.75rem / 450px -> 28.125rem -->
+    <svg :width="props.sizeX" :height="props.sizeY" :viewBox="`0 0 ${props.sizeX} ${props.sizeY}`">
+      <!-- 퍼센트원 -->
+      <circle
+        v-for="(segment, index) in segmentsWithOffset"
+        :key="index"
+        :cx="centerX"
+        :cy="centerY"
+        :r="radius"
+        fill="none"
+        :stroke="segment.color"
+        stroke-linecap="butt"
+        :stroke-width="props.circleSize / 3"
+        :stroke-dasharray="segment.dashArray"
+        :stroke-dashoffset="segment.dashOffset"
+        :transform="`rotate(${segment.rotation}, ${centerX}, ${centerY})`"
+        @mouseenter="handleMouseEnter(index)"
+        @mouseleave="handleMouseLeave"
+        :style="{
+          transition: 'all 0.3s ease',
+          strokeWidth:
+            hoverIndex === index ? `${props.circleSize / 2.65}` : `${props.circleSize / 3}`, // 커지는거 조절하는 곳
+        }"
+      />
 
-    <!-- 글자 -->
-    <text
-      v-for="(segment, index) in segmentsWithOffset"
-      :key="`text-${index}`"
-      :x="segment.textX"
-      :y="segment.textY"
-      fill="#333"
-      font-size="12"
-      text-anchor="middle"
-      dominant-baseline="middle"
-    >
-      {{ segment.label }}
-    </text>
-  </svg>
+      <!-- 글자 -->
+      <text
+        v-for="(segment, index) in segmentsWithOffset"
+        :key="`text-${index}`"
+        :x="segment.textX"
+        :y="segment.textY"
+        fill="#FFF"
+        font-size="12"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        @mouseenter="handleMouseEnter(index)"
+        @mouseleave="handleMouseLeave"
+        style="cursor: default"
+      >
+        <!-- {{ segment.label }} -->
+        <tspan :x="segment.textX" dy="-0.4em">{{ segment.label }}</tspan>
+        <!-- 두 번째 줄은 아래로 조금 더 내림 -->
+        <tspan :x="segment.textX" dy="1.2em">{{ segment.percentage }}%</tspan>
+      </text>
+
+      <!-- 호버된 상태에서만 보여줄 추가 텍스트 -->
+      <!-- 툴팁 (SVG 내부 말풍선 스타일) -->
+      <g v-if="hoverIndex !== null">
+        <!-- 배경 사각형 -->
+        <rect
+          :x="segmentsWithOffset[hoverIndex].labelOutsideX - 40"
+          :y="segmentsWithOffset[hoverIndex].labelOutsideY - 18"
+          width="80"
+          height="36"
+          rx="6"
+          ry="6"
+          fill="#fff"
+          stroke="#333"
+          stroke-width="1"
+        />
+
+        <!-- 텍스트 두 줄 -->
+        <text
+          :x="segmentsWithOffset[hoverIndex].labelOutsideX"
+          :y="segmentsWithOffset[hoverIndex].labelOutsideY - 6"
+          fill="#333"
+          font-size="12"
+          font-weight="normal"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          pointer-events="none"
+        >
+          <tspan :x="segmentsWithOffset[hoverIndex].labelOutsideX" dy="0">
+            {{ segmentsWithOffset[hoverIndex].label }}
+          </tspan>
+          <tspan :x="segmentsWithOffset[hoverIndex].labelOutsideX" dy="1.2em">
+            {{ segmentsWithOffset[hoverIndex].percentage }}%
+          </tspan>
+        </text>
+      </g>
+    </svg>
+  </div>
 </template>
 
 <style scoped></style>
