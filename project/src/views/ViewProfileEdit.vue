@@ -237,12 +237,12 @@ button {
 
 /* 탈퇴 클릭 시 모달 */
 .modal {
-  position: fixed;
+  /* position: fixed; */
   top: 10rem;
   left: 40rem;
   width: 20rem;
   height: 30rem;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: center;
 }
