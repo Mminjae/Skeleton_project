@@ -24,9 +24,11 @@ const expenses = {
 }
 
 const incomes = {
-  salary: { name: '월급' },
-  allowance: { name: '용돈' },
-  extra: { name: '부수입' },
+  'salary': { name: '월급' },
+  'finance': { name: '금융소득' },
+  'allowance': { name: '용돈' },
+  'carryover': { name: '이월' },
+  'miscIncome': { name: '기타' },
 }
 </script>
 
