@@ -1,15 +1,10 @@
 <template>
   <div class="app-container">
-    <!-- <TheSidebar v-if="!isLogin" @login-success="handleLoginSuccess" /> -->
+    <TheSidebar />
     <TheSidebarLogin />
     <RouterView />
     <ViewMainLogin v-if="isLogin" />
   </div>
-  <ModalAddPost />
-  <ModalEditPost />
-  <ModalExpenditure />
-  <ModalImport />
-  <ModalFilter />
   <ModalIdpw v-if="showModalIdpw" @found-user="openResultModal" @close="showModalIdpw = false" />
   <ModalResultid v-if="showModalResult" :found-id="foundId" @close="showModalResult = false" />
 </template>

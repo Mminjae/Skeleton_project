@@ -75,59 +75,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
+import { useUserStore } from '@/stores/userStore' // 또는 '../stores/userStore'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 
-const user = ref(null)
-
-onMounted(async () => {
-  try {
-    const response = await axios.get('http://localhost:3000/users/1')
-    user.value = response.data
-
-    // 데이터 분배
-    memberInfo.value = [
-      { label: '이름', value: user.value.name },
-      { label: '생년월일', value: user.value.brith },
-      { label: 'ID', value: String(user.value.userId) },
-    ]
-
-    contactInfo.value = [
-      { label: '이메일', value: user.value.email },
-      { label: '전화번호', value: formatPhone(user.value.phone) },
-    ]
-  } catch (error) {
-    console.error('데이터 로드 실패:', error)
-  }
-})
-const memberInfo = ref([])
-const contactInfo = ref([])
-
-const formatPhone = (number) => {
-  if (!number) return ''
-  return number.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3')
-}
-
+const userStore = useUserStore()
 const router = useRouter()
+
+onMounted(() => {
+  userStore.fetchUser()
+})
+
+const memberInfo = computed(() => userStore.memberInfo)
+const contactInfo = computed(() => userStore.contactInfo)
 
 const goEdit = () => {
   router.push('/profileEdit')
 }
-
-const confirmDelete = () => {
-  router.push('/')
-}
-// const memberInfo = ref([
-//   { label: '이름', value: user.value.name },
-//   { label: '생년월일', value: '2021.2.17' },
-//   { label: 'ID', value: 'qwerty' },
-// ])
-
-// const contactInfo = ref([
-//   { label: '이메일', value: 'qwerty@gmail.com' },
-//   { label: '전화번호', value: '010-1234-5678' },
-// ])
 </script>
 
 <style scoped>

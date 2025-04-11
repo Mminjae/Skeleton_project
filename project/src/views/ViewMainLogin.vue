@@ -1,5 +1,5 @@
 <script setup>
-// import { ref } from 'vue'
+import { ref } from 'vue'
 import PostDonutChart from '@/components/post/PostDonutChart.vue'
 import PostCategoryTop from '@/components/post/PostCategoryTop.vue'
 import PostRecentHistory from '@/components/post/PostRecentHistory.vue'
@@ -28,69 +28,87 @@ const goToSlide = (index) => {
 </script>
 
 <template>
-  <div id="change">
-    <!-- 도넛 그래프 섹션 (페이지네이션에 포함)-->
-    <section v-show="currentIndex === 0" class="donut-graph">
-      <PostDonutChart
-        :sizeX="remToPx(33.75)"
-        :sizeY="remToPx(28.125)"
-        :circleSize="remToPx(20.36125)"
-        :segments="donutData"
-      />
-    </section>
-
-    <!-- 최근 히스토리 섹션 (페이지네이션에 포함)-->
-    <section v-show="currentIndex === 1" class="recent-history">
-      <PostCategoryTop />
-    </section>
-
-    <!-- 카테고리 탑3 섹션 (항상 고정)-->
-    <section class="category-top3">
-      <PostRecentHistory />
-    </section>
-
-    <!-- 페이지네이션 -->
-    <div class="pagination-dots">
-      <span
-        v-for="n in slideCount"
-        :key="n"
-        :class="['dot', { active: currentIndex === n - 1 }]"
-        @click="goToSlide(n - 1)"
-      ></span>
+  <div class="top">
+    <div id="change">
+      <div class="donut-graph-container">
+        <!-- 도넛 그래프 섹션 (페이지네이션에 포함)-->
+        <section v-show="currentIndex === 0" class="donut-graph">
+          <PostDonutChart
+            :sizeX="remToPx(33.75)"
+            :sizeY="remToPx(28.125)"
+            :circleSize="remToPx(20.36125)"
+            :segments="donutData"
+          />
+        </section>
+        <!-- 최근 히스토리 섹션 (페이지네이션에 포함)-->
+        <section v-show="currentIndex === 1" class="recent-history">
+          <PostCategoryTop />
+        </section>
+        <!-- 페이지네이션 -->
+        <div class="pagination-dots">
+          <span
+            v-for="n in slideCount"
+            :key="n"
+            :class="['dot', { active: currentIndex === n - 1 }]"
+            @click="goToSlide(n - 1)"
+          ></span>
+        </div>
+      </div>
+      <!-- 카테고리 탑3 섹션 (항상 고정)-->
+      <section class="category-top3">
+        <PostRecentHistory />
+      </section>
+    </div>
+    <div class="line-graph">
+      <PostLineGraph />
     </div>
   </div>
 </template>
 
 <style scoped>
+.top {
+  width: 100%;
+}
+.donut-graph-container {
+  padding: 0 2rem;
+  position: relative;
+}
 #change {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
   overflow: hidden; /* 슬라이드가 벗어나지 않도록 숨김 처리 */
   display: flex;
-  flex-direction: row; /* 세로로 배치 */
-  justify-content: center;
-  align-items: center;
+}
+#change > section {
+  /* border: 1px solid red; */
 }
 
 .donut-graph,
 .recent-history {
   display: block;
-  width: 100vw; /* 슬라이드 하나씩 보이도록 설정 */
-  height: 100vh; /* 각 섹션을 페이지처럼 보이게 설정 */
+  width: 50%; /* 슬라이드 하나씩 보이도록 설정 */
+  height: 50vh; /* 각 섹션을 페이지처럼 보이게 설정 */
   transition: transform 0.5s ease-in-out; /* 부드러운 전환 효과 */
 }
 
+.recent-history {
+  padding-left: 1.9rem;
+}
+
 .category-top3 {
-  width: 100vw;
-  height: 100vh;
+  width: 50%;
+  height: 50vh;
   display: block;
+  padding: 0 2rem;
   /* 고정된 섹션이라 특별한 페이지네이션 필요 없음 */
 }
 
 .pagination-dots {
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  padding-left: 1rem;
+  position: absolute;
+  left: 17rem;
+  bottom: 2rem;
 }
 
 .dot {
@@ -104,5 +122,9 @@ const goToSlide = (index) => {
 
 .dot.active {
   background-color: black;
+}
+
+.line-graph {
+  padding-left: 5rem;
 }
 </style>

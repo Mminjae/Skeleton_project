@@ -139,7 +139,8 @@ onMounted(() => {
       label: '지출',
       data: [
         450000, 300000, 150000, 200000, 250000, 390000, 100000, 110000, 90000, 230000, 270000,
-        400000, 370000, 190000,
+        400000, 370000, 190000, 180000, 160000, 140000, 220000, 280000, 260000, 310000, 240000,
+        330000, 300000, 210000, 200000, 190000, 230000, 250000, 270000, 290000,
       ],
       borderColor: '#ef7979',
       backgroundColor: 'transparent',
@@ -147,7 +148,11 @@ onMounted(() => {
     },
     {
       label: '수입',
-      data: [300000, 320000, 280000, 270000, 330000, 500000, 350000, 250000],
+      data: [
+        300000, 320000, 280000, 270000, 330000, 500000, 350000, 250000, 270000, 290000, 310000,
+        330000, 300000, 340000, 360000, 380000, 320000, 300000, 280000, 270000, 290000, 310000,
+        300000, 280000, 260000, 250000, 270000, 290000, 310000, 330000, 350000,
+      ],
       borderColor: '#5d47d6',
       backgroundColor: 'transparent',
       fill: false,
@@ -200,7 +205,7 @@ onMounted(() => {
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  width: 65rem;
+  width: 78%;
   height: 28.125rem;
   display: flex;
   flex-direction: column;
@@ -220,6 +225,9 @@ onMounted(() => {
 .header h2 {
   flex: 1;
   text-align: center; /* 가운데 정렬 */
+  position: relative;
+  top: -20px;
+  left: 30px;
 }
 
 .header button {
@@ -229,6 +237,8 @@ onMounted(() => {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  position: relative;
+  top: -20px;
 }
 
 .divider {
@@ -237,7 +247,9 @@ onMounted(() => {
 }
 
 canvas {
-  width: 60rem; /* 강제로 너비 꽉 채움 */
-  height: calc(100% - 100px); /* 높이에서 헤더/버튼 뺀 나머지 */
+  height: calc(100% - 500px); /* 높이에서 헤더/버튼 뺀 나머지 */
+  position: relative;
+  top: -50px;
+  left: 100px;
 }
 </style>

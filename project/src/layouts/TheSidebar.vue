@@ -2,9 +2,7 @@
 // import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { ref } from 'vue'
-import { defineEmits } from 'vue'
-//로그인 구현 코드
-const emit = defineEmits(['login-success'])
+import { RouterLink, useRouter } from 'vue-router'
 
 const id = ref('')
 const password = ref('')
@@ -95,7 +93,7 @@ const showModal = ref(false)
 <template>
   <div :class="navClass">
     <nav id="nav">
-      <h1><img src="../assets/imgs/logo.png" alt="사이트로고" /></h1>
+      <h1><RouterLink to="/"><img src="../assets/imgs/logo.png" alt="사이트로고" /></RouterLink></h1>
 
       <!-- 로그인 폼 영역 -->
       <div class="nav-login-wrapper">
@@ -164,7 +162,7 @@ const showModal = ref(false)
 h1 {
   margin-top: 2.5rem;
 }
-h1 > img {
+h1 img {
   width: 10rem;
   height: 10rem;
 }
