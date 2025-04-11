@@ -25,12 +25,6 @@ const top3 = ref([
   { name: 'miscExpense', amount: 420000 },
 ])
 
-// const icon = {
-//   식비: '🥑',
-//   쇼핑: '🍸',
-//   기타: '💡',
-// }
-
 const formatAmount = (amount) => {
   return amount.toLocaleString() + '원'
 }
@@ -44,25 +38,36 @@ const formatAmount = (amount) => {
   padding: 1rem;
 }
 
+.wrapper {
+  width: 31.875rem; /* 510px */
+  height: 28.125rem; /* 450px */
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
 .title {
   text-align: center;
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 1rem;
+  margin-top: 2rem;
 }
 
 .list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  flex: 1; /* 남은 높이 꽉 채우기 */
+  display: flex;
+  flex-direction: column;
 }
 
 .list-item {
+  flex: 1; /* 전체 높이에서 균등 분배 */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 0;
+  padding: 0 1rem; /* 좌우 여백만 */
   border-bottom: 1px solid #eee;
+  box-sizing: border-box;
 }
 
 .left {
