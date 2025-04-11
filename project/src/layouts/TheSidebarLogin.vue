@@ -1,25 +1,30 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+
+let currentPath = ref('/login');
+</script>
 
 <template>
   <div :class="navClass">
     <nav id="nav">
-      <h1><img src="../assets/imgs/logo.png" alt="사이트로고" /></h1>
+      <h1><RouterLink to="/main"><img src="../assets/imgs/logo.png" alt="사이트로고" /></RouterLink></h1>
+
       <div class="nav-bar-profile">
         <img src="../assets/imgs/user.png" alt="사용자프로필" />
         <span class="nav-bar-userName">000님</span>
       </div>
       <div class="nav-bar-btnbox">
         <router-link class="nav-link" to="/main">
-          <button class="nav-bar-btn">재정요약</button>
+          <button class="nav-bar-btn" @click="currentPath = '/main'">재정요약</button>
         </router-link>
         <router-link class="nav-link" to="/history">
-          <button class="nav-bar-btn">거래내역조회</button>
+          <button class="nav-bar-btn" @click="currentPath = '/history'">거래내역조회</button>
         </router-link>
         <router-link class="nav-link" to="/myPage">
-          <button class="nav-bar-btn">마이페이지</button>
+          <button class="nav-bar-btn" @click="currentPath = '/myPage'">마이페이지</button>
         </router-link>
         <router-link class="nav-link" to="/">
-          <button class="nav-bar-btn logout">로그아웃</button>
+          <button class="nav-bar-btn logout" @click="currentPath = '/'">로그아웃</button>
         </router-link>
       </div>
     </nav>
@@ -48,7 +53,7 @@
 h1 {
   margin-top: 2.5rem;
 }
-h1 > img {
+h1 img {
   width: 10rem;
   height: 10rem;
 }

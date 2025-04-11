@@ -64,11 +64,10 @@ const icon = {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #6366f1;
-  color: white;
+  color: #5d45db;
   border: none;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
+  padding: 0.25rem 0.8rem;
+  border-radius: 50%;
   font-size: 1.2rem;
   cursor: pointer;
 }

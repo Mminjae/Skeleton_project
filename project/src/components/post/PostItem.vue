@@ -1,34 +1,29 @@
 <script setup>
+import CategoryInfo from '../base/CategoryInfo.vue';
+
 const props = defineProps({
   item: {
     type: Object,
     required: true,
   },
 })
-
-function formatDate(date) {
-  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  return new Date(date).toLocaleDateString('ko-KR', options);
-}
 </script>
 
 <template>
   <li>
     <button class="item">
       <p class="date color--gray">
-        <!-- {{ formatDate(item.date) }} -->
-        {{ item.dateYear }}년 {{ item.dateMonth }}월 {{ item.dateDay }}일
+        {{ item.dateYear }}.{{ item.dateMonth }}.{{ item.dateDay }}({{ item.dayOfWeek }})
       </p>
       <div class="category">
-        <img src="../../assets/imgs/icons_layout/memo.svg" alt="memo">
-        <p class="color--black">{{ item.category }}</p>
+        <CategoryInfo class="color--black" :category="item.category" :isIncome="item.isIncome" />
       </div>
       <p class="description color--black">{{ item.merchant }}</p>
       <div class="payment">
         <p class="color--gray">{{ item.paymentMethod }}</p>
         <span class="amount">
-          <p :class="item.type === 'income' ? 'color--black color--blue' : 'color--black color--red'">
-            {{ item.type === 'income' ? '+' : '-' }}
+          <p :class="item.isIncome === true ? 'color--black color--blue' : 'color--black color--red'">
+            {{ item.isIncome === true ? '+' : '-' }}
             {{ item.amount.toLocaleString() }}</p>
           <p>원</p>
         </span>
