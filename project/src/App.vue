@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <!-- <TheSidebar v-if="!isLogin" @login-success="handleLoginSuccess" /> -->
+    <TheSidebar />
     <TheSidebarLogin />
     <RouterView />
     <ViewMainLogin v-if="isLogin" />
