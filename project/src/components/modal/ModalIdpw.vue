@@ -95,6 +95,8 @@ import { ref } from 'vue'
 import IconIcon from '../base/iconIcon.vue'
 import axios from 'axios'
 
+const emit = defineEmits(['found-id', 'found-user', 'close'])
+
 // 모드: ID 또는 PW
 const mode = ref('id')
 
@@ -108,9 +110,6 @@ const nameError = ref('')
 const emailError = ref('')
 const idError = ref('')
 const entireError = ref('')
-
-// 이벤트 정의
-const emit = defineEmits(['found-id', 'found-user', 'close'])
 
 // 모드 전환
 function switchToID() {
@@ -146,12 +145,8 @@ function handleFindID() {
   const isNameEmpty = !name.value.trim()
   const isEmailEmpty = !email.value.trim()
 
-  if (isNameEmpty) {
-    nameError.value = '이름을 입력해주세요.'
-  }
-  if (isEmailEmpty) {
-    emailError.value = '이메일을 입력해주세요.'
-  }
+  if (isNameEmpty) nameError.value = '이름을 입력해주세요.'
+  if (isEmailEmpty) emailError.value = '이메일을 입력해주세요.'
   if (isNameEmpty || isEmailEmpty) return
 
   axios
@@ -159,7 +154,7 @@ function handleFindID() {
     .then((res) => {
       if (res.data.length > 0) {
         const user = res.data[0]
-        emit('found-user', user)
+        emit('found-user', { ...user, mode: mode.value }) // ✅ 모드 함께 전달
         emit('close')
       } else {
         entireError.value = '회원 정보가 일치하지 않습니다.'
@@ -178,12 +173,8 @@ function handleFindPW() {
   const isIdEmpty = !id.value.trim()
   const isEmailEmpty = !email.value.trim()
 
-  if (isIdEmpty) {
-    idError.value = 'ID를 입력해주세요.'
-  }
-  if (isEmailEmpty) {
-    emailError.value = '이메일을 입력해주세요.'
-  }
+  if (isIdEmpty) idError.value = 'ID를 입력해주세요.'
+  if (isEmailEmpty) emailError.value = '이메일을 입력해주세요.'
   if (isIdEmpty || isEmailEmpty) return
 
   axios
@@ -191,7 +182,7 @@ function handleFindPW() {
     .then((res) => {
       if (res.data.length > 0) {
         const user = res.data[0]
-        emit('found-user', user)
+        emit('found-user', { ...user, mode: mode.value }) // ✅ 여기에도 모드 포함!
         emit('close')
       } else {
         entireError.value = '회원 정보가 일치하지 않습니다.'

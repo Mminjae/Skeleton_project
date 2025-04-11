@@ -15,19 +15,17 @@ const isLoginActive = ref(false)
 
 async function login() {
   try {
-    const res = await axios.get(
-      `http://localhost:3000/users?userId=${id.value}&password=${password.value}`,
-    )
+    const res = await axios.get(`/api/users?userId=${id.value}&password=${password.value}`)
 
     if (res.data.length > 0) {
       alert('로그인 성공!')
-      emit('login-success') // App.vue로 이벤트 보냄
+      emit('login-success')
     } else {
       alert('아이디 또는 비밀번호가 틀렸습니다.')
     }
   } catch (error) {
     console.error('로그인 에러:', error)
-    alert('서버 오류가 발생했습니다.')
+    alert('서버에 연결할 수 없습니다.')
   } finally {
     showLoginForm.value = false
     id.value = ''

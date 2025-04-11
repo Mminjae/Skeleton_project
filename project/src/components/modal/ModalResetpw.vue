@@ -4,9 +4,7 @@
       <div class="modal-content">
         <!-- 헤더 -->
         <div class="modal-header">
-          <button class="btn btn-outline-dark" type="button" @click="$emit('close')">
-            <img src="file:///C:/Users/pc/Downloads/%EC%82%AD%EC%A0%9C.svg" alt="닫기" />
-          </button>
+          <button class="btn btn-outline-dark" type="button" @click="$emit('close')">X</button>
         </div>
 
         <!-- 본문 -->
