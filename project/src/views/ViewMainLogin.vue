@@ -1,5 +1,5 @@
 <script setup>
-// import { ref } from 'vue'
+import { ref } from 'vue'
 import PostDonutChart from '@/components/post/PostDonutChart.vue'
 import PostCategoryTop from '@/components/post/PostCategoryTop.vue'
 import PostRecentHistory from '@/components/post/PostRecentHistory.vue'
@@ -58,7 +58,9 @@ const goToSlide = (index) => {
         @click="goToSlide(n - 1)"
       ></span>
     </div>
+    <PostLineGraph />
   </div>
+
 </template>
 
 <style scoped>

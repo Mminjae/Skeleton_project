@@ -1,4 +1,6 @@
 <script setup>
+import CategoryInfo from '../base/CategoryInfo.vue';
+
 const props = defineProps({
   item: {
     type: Object,
@@ -11,12 +13,10 @@ const props = defineProps({
   <li>
     <button class="item">
       <p class="date color--gray">
-        <!-- {{ formatDate(item.date) }} -->
         {{ item.dateYear }}.{{ item.dateMonth }}.{{ item.dateDay }}({{ item.dayOfWeek }})
       </p>
       <div class="category">
-        <img src="../../assets/imgs/icons_layout/memo.svg" alt="memo">
-        <p class="color--black">{{ item.category }}</p>
+        <CategoryInfo class="color--black" :category="item.category" :isIncome="item.isIncome" />
       </div>
       <p class="description color--black">{{ item.merchant }}</p>
       <div class="payment">
