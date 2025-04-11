@@ -141,8 +141,8 @@ const handleSubmit = async () => {
     userId: Number(memberInfo.value.find((i) => i.label === 'ID')?.value),
     email: contactInfo.value.find((i) => i.label === '이메일')?.value,
     phone: contactInfo.value.find((i) => i.label === '전화번호')?.value,
-    password: '12341234', // 기존 비밀번호 유지
-    id: '1', // user의 고유 id
+    password: '12341234',
+    id: '1',
   }
   // 2. 서버에 저장
   try {
