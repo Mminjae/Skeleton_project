@@ -104,7 +104,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
       if (selectedType.value && selectedCategories.value.length > 0) {
         //예외처리:selectedType이 있는 경우 && 카테고리가 하나라도 선택된 상황에만 카테고리 value를 요청할것.
         // JSON Server에서는 category=foodcost&category=shopping 처럼 다중 쿼리가 가능
-        queryParams.category = selectedCategories.value;
+        queryParams.category = [...selectedCategories.value];
       }
 
       console.log('쿼리 파라미터:', queryParams);
