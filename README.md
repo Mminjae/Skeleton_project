@@ -12,12 +12,13 @@
 
 # 👨‍👩‍👦‍👦 팀 소개
 
-| [이은우](https://github.com/mjgwon24)            | [이은미](https://github.com/june0216)           | [이주영](https://github.com/saebomnewspring)     | [손주성](https://github.com/yyc0026)            |
+| [이은우](https://github.com/EUNWOOLEEE)            | [이은미](https://github.com/minnieming)           | [이주영](https://github.com/LeeJooYoung1999)     | [손주성]([https://github.com/yyc0026](https://github.com/ShonJuSeong))            
 | ------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------ | ----------------------------------------------- |
-| <img src="asset/member/민지.jpeg" width="150" /> | <img src="asset/member/지윤.png" width="150" /> | <img src="asset/member/새봄.jpeg" width="150" /> | <img src="asset/member/영찬.png" width="150" /> |
+| 카테고리별 지출 그래프 조회 <br/> 메인 (비로그인)navbar <br/> 
+ |
 | Figma                                            | 팀장                                            | 와이어프레임, 플로우차트                         |                                                 |
 
-| [맹민재](https://github.com/mjgwon24)            | [김준영](https://github.com/june0216)           | [노우정](https://github.com/saebomnewspring)     |
+| [맹민재](https://github.com/Mminjae)            | [김준영](https://github.com/kjy941211)           | [노우정](https://github.com/Woojeong98)     |
 | ------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------ |
 | <img src="asset/member/민지.jpeg" width="150" /> | <img src="asset/member/지윤.png" width="150" /> | <img src="asset/member/새봄.jpeg" width="150" /> |
 | 깃허브 세팅, 브랜치전략, 커밋컨벤션              | HTML, CSS, Github 세팅                          | HTML, CSS                                        |

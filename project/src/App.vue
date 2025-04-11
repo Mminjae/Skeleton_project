@@ -3,34 +3,50 @@
     <TheSidebar />
     <TheSidebarLogin />
     <RouterView />
-    <ViewMainLoginOut />
-    <ModalAddPost />
-    <ModalEditPost />
-    <ModalExpenditure />
-    <ModalImport />
-    <ModalFilter />
+    <ViewMainLogin v-if="isLogin" />
   </div>
+  <ModalAddPost />
+  <ModalEditPost />
+  <ModalExpenditure />
+  <ModalImport />
+  <ModalFilter />
+  <ModalIdpw v-if="showModalIdpw" @found-user="openResultModal" @close="showModalIdpw = false" />
+  <ModalResultid v-if="showModalResult" :found-id="foundId" @close="showModalResult = false" />
 </template>
-<script>
+
+<script setup>
+import { ref, provide } from 'vue'
+
 import TheSidebar from '@/layouts/TheSidebar.vue'
 import TheSidebarLogin from '@/layouts/TheSidebarLogin.vue'
+// import ViewMainLoginOut from '@/views/ViewMainLoginOut.vue'
+import ViewMainLogin from '@/views/ViewMainLogin.vue'
 import ModalAddPost from './components/modal/ModalAddPost.vue'
 import ModalEditPost from './components/modal/ModalEditPost.vue'
 import ModalExpenditure from '@/components/modal/ModalExpenditure.vue'
 import ModalImport from '@/components/modal/ModalImport.vue'
 import ModalFilter from './components/modal/ModalFilter.vue'
+import ModalIdpw from '@/components/modal/ModalIdpw.vue'
+import ModalResultid from '@/components/modal/ModalResultid.vue'
+// 로그인 상태 전역관리 (초기 false)
+const isLogin = ref(false)
+provide('isLogin', isLogin) // 하위 컴포넌트에 제공
 
-export default {
-  name: 'App',
-  components: {
-    TheSidebar,
-    TheSidebarLogin,
-    ModalAddPost,
-    ModalEditPost,
-    ModalExpenditure,
-    ModalImport,
-    ModalFilter,
-  },
+// 로그인 성공 시 실행될 함수
+function handleLoginSuccess() {
+  isLogin.value = true
+}
+//ID 찾기 함수
+
+const foundId = ref('')
+const showModalIdpw = ref(false)
+const showModalResult = ref(false)
+const foundUser = ref(null)
+// ModalIdpw에서 ID를 찾았을 때
+function openResultModal(id) {
+  foundId.value = id
+  showModalIdpw.value = false
+  showModalResult.value = true
 }
 </script>
 <style scoped>
