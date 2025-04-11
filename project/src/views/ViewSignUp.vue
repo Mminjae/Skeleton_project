@@ -149,7 +149,8 @@ const validatePassword = () => {
   // 총 몇 가지 종류가 포함되어 있는지 확인
   const typesCount = [hasLower, hasUpper, hasNumber, hasSpecial].filter(Boolean).length
   if (!lengthValid || typesCount < 2) {
-    errors.password = '비밀번호는 10자 이상이며, 대소문자/숫자/특수문자 중 2가지 이상을 포함해야 합니다.'
+    errors.password =
+      '비밀번호는 10자 이상이며, 대소문자/숫자/특수문자 중 2가지 이상을 포함해야 합니다.'
     passwordSuccess.value = ''
   } else {
     errors.password = ''
@@ -179,7 +180,6 @@ const handleImageChange = (event) => {
   reader.readAsDataURL(file)
 }
 
-// 🚀 여기부터 수정된 부분!
 const submitForm = async () => {
   validatePhone()
   validateuserId()
@@ -204,7 +204,6 @@ const submitForm = async () => {
         userId: form.userId,
         email: form.email,
         password: form.password,
-        // 필요시 imagePreview (base64) 도 저장 가능
       }),
     })
 
@@ -419,12 +418,12 @@ button[type='submit'] {
 }
 
 .success-text {
-  color: var( --color-blue);
+  color: var(--color-blue);
   font-size: var(--font-s);
 }
 
 .success-text {
-  color: var( --color-blue);
+  color: var(--color-blue);
   font-size: var(--font-s);
 }
 
