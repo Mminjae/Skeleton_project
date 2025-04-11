@@ -31,6 +31,14 @@
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
+## 기본 세팅 명령어
+
+- npm i 
+- npm run dev
+
+- npm install json-server --save-dev
+- npx json-server --watch db.json --port 3000
+
 # 🌐 배포
 
 🔗 [ 프로젝트 URL ](https://github.com/Mminjae/Skeleton_project.git)
