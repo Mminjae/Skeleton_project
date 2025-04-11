@@ -16,7 +16,7 @@ const isLoginActive = ref(false)
 async function login() {
   try {
     const res = await axios.get(
-      `http://localhost:3000/users?username=${id.value}&password=${password.value}`,
+      `http://localhost:3000/users?userId=${id.value}&password=${password.value}`,
     )
 
     if (res.data.length > 0) {
@@ -88,8 +88,6 @@ function toggleLogin() {
 // 모달 스크립트
 import ModalIdpw from '@/components/modal/ModalIdpw.vue'
 const showModal = ref(false)
-
-//버튼 엑티브 스크립트
 </script>
 
 <template>

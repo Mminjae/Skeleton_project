@@ -1,10 +1,16 @@
 <template>
   <div class="app-container">
-    <!-- <TheSidebar v-if="!isLogin" @login-success="handleLoginSuccess" /> -->
-    <TheSidebarLogin />
+    <!-- 로그인 상태에 따라 사이드바 및 메인 화면 구성 -->
+    <TheSidebar v-if="!isLogin" />
+    <TheSidebarLogin v-else />
+
     <RouterView />
-    <ViewMainLogin v-if="isLogin" />
+
+    <ViewMainLoginOut v-if="!isLogin" />
+    <ViewMainLogin v-else />
   </div>
+
+  <!-- 모달 컴포넌트들 -->
   <ModalAddPost />
   <ModalEditPost />
   <ModalExpenditure />

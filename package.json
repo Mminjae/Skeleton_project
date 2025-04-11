@@ -1,4 +1,22 @@
 {
+  "name": "skeleton_project",
+  "version": "1.0.0",
+  "description": "재정 관리를 쉽게 도와주는 가계부 플랫폼이에요! 😄\r 수입과 지출을 한눈에 정리하고, 분석해서 소비 습관도 개선할 수 있도록 만들어졌어요.",
+  "homepage": "https://github.com/Mminjae/Skeleton_project#readme",
+  "bugs": {
+    "url": "https://github.com/Mminjae/Skeleton_project/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mminjae/Skeleton_project.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "axios": "^1.8.4"
   },
