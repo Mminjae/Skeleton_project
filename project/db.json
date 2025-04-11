@@ -1,13 +1,13 @@
 {
   "users": [
     {
-      "name": "김하나",
+      "id": "1",
+      "userId": 1,
       "brith": "1998-06-06",
-      "userId": null,
+      "name": "김하나",
+      "phone": "01012345678",
       "email": "qwerty@gmail.com",
-      "phone": "010-1234-5678",
-      "password": "12341234",
-      "id": "1"
+      "password": "12341234"
     }
   ],
   "loggedInUser": null,
