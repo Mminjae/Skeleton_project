@@ -28,14 +28,14 @@ const paginatedList = computed(() => {
 
 
 //JSON Server에서 데이터 불러오기
-const fetchTransactions = async () => {
-  try {
-    const res = await axios.get('http://localhost:3000/transactions');
-    transactions.value = res.data;
-  } catch (error) {
-    console.error('데이터 가져오기 실패:', error);
-  }
-};
+// const fetchTransactions = async () => {
+//   try {
+//     const res = await axios.get('http://localhost:3000/transactions');
+//     transactions.value = res.data;
+//   } catch (error) {
+//     console.error('데이터 가져오기 실패:', error);
+//   }
+// };
 onMounted(() => {
   transactionStore.fetchTransactions(); // 초기에 전체 데이터 가져오기
 });
