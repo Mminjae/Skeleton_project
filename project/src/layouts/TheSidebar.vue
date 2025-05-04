@@ -10,6 +10,14 @@ const idError = ref('')
 const pwError = ref('')
 const showLoginForm = ref(false)
 const isLoginActive = ref(false)
+const activeButton = ref('');
+const router = useRouter();
+
+function handleClick(buttonType) {
+  activeButton.value = buttonType;
+  if (buttonType !== 'login')
+    router.push('/' + buttonType);
+}
 
 async function login() {
   try {
@@ -91,52 +99,57 @@ const showModal = ref(false)
 </script>
 
 <template>
-  <div :class="navClass">
+  <div class="navClass">
     <nav id="nav">
-      <h1><RouterLink to="/"><img src="../assets/imgs/logo.png" alt="사이트로고" /></RouterLink></h1>
+      <h1>
+        <img
+          role=button
+          @click="handleClick('')"
+          src="../assets/imgs/logo.png"
+          alt="사이트로고" />
+      </h1>
 
       <!-- 로그인 폼 영역 -->
       <div class="nav-login-wrapper">
         <transition name="slide-fade">
           <form class="bar-login-form" v-show="showLoginForm">
-            <div class="login-form-wrapper">
               <label class="login-form-label">ID</label>
               <input type="text" placeholder="아이디" v-model="id" />
-              <div class="login_id_error">{{ idError }}</div>
+              <div class="login_id_error" v-show="idError">{{ idError }}</div>
+
               <label class="login-form-label">PW</label>
               <input type="password" placeholder="비밀번호" v-model="password" />
-              <div class="login_pw_error">{{ pwError }}</div>
+              <div class="login_pw_error" v-show="pwError">{{ pwError }}</div>
+
               <div class="login-form--remember">
                 <input class="login-form--checkbox" type="checkbox" />
                 <span>로그인 정보 저장</span>
               </div>
-            </div>
           </form>
         </transition>
       </div>
 
       <div class="nav-bar-btnbox">
-        <router-link class="nav-link">
-          <button
-            class="nav-bar-btn nav-bar__button--login"
-            @click="toggleLogin"
-            :class="{ active: isLoginActive }"
-          >
-            로그인
-          </button>
-        </router-link>
-        <router-link class="nav-link" to="/signUp">
-          <button class="nav-bar-btn">회원가입</button>
-        </router-link>
-        <router-link class="nav-link" to="/">
-          <button
-            class="nav-bar-btn nav-bar__button--idpw"
-            @click="toggleIdPwModal"
-            :class="{ active: isIdPwActive }"
-          >
-            아이디/비밀번호 찾기
-          </button>
-        </router-link>
+        <button
+          class="btn-unclicked nav-bar__button--login"
+          @click="() => {handleClick('login'); toggleLogin();}"
+          :class="{ active: isLoginActive }"
+        >
+          로그인
+        </button>
+        <button
+          :class="activeButton === 'signUp' ? 'btn-clicked' : 'btn-unclicked'"
+          @click="handleClick('signUp')"
+        >
+          회원가입
+        </button>
+        <button
+          class="btn-unclicked nav-bar__button--idpw"
+          @click="toggleIdPwModal"
+          :class="{ active: isIdPwActive }"
+        >
+          아이디/비밀번호 찾기
+        </button>
       </div>
       <ModalIdpw v-if="showModal" @close="handleModalClose" />
     </nav>
@@ -149,7 +162,7 @@ const showModal = ref(false)
   display: flex; /* 1.레이아웃 */
   flex-direction: column;
 
-  width: 18.75rem; /* 2.BOX */
+  width: calc(var(--space-xl) * 7.5); /* 2.BOX */
   height: 100vh;
 
   background-color: var(--color-purple); /* 3.배경 */
@@ -159,85 +172,73 @@ const showModal = ref(false)
   align-items: center;
   text-align: center;
 }
+
 h1 {
-  margin-top: 2.5rem;
+  margin-top: calc(var(--space-m) * 2.5);
 }
 h1 img {
-  width: 10rem;
-  height: 10rem;
+  width: calc(var(--space-m) * 7.5);
+  height: calc(var(--space-m) * 7.5);
 }
-.nav-bar-profile {
-  width: 10rem;
-  height: 10rem;
-  margin-top: 2rem;
-  margin-bottom: 8.875rem;
-}
-.nav-bar-userName {
-  display: block;
-  line-height: 44px;
-  color: var(--color-black);
-  font-size: var(--font-l);
-}
-#nav .nav-bar-btnbox {
+
+.nav-bar-btnbox {
+  position: absolute;
   display: flex;
   flex-direction: column;
-
-  position: absolute;
   bottom: 5%;
 }
-.nav-bar-btn {
-  background-color: var(--color-purple);
-  width: 13.125rem; /* 210px */
-  height: 4.25rem; /* 68px */
-  border-radius: 1.875rem; /* 30px */
+.nav-bar-btnbox button {
+  width: calc(var(--space-xl) * 5.5);
+  height: calc(var(--space-xl) * 1.7);
+  border-radius: var(--space-l);
   border: none;
-  padding: 0 2.5rem; /* 40px */
-  margin-bottom: 1.2rem;
+  padding: 0 var(--space-m);
+  margin-bottom: var(--space-m);
   align-items: center;
   font-size: var(--font-base);
-  color: var(--color-black);
 }
-.nav-bar-btn:hover {
+.nav-bar-btnbox button:hover,
+.btn-clicked {
   background-color: var(--color-purple9);
   color: var(--color-white);
 }
-.logout {
-  background-color: var(--color-white);
-  color: var(--color-purple9);
+.btn-unclicked {
+  background-color: var(--color-purple);
+  color: var(--color-black);
 }
 
-.login-form-wrapper {
+.bar-login-form {
   display: flex;
-  margin-top: 10rem;
+  margin-top: calc(var(--space-m) * 4);
   flex-direction: column;
   align-items: flex-start;
-  width: 12.5rem; /* 인풋과 체크박스 너비를 정확히 맞춤 */
-  font-weight: 600;
+  color: var(--color-black);
+}
+.bar-login-form label {
+  margin-bottom: calc(var(--space-m) / 3);
 }
 .bar-login-form input[type='text'],
 .bar-login-form input[type='password'] {
-  height: 2.5rem;
-  border-radius: 0.375rem;
-  padding: 0 0.625rem;
-  /* border: 1px solid var(--color-gray-medium); */
-  border: 1px solid var(--color-purple9);
-  width: 12.5rem;
-  margin-bottom: 0.1rem;
+  height: calc(var(--space-m) * 2.5);
+  width: calc(var(--space-m) * 11);
+  border-radius: var(--space-s);
+  margin-bottom: var(--space-s);
+  padding: 0 var(--space-m);
+  border: none;
 }
 .login-form--remember {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.625rem;
+  margin-top: var(--space-s);
+  gap: var(--space-s);
+  font-size: var(--font-s);
 }
 .login-form--checkbox {
   /* 기본 스타일 제거 */
   all: unset;
-  font-size: 1rem;
   /* 체크박스 기본 틀 */
-  width: 1.1rem;
-  height: 1.1rem;
-  border: 1px solid var(--color-purple9); /* 연보라 테두리 */
+  width: var(--space-m);
+  height: var(--space-m);
   border-radius: 0.25rem;
   background-color: var(--color-white);
   cursor: pointer;
@@ -250,8 +251,7 @@ h1 img {
 
 /* 체크 시 상태 */
 .login-form--checkbox:checked {
-  background-color: var(--color-purple9); /* 진보라 배경 */
-  border-color: var(--color-purple9);
+  background-color: var(--color-purple9);
 }
 
 /* 체크 마크 만들기 */
@@ -279,7 +279,7 @@ h1 img {
 .slide-fade-enter-from,
 .slide-fade-leave-to {
   opacity: 0;
-  transform: translateY(-20px); /* 위에서 내려옴 */
+  transform: translateY(20px);
 }
 
 .slide-fade-enter-to,
@@ -287,13 +287,13 @@ h1 img {
   opacity: 1;
   transform: translateY(0);
 }
+
 /* 로그인 인풋창 에러경고문  */
 .login_id_error,
 .login_pw_error {
-  font-size: 1rem;
+  font-size: var(--font-s);
   color: var(--color-red);
-  margin-bottom: 0.5rem;
-  min-height: 1rem; /* 공간 확보 */
+  margin: 0 0 calc(var(--space-s)) var(--space-s);
 }
 
 .router-button,
@@ -304,7 +304,7 @@ h1 img {
   transition: background-color 0.3s ease;
 }
 
-/* 모달 스타일링링 */
+/* 모달 스타일링 */
 .find-account-modal {
   position: fixed;
   top: 0;
@@ -320,7 +320,7 @@ h1 img {
 .nav-bar__button--idpw.active,
 .router-button.active {
   background-color: var(--color-purple9);
-  color: white;
+  color: var(--color-white);
 }
 @media screen and (max-width: 320px) {
   #nav {
@@ -334,74 +334,9 @@ h1 img {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0.5rem;
+    padding: var(--space-s);
     background-color: var(--color-purple);
     z-index: 999;
-  }
-
-  .nav-logo {
-    width: 3rem;
-    height: 3rem;
-    margin: 0.3rem 0;
-    border: 2.5rem;
-  }
-
-  .nav-login-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 0.5rem;
-  }
-
-  .bar-login-form {
-    width: 90%;
-  }
-
-  .login-form-wrapper {
-    width: 100%;
-    margin-top: 0;
-    padding: 0.5rem;
-  }
-
-  .bar-login-form input[type='text'],
-  .bar-login-form input[type='password'] {
-    width: 100%;
-    height: 2rem;
-    font-size: 0.8rem;
-  }
-
-  .login-form--remember {
-    font-size: 0.75rem;
-  }
-
-  .nav-bar__button {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-    margin: 0.5rem 0;
-  }
-
-  .nav-bar__button--login,
-  .nav-bar__button--idpw,
-  .router-button {
-    all: unset;
-    background-color: var(--color-purple9);
-    padding: 0.4rem 0.8rem;
-    border-radius: 1rem;
-    color: white;
-    font-size: 0.8rem;
-    cursor: pointer;
-    text-align: center;
-  }
-
-  .login_id_error,
-  .login_pw_error {
-    font-size: 0.75rem;
-    min-height: 1rem;
-    color: var(--color-red);
   }
 }
 </style>

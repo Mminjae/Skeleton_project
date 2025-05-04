@@ -1,11 +1,20 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-let currentPath = ref('/login');
+const currentPath = ref('/login');
+const activeButton = ref('');
+const router = useRouter();
+
+function handleClick(buttonType) {
+  activeButton.value = buttonType;
+  router.push('/' + buttonType);
+}
+
 </script>
 
 <template>
-  <div :class="navClass">
+  <div class="navClass">
     <nav id="nav">
       <h1><RouterLink to="/main"><img src="../assets/imgs/logo.png" alt="사이트로고" /></RouterLink></h1>
 
@@ -13,92 +22,104 @@ let currentPath = ref('/login');
         <img src="../assets/imgs/user.png" alt="사용자프로필" />
         <span class="nav-bar-userName">000님</span>
       </div>
+
       <div class="nav-bar-btnbox">
-        <router-link class="nav-link" to="/main">
-          <button class="nav-bar-btn" @click="currentPath = '/main'">재정요약</button>
-        </router-link>
-        <router-link class="nav-link" to="/history">
-          <button class="nav-bar-btn" @click="currentPath = '/history'">거래내역조회</button>
-        </router-link>
-        <router-link class="nav-link" to="/myPage">
-          <button class="nav-bar-btn" @click="currentPath = '/myPage'">마이페이지</button>
-        </router-link>
-        <router-link class="nav-link" to="/">
-          <button class="nav-bar-btn logout" @click="currentPath = '/'">로그아웃</button>
-        </router-link>
+        <button
+          :class="activeButton === 'main' ? 'btn-clicked' : 'btn-unclicked'"
+          @click="handleClick('main')"
+        >
+          재정요약
+        </button>
+        <button
+          :class="activeButton === 'history' ? 'btn-clicked' : 'btn-unclicked'"
+          @click="handleClick('history')"
+        >
+          거래내역조회
+        </button>
+        <button
+          :class="activeButton === 'myPage' ? 'btn-clicked' : 'btn-unclicked'"
+          @click="handleClick('myPage')"
+        >
+          마이페이지
+        </button>
+        <button class="btn-logout" @click="currentPath = '/'">
+          로그아웃
+        </button>
       </div>
     </nav>
   </div>
 </template>
 
 <style scoped>
-/*---nav아웃라인---*/
 
+/*---nav아웃라인---*/
 #nav {
-  position: relative;
   display: flex; /* 1.레이아웃 */
   flex-direction: column;
 
-  width: 18.75rem; /* 2.BOX */
+  width: calc(var(--space-xl) * 7.5); /* 2.BOX */
   height: 100vh;
 
   background-color: var(--color-purple); /* 3.배경 */
 }
-/*---nav아웃라인END---*/
 #nav,
 #nav > * {
   align-items: center;
   text-align: center;
 }
+
 h1 {
-  margin-top: 2.5rem;
+  margin-top: calc(var(--space-m) * 2.5);
 }
 h1 img {
-  width: 10rem;
-  height: 10rem;
+  width: calc(var(--space-m) * 7.5);
+  height: calc(var(--space-m) * 7.5);
 }
 /*---nav아웃라인 END---*/
 
 /*---nav바 프로필사진(사용자)---*/
 .nav-bar-profile {
-  width: 10rem;
-  height: 10rem;
-  margin-top: 2rem;
-  margin-bottom: 8.875rem;
+  width: calc(var(--space-m) * 7.5);
+  height: calc(var(--space-m) * 7.5);
+  margin-top: var(--space-l);
+}
+.nav-bar-profile img {
+  width: 100%;
 }
 .nav-bar-userName {
   display: block;
-  line-height: 44px;
   color: var(--color-black);
   font-size: var(--font-l);
 }
 /*---nav바 프로필사진(사용자)END---*/
 
 /*---nav버튼박스(재정요약/거래내역조회/마이페이지/로그아웃)---*/
-#nav .nav-bar-btnbox {
+.nav-bar-btnbox {
   position: absolute;
   display: flex;
   flex-direction: column;
-  margin-top: 3.875rem;
   bottom: 5%;
 }
-.nav-bar-btn {
-  background-color: var(--color-purple);
-  width: 13.125rem; /* 210px */
-  height: 4.25rem; /* 68px */
-  border-radius: 1.875rem; /* 30px */
+.nav-bar-btnbox button {
+  width: calc(var(--space-xl) * 5.5);
+  height: calc(var(--space-xl) * 1.7);
+  border-radius: var(--space-l);
   border: none;
-  padding: 0 2.5rem; /* 40px */
-  margin-bottom: 1.2rem;
+  padding: 0 var(--space-m);
+  margin-bottom: var(--space-m);
   align-items: center;
   font-size: var(--font-base);
-  color: var(--color-black);
 }
-.nav-bar-btn:hover {
+.nav-bar-btnbox button:hover,
+.btn-clicked {
   background-color: var(--color-purple9);
   color: var(--color-white);
 }
-.logout {
+.btn-unclicked {
+  background-color: var(--color-purple);
+  color: var(--color-black);
+}
+.btn-logout {
   background-color: var(--color-white);
   color: var(--color-purple9);
 }
