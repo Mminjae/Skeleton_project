@@ -97,7 +97,7 @@ const validateItem = (item) => {
     case '생년월일':
       errors.value[label] = /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(value)
         ? ''
-        : '예: 2021-2-17 형식으로 입력해주세요.'
+        : '2021-2-17 형식으로 입력해주세요.'
       break
     case '이메일':
       errors.value[label] = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
@@ -107,7 +107,7 @@ const validateItem = (item) => {
     case '전화번호':
       errors.value[label] = /^01[016789]-\d{3,4}-\d{4}$/.test(value)
         ? ''
-        : '예: 010-1234-5678 형식으로 입력해주세요.'
+        : '010-1234-5678 형식으로 입력해주세요.'
       break
   }
 }

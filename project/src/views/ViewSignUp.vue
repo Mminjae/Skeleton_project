@@ -129,7 +129,7 @@ const validateBirth = () => {
 
 const validatePhone = () => {
   const regex = /^01[016789]-\d{3,4}-\d{4}$/
-  errors.phone = regex.test(form.phone) ? '' : '예: 010-1234-5678 형식으로 입력해주세요.'
+  errors.phone = regex.test(form.phone) ? '' : '010-1234-5678 형식으로 입력해주세요.'
 }
 
 const validateuserId = () => {
@@ -138,7 +138,7 @@ const validateuserId = () => {
   if (!userId) {
     errors.userId = 'ID는 영문+숫자 조합 4~16자여야 합니다.'
   } else if (!regex.test(userId)) {
-    errors.userId = '아이디는 영문+숫자 조합 4~16자여야 합니다.'
+    errors.userId = 'ID는 영문+숫자 조합 4~16자여야 합니다.'
   } else {
     errors.userId = ''
   }
