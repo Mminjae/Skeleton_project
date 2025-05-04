@@ -53,7 +53,7 @@
         </div>
 
         <!-- 오른쪽: 프로필 사진 -->
-        <!-- <div class="text-center" style="min-width: 120px">
+        <div class="text-center" style="min-width: 120px">
           <img
             src="#"
             alt="프로필"
@@ -64,30 +64,10 @@
             <button class="btn btn-outline-secondary btn-sm">사진 변경</button>
           </div>
         </div>
-      </div> -->
-      <!-- 프로필 사진 부분 -->
-      <div class="text-center" style="min-width: 120px">
-        <img :src="profilePreview || defaultProfileUrl"
-        alt="프로필"
-        class="profile-img mb-2"
-        style="width: 100px; height: 100px; background-color: #eee; object-fit: cover"
-        />
-      <div>
-        <input
-        type="file"
-        ref="fileInput"
-        accept="image/*"
-        @change="handleImageChange"
-        style="display: none"
-        />
-        <button class="btn btn-outline-secondary btn-sm" @click="triggerFileInput">
-        사진 변경
-        </button>
       </div>
-    </div>
 
       <!-- 탈퇴 모달 -->
-      <div class="modal fade" id="unregisterModal" tabindex="-1" aria-hidden="true">
+      <!-- <div class="modal fade" id="unregisterModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-body">
@@ -101,9 +81,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
+  <ModalDelete />
 </template>
 
 <script setup>
@@ -111,6 +92,7 @@ import { ref, computed } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import ModalDelete from '@/components/modal/ModalDelete.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -133,11 +115,6 @@ const validateItem = (item) => {
         ? ''
         : '예: 2021-2-17 형식으로 입력해주세요.'
       break
-    // case 'ID':
-    //   errors.value[label] = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{4,16}$/.test(value)
-    //     ? ''
-    //     : 'ID는 영문+숫자 조합 4~16자여야 합니다.'
-    //   break
     case '이메일':
       errors.value[label] = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
         ? ''
@@ -179,42 +156,6 @@ const handleSubmit = async () => {
   } catch (e) {
     console.error('저장 실패:', e)
     alert('저장에 실패했습니다.')
-  }
-}
-
-const fileInput = ref(null)
-const profilePreview = ref('')
-const defaultProfileUrl = '/default-profile.png' // 기본 이미지 경로 (없다면 흰 배경)
-
-const triggerFileInput = () => {
-  fileInput.value.click()
-}
-
-const handleImageChange = async (e) => {
-  const file = e.target.files[0]
-  if (!file) return
-
-  // 1. 미리보기
-  profilePreview.value = URL.createObjectURL(file)
-
-  // 2. 서버 업로드
-  const formData = new FormData()
-  formData.append('profileImage', file)
-
-  try {
-    const response = await axios.post('http://localhost:3000/upload-profile', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
-
-    // 3. 서버에서 프로필 이미지 URL 응답 시 적용
-    if (response.data?.url) {
-      profilePreview.value = response.data.url
-    }
-
-    alert('프로필 이미지가 변경되었습니다.')
-  } catch (error) {
-    console.error('이미지 업로드 실패:', error)
-    alert('이미지 업로드 중 오류가 발생했습니다.')
   }
 }
 

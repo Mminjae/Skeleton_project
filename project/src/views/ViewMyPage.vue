@@ -43,7 +43,7 @@
         </div>
 
         <!-- 탈퇴 클릭 시 모달 -->
-        <div
+        <!-- <div
           class="modal fade"
           id="unregisterModal"
           tabindex="-1"
@@ -68,17 +68,20 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
+  <ModalDelete />
 </template>
 
 <script setup>
 import { onMounted, computed } from 'vue'
-import { useUserStore } from '@/stores/userStore' // 또는 '../stores/userStore'
+import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
+import ModalDelete from '@/components/modal/ModalDelete.vue'
 
+// 로그인 된 정보 가져오기
 const userStore = useUserStore()
 const router = useRouter()
 
@@ -89,6 +92,7 @@ onMounted(() => {
 const memberInfo = computed(() => userStore.memberInfo)
 const contactInfo = computed(() => userStore.contactInfo)
 
+// 수정 클릭 시 수정 페이지로 이동
 const goEdit = () => {
   router.push('/profileEdit')
 }
