@@ -5,10 +5,15 @@
       <form class="join-form" @submit.prevent="submitForm">
         <div class="area-input">
           <!-- 이름 입력창 -->
-          <div class="input-box">
+          <!-- <div class="input-box">
             <label>이름</label>
             <input v-model="form.name" type="text" />
+          </div> -->
+          <div class="input-box">
+            <label>이름</label>
+            <input v-model="form.name" type="text" @blur="validateName" />
           </div>
+          <span v-if="errors.name" class="error-text">{{ errors.name }}</span>
 
           <!-- 생년월일 입력 -->
           <div class="input-box">
@@ -93,6 +98,7 @@ const form = reactive({
 })
 
 const errors = reactive({
+  name: '',
   birth: '',
   phone: '',
   userId: '',
@@ -108,6 +114,11 @@ const imagePreview = ref('')
 import defaultImageUrl from '@/assets/imgs/user.png'
 const defaultImage = defaultImageUrl
 
+const validateName = () => {
+  const regex = /^[가-힣]{2,5}$/
+  errors.name = regex.test(form.name) ? '' : '이름은 한글 2~5자여야 합니다.'
+}
+
 const validateBirth = () => {
   if (!form.birth) {
     errors.birth = '생년월일을 입력해주세요.'
@@ -117,17 +128,17 @@ const validateBirth = () => {
 }
 
 const validatePhone = () => {
-  const regex = /^[0-9]{10,11}$/
-  errors.phone = regex.test(form.phone) ? '' : '숫자만 입력해주세요 (10~11자리)'
+  const regex = /^01[016789]-\d{3,4}-\d{4}$/
+  errors.phone = regex.test(form.phone) ? '' : '예: 010-1234-5678 형식으로 입력해주세요.'
 }
 
 const validateuserId = () => {
   const userId = form.userId.trim()
   const regex = /^[a-zA-Z0-9]{4,16}$/
   if (!userId) {
-    errors.userId = '아이디를 입력해주세요.'
+    errors.userId = 'ID는 영문+숫자 조합 4~16자여야 합니다.'
   } else if (!regex.test(userId)) {
-    errors.userId = '아이디는 영문자와 숫자만 포함해 4~16자여야 합니다.'
+    errors.userId = '아이디는 영문+숫자 조합 4~16자여야 합니다.'
   } else {
     errors.userId = ''
   }
@@ -149,7 +160,8 @@ const validatePassword = () => {
   // 총 몇 가지 종류가 포함되어 있는지 확인
   const typesCount = [hasLower, hasUpper, hasNumber, hasSpecial].filter(Boolean).length
   if (!lengthValid || typesCount < 2) {
-    errors.password = '비밀번호는 10자 이상이며, 대소문자/숫자/특수문자 중 2가지 이상을 포함해야 합니다.'
+    errors.password =
+      '비밀번호는 10자 이상이며, 대소문자/숫자/특수문자 중 2가지 이상을 포함해야 합니다.'
     passwordSuccess.value = ''
   } else {
     errors.password = ''
@@ -181,6 +193,7 @@ const handleImageChange = (event) => {
 
 // 🚀 여기부터 수정된 부분!
 const submitForm = async () => {
+  validateName()
   validatePhone()
   validateuserId()
   validateEmail()
@@ -419,12 +432,12 @@ button[type='submit'] {
 }
 
 .success-text {
-  color: var( --color-blue);
+  color: var(--color-blue);
   font-size: var(--font-s);
 }
 
 .success-text {
-  color: var( --color-blue);
+  color: var(--color-blue);
   font-size: var(--font-s);
 }
 

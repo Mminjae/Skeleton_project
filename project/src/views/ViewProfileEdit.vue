@@ -10,15 +10,16 @@
           <div v-for="(item, index) in memberInfo" :key="'member-' + index" class="mb-3">
             <div class="form-row">
               <label class="form-label">{{ item.label }}</label>
+              <div v-if="item.label === 'ID'" class="id-style">
+                {{ item.value }}
+              </div>
               <input
+                v-else
                 type="text"
                 class="form-control"
                 v-model="item.value"
                 @input="validateItem(item)"
               />
-            </div>
-            <div v-if="item.label === 'ID' && item.value && !errors['ID']" class="text-info">
-              사용 가능한 ID입니다.
             </div>
             <div class="text-danger small mt-1" v-if="errors[item.label]">
               {{ errors[item.label] }}
@@ -52,7 +53,7 @@
         </div>
 
         <!-- 오른쪽: 프로필 사진 -->
-        <div class="text-center" style="min-width: 120px">
+        <!-- <div class="text-center" style="min-width: 120px">
           <img
             src="#"
             alt="프로필"
@@ -63,7 +64,27 @@
             <button class="btn btn-outline-secondary btn-sm">사진 변경</button>
           </div>
         </div>
+      </div> -->
+      <!-- 프로필 사진 부분 -->
+      <div class="text-center" style="min-width: 120px">
+        <img :src="profilePreview || defaultProfileUrl"
+        alt="프로필"
+        class="profile-img mb-2"
+        style="width: 100px; height: 100px; background-color: #eee; object-fit: cover"
+        />
+      <div>
+        <input
+        type="file"
+        ref="fileInput"
+        accept="image/*"
+        @change="handleImageChange"
+        style="display: none"
+        />
+        <button class="btn btn-outline-secondary btn-sm" @click="triggerFileInput">
+        사진 변경
+        </button>
       </div>
+    </div>
 
       <!-- 탈퇴 모달 -->
       <div class="modal fade" id="unregisterModal" tabindex="-1" aria-hidden="true">
@@ -112,15 +133,15 @@ const validateItem = (item) => {
         ? ''
         : '예: 2021-2-17 형식으로 입력해주세요.'
       break
-    case 'ID':
-      errors.value[label] = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{4,16}$/.test(value)
-        ? ''
-        : 'ID는 영문+숫자 조합 4~16자여야 합니다.'
-      break
+    // case 'ID':
+    //   errors.value[label] = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{4,16}$/.test(value)
+    //     ? ''
+    //     : 'ID는 영문+숫자 조합 4~16자여야 합니다.'
+    //   break
     case '이메일':
       errors.value[label] = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
         ? ''
-        : '올바른 이메일 형식이 아닙니다.'
+        : '유효한 이메일 형식이 아닙니다.'
       break
     case '전화번호':
       errors.value[label] = /^01[016789]-\d{3,4}-\d{4}$/.test(value)
@@ -143,7 +164,7 @@ const handleSubmit = async () => {
   const payload = {
     name: memberInfo.value.find((i) => i.label === '이름')?.value,
     brith: memberInfo.value.find((i) => i.label === '생년월일')?.value,
-    userId: Number(memberInfo.value.find((i) => i.label === 'ID')?.value),
+    userId: memberInfo.value.find((i) => i.label === 'ID')?.value,
     email: contactInfo.value.find((i) => i.label === '이메일')?.value,
     phone: contactInfo.value.find((i) => i.label === '전화번호')?.value,
     password: '12341234', // 기존 비밀번호 유지
@@ -158,6 +179,42 @@ const handleSubmit = async () => {
   } catch (e) {
     console.error('저장 실패:', e)
     alert('저장에 실패했습니다.')
+  }
+}
+
+const fileInput = ref(null)
+const profilePreview = ref('')
+const defaultProfileUrl = '/default-profile.png' // 기본 이미지 경로 (없다면 흰 배경)
+
+const triggerFileInput = () => {
+  fileInput.value.click()
+}
+
+const handleImageChange = async (e) => {
+  const file = e.target.files[0]
+  if (!file) return
+
+  // 1. 미리보기
+  profilePreview.value = URL.createObjectURL(file)
+
+  // 2. 서버 업로드
+  const formData = new FormData()
+  formData.append('profileImage', file)
+
+  try {
+    const response = await axios.post('http://localhost:3000/upload-profile', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+
+    // 3. 서버에서 프로필 이미지 URL 응답 시 적용
+    if (response.data?.url) {
+      profilePreview.value = response.data.url
+    }
+
+    alert('프로필 이미지가 변경되었습니다.')
+  } catch (error) {
+    console.error('이미지 업로드 실패:', error)
+    alert('이미지 업로드 중 오류가 발생했습니다.')
   }
 }
 
@@ -223,8 +280,12 @@ h6 {
   width: 15rem;
 }
 
-.form-control:focus {
-  outline-color: red;
+.id-style {
+  display: inline;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  margin-left: 5rem;
+  width: 15rem;
 }
 
 /* 에러 메시지 */
