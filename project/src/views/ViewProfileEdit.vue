@@ -45,10 +45,7 @@
 
           <!-- 버튼 -->
           <div class="button-group">
-            <button class="btn btn-light" @click="handleSubmit">저장</button>
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unregisterModal">
-              회원탈퇴
-            </button>
+            <button class="save btn btn-light" @click="handleSubmit">저장</button>
           </div>
         </div>
 
@@ -61,29 +58,14 @@
             style="width: 100px; height: 100px; background-color: #eee; object-fit: cover"
           />
           <div>
-            <button class="btn btn-outline-secondary btn-sm">사진 변경</button>
+            <button class="profile-edit btn btn btn-light">사진 변경</button>
           </div>
         </div>
       </div>
-
-      <!-- 탈퇴 모달 -->
-      <!-- <div class="modal fade" id="unregisterModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-              <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-light" data-bs-dismiss="modal">취소</button>
-              <button class="btn btn-danger" data-bs-dismiss="modal" @click="confirmDelete">
-                네, 탈퇴할래요
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
+  <ButtonDelete />
+  <!-- 탈퇴 모달 -->
   <ModalDelete />
 </template>
 
@@ -93,9 +75,11 @@ import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import ModalDelete from '@/components/modal/ModalDelete.vue'
+import ButtonDelete from '@/components/base/ButtonDelete.vue'
 
-const router = useRouter()
+// const router = useRouter()
 const userStore = useUserStore()
+const router = useRouter()
 
 const memberInfo = computed(() => userStore.memberInfo)
 const contactInfo = computed(() => userStore.contactInfo)
@@ -157,10 +141,6 @@ const handleSubmit = async () => {
     console.error('저장 실패:', e)
     alert('저장에 실패했습니다.')
   }
-}
-
-const confirmDelete = () => {
-  router.push('/')
 }
 </script>
 
@@ -255,37 +235,17 @@ h6 {
 }
 
 /* 버튼 스타일 */
+.save {
+  width: 5rem;
+  /* margin-right: 1rem; */
+}
 .button-group {
   display: flex;
   justify-content: flex-end;
-  gap: 0.8rem;
+  /* gap: 0.8rem; */
   margin-top: 1.5rem;
 }
-
-.btn-light {
-  width: 5rem;
-  background: white;
-  border: 1px solid #ddd;
-  color: #333;
-}
-
-.btn-danger {
-  width: 6rem;
-  background-color: #e53935;
-  color: white;
-  border: none;
-}
-
-.btn-outline-secondary {
-  border: 1px solid #bbb;
-  color: #555;
-}
-
-.modal-content {
-  border-radius: 12px;
-}
-
-.modal-body p {
-  font-size: 1.05rem;
+.profile-edit {
+  margin-right: 2rem;
 }
 </style>

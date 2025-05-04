@@ -30,60 +30,24 @@
             <div class="value">{{ item.value }}</div>
           </div>
         </div>
-        <!-- 수정/탈퇴 버튼 -->
-        <div class="btn-group">
-          <button class="edit btn btn-light" @click="goEdit">수정</button>
-          <button
-            class="member-out btn btn-danger"
-            data-bs-toggle="modal"
-            data-bs-target="#unregisterModal"
-          >
-            회원 탈퇴
-          </button>
-        </div>
-
-        <!-- 탈퇴 클릭 시 모달 -->
-        <!-- <div
-          class="modal fade"
-          id="unregisterModal"
-          tabindex="-1"
-          aria-labelledby="unregisterModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-body">
-                <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
-                <button
-                  type="button"
-                  class="member-out btn btn-danger"
-                  @click="confirmDelete"
-                  data-bs-dismiss="modal"
-                >
-                  네, 탈퇴할래요
-                </button>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
+  <ButtonEdit />
+  <ButtonDelete />
+  <!-- 탈퇴 모달 -->
   <ModalDelete />
 </template>
 
 <script setup>
 import { onMounted, computed } from 'vue'
 import { useUserStore } from '@/stores/userStore'
-import { useRouter } from 'vue-router'
 import ModalDelete from '@/components/modal/ModalDelete.vue'
+import ButtonDelete from '@/components/base/ButtonDelete.vue'
+import ButtonEdit from '@/components/base/ButtonEdit.vue'
 
 // 로그인 된 정보 가져오기
 const userStore = useUserStore()
-const router = useRouter()
 
 onMounted(() => {
   userStore.fetchUser()
@@ -91,11 +55,6 @@ onMounted(() => {
 
 const memberInfo = computed(() => userStore.memberInfo)
 const contactInfo = computed(() => userStore.contactInfo)
-
-// 수정 클릭 시 수정 페이지로 이동
-const goEdit = () => {
-  router.push('/profileEdit')
-}
 </script>
 
 <style scoped>
@@ -193,7 +152,7 @@ const goEdit = () => {
   padding-top: 0;
 }
 /* 수정, 탈퇴 버튼 */
-.btn-group {
+/* .btn-group {
   display: flex;
   justify-self: flex-end;
   gap: 1rem;
@@ -219,10 +178,10 @@ button {
   border: none;
   border-radius: 2px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-}
+} */
 
 /* 탈퇴 클릭 시 모달 */
-.modal {
+/* .modal {
   position: fixed;
   top: 10rem;
   left: 40rem;
@@ -244,5 +203,5 @@ button {
   display: flex;
   justify-content: space-around;
   margin: 1rem;
-}
+} */
 </style>
