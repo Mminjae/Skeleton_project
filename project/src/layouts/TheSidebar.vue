@@ -209,7 +209,7 @@ h1 img {
 
 .bar-login-form {
   display: flex;
-  margin-top: calc(var(--space-m) * 4);
+  margin-top: calc(var(--space-m) * 8);
   flex-direction: column;
   align-items: flex-start;
   color: var(--color-black);
@@ -240,6 +240,7 @@ h1 img {
   width: var(--space-m);
   height: var(--space-m);
   border-radius: 0.25rem;
+  border-radius: calc(var(--space-m) / 4);
   background-color: var(--color-white);
   cursor: pointer;
   position: relative;
