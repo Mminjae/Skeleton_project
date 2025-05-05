@@ -1,3 +1,4 @@
+<!-- src/components/modal/ModalImport.vue -->
 <template>
   <div
     class="modal fade"
@@ -15,17 +16,17 @@
           <div class="header-left">
             <div class="icon-box">
               <IconIcon
-                :icon="item?.category"
+                :icon="item.category"
                 size="36"
                 class="category-icon"
               />
-              <span class="category-text">{{ item?.category }}</span>
+              <span class="category-text">{{ item.category }}</span>
             </div>
           </div>
           <div class="header-right">
             <span class="date-text">
-              {{ item?.dateYear }}.{{ item?.dateMonth }}.{{ item?.dateDay }}
-              ({{ item?.dayOfWeek }})
+              {{ item.dateYear }}.{{ item.dateMonth }}.{{ item.dateDay }}
+              ({{ item.dayOfWeek }})
             </span>
             <button
               type="button"
@@ -39,10 +40,11 @@
         <!-- 모달 본문 -->
         <div class="modal-body">
           <div class="title-row">
-            <div class="title">{{ item?.merchant }}</div>
+            <div class="title">{{ item.merchant }}</div>
             <div class="amount">
-              <span :class="item?.isIncome ? 'plus' : 'minus'">
-                {{ item?.isIncome ? '+' : '-' }} {{ item?.amount?.toLocaleString() }}
+              <span :class="item.isIncome ? 'plus' : 'minus'">
+                {{ item.isIncome ? '+' : '-' }}
+                {{ item.amount.toLocaleString() }}
               </span>
               <span class="unit">원</span>
             </div>
@@ -51,14 +53,26 @@
           <div class="memo-group">
             <label class="memo-label">메모</label>
             <hr />
-            <p>{{ item?.memo }}</p>
+            <p>{{ item.memo }}</p>
           </div>
         </div>
 
         <!-- 모달 푸터 -->
         <div class="modal-footer justify-content-end">
-          <button type="button" class="btn btn-outline-secondary">수정</button>
-          <button type="button" class="btn btn-outline-danger">삭제</button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            @click="onEdit"
+          >
+            수정
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-danger"
+            @click="onDelete"
+          >
+            삭제
+          </button>
         </div>
       </div>
     </div>
@@ -66,14 +80,46 @@
 </template>
 
 <script setup>
+import { defineProps, defineEmits } from 'vue'
+import axios from 'axios'
+import { Modal } from 'bootstrap'
+import { useTransactionStore } from '@/stores/useTransactionStore'
 import IconIcon from '@/components/base/iconIcon.vue'
 
 const props = defineProps({
   item: {
     type: Object,
-    default: null,
+    required: true,
   },
 })
+const emit = defineEmits(['close'])
+
+const transactionStore = useTransactionStore()
+
+function onDelete() {
+  // 1) 서버에서 삭제 요청
+  axios
+    .delete(`http://localhost:3000/transactions/${props.item.id}`)
+    .then(() => {
+      // 2) Pinia 스토어 갱신
+      transactionStore.fetchTransactions()
+
+      // 3) Bootstrap 모달 숨기기
+      const modalEl = document.getElementById('ModalImport')
+      const bsModal = Modal.getInstance(modalEl) || new Modal(modalEl)
+      bsModal.hide()
+
+      // 4) 부모로 close 이벤트 전달 (showModalImport = false)
+      emit('close')
+    })
+    .catch((err) => {
+      console.error('삭제 중 오류:', err)
+    })
+}
+
+function onEdit() {
+  // 수정 로직이 필요하면 여기에 추가
+}
 </script>
 
 <style scoped>
@@ -136,11 +182,6 @@ const props = defineProps({
 .memo-label {
   font-size: 16px;
   color: #333;
-}
-.memo-display {
-  margin-top: 1rem;
-  font-size: 14px;
-  color: #aaa;
 }
 .modal-footer .btn {
   width: 5rem;

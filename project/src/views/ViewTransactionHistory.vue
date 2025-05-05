@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import axios from 'axios'
 import { Modal } from 'bootstrap'
 
@@ -14,30 +14,37 @@ import { useTransactionStore } from '@/stores/useTransactionStore'
 const transactionStore = useTransactionStore()
 
 // 상태 변수
-const selectedItem = ref(null)
-const showModalAdd = ref(false)
+const selectedItem    = ref(null)
+const showModalImport = ref(false)   // ← 모달 표시 플래그 추가
+const showModalAdd    = ref(false)   // (기존 코드)
 
+// 모달 열기 함수
 function onOpenImport(item) {
-  selectedItem.value = item
-  const modalEl = document.getElementById('ModalImport')
-  if (modalEl) {
-    const modal = new Modal(modalEl)
-    modal.show()
-  }
+  selectedItem.value  = item      // 클릭한 거래 데이터를 저장
+  showModalImport.value = true    // 모달 컴포넌트 마운트 트리거
+  nextTick(() => {
+    // 렌더링이 끝난 뒤에 실제 DOM 엘리먼트를 찾아서 부트스트랩 모달 호출
+    const modalEl = document.getElementById('ModalImport')
+    if (modalEl) {
+      new Modal(modalEl).show()
+    }
+  })
 }
 
+// 페이징 관련
 const itemsPerPage = 10
-const currentPage = ref(1)
-const pageCount = ref(0)
+const currentPage  = ref(1)
+const pageCount    = ref(0)
 
 const transactions = computed(() => transactionStore.transactions)
-const maxPage = computed(() => Math.ceil(transactions.value.length / itemsPerPage))
+const maxPage      = computed(() => Math.ceil(transactions.value.length / itemsPerPage))
 const paginatedList = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
-  const end = start + itemsPerPage
+  const end   = start + itemsPerPage
   return transactions.value.slice(start, end)
 })
 
+// 초기 데이터 로딩
 onMounted(() => {
   transactionStore.fetchTransactions()
 })
