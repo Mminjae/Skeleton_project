@@ -1,44 +1,45 @@
 <script setup>
-import PostItem from '@/components/post/PostItem.vue'
-// import ExpenseIcons from '@/components/base/ExpenseIcons.vue';
-// import IncomeIcon from '@/components/base/IncomeIcon.vue';
-import IconIcon from '@/components/base/iconIcon.vue'
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
-//리스트 컴포넌트에서 Store 사용하도록 수정
+import { Modal } from 'bootstrap'
+
+// 컴포넌트 import
+import PostItem from '@/components/post/PostItem.vue'
+import IconIcon from '@/components/base/iconIcon.vue'
+import ModalAddPost from '@/components/modal/ModalAddPost.vue'
+import ModalImport from '@/components/modal/ModalImport.vue'
+
+// Pinia store 사용
 import { useTransactionStore } from '@/stores/useTransactionStore'
 const transactionStore = useTransactionStore()
-// const pageNumber
-// 거래내역 추가 버튼 연결
-import ModalAddPost from '@/components/modal/ModalAddPost.vue'
-const showModal = ref(false)
-// 거래내역 조회 버튼 연결
 
-const itemsPerPage = 10 // 한 페이지당 10개
-let currentPage = ref(1)
-let pageCount = ref(0)
-// const transactions = ref([]); //json.server에서 불러올 리스트 초기값 설정
-const transactions = computed(() => transactionStore.transactions) //이제 store에서 불러온다.
-const maxPage = computed(() => Math.ceil(transactions.value.length / itemsPerPage)) //transactions의 데이터 개수(길이)를 기반으로 동적으로 변경
+// 상태 변수
+const selectedItem = ref(null)
+const showModalAdd = ref(false)
 
-//페이지별 리스트계산 - 우리는 한페이지당 10개의 리스트
+function onOpenImport(item) {
+  selectedItem.value = item
+  const modalEl = document.getElementById('ModalImport')
+  if (modalEl) {
+    const modal = new Modal(modalEl)
+    modal.show()
+  }
+}
+
+const itemsPerPage = 10
+const currentPage = ref(1)
+const pageCount = ref(0)
+
+const transactions = computed(() => transactionStore.transactions)
+const maxPage = computed(() => Math.ceil(transactions.value.length / itemsPerPage))
 const paginatedList = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
   return transactions.value.slice(start, end)
 })
 
-//JSON Server에서 데이터 불러오기
-const fetchTransactions = async () => {
-  try {
-    const res = await axios.get('http://localhost:3000/transactions')
-    transactions.value = res.data
-  } catch (error) {
-    console.error('데이터 가져오기 실패:', error)
-  }
-}
 onMounted(() => {
-  transactionStore.fetchTransactions() // 초기에 전체 데이터 가져오기
+  transactionStore.fetchTransactions()
 })
 </script>
 
@@ -53,7 +54,12 @@ onMounted(() => {
     <hr />
 
     <ul class="list">
-      <PostItem v-for="item in paginatedList" :key="item.id" :item="item" />
+      <PostItem
+        v-for="item in paginatedList"
+        :key="item.id"
+        :item="item"
+        @open-import="onOpenImport"
+      />
     </ul>
 
     <div class="pagination">
@@ -150,7 +156,14 @@ onMounted(() => {
       </button>
     </div>
   </div>
-  <ModalAddPost v-if="showModal" :isVisible="showModal" @close="showModal = false" />
+  <ModalAddPost v-if="showModalAdd" @close="showModalAdd = false" />
+
+   <!-- 거래 상세보기 모달 -->
+    <ModalImport
+     v-if="showModalImport"
+     :item="selectedItem"
+     @close="showModalImport = false"
+   />
 </template>
 
 <style scoped>
