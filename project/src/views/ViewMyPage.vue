@@ -48,6 +48,7 @@ import { useRoute } from 'vue-router'
 import ModalDelete from '@/components/modal/ModalDelete.vue'
 // import ButtonDelete from '@/components/base/ButtonDelete.vue'
 import ButtonEdit from '@/components/base/ButtonEdit.vue'
+import defaultProfile from '@/assets/imgs/user.png'
 
 // 로그인 된 정보 가져오기
 const route = useRoute()

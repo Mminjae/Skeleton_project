@@ -26,7 +26,7 @@
                   @input="validateItem(item)"
                 />
               </div>
-              <div class="text-danger small mt-1" v-if="errors[item.label]">
+              <div class="text-danger" v-if="errors[item.label]">
                 {{ errors[item.label] }}
               </div>
             </div>
@@ -35,9 +35,12 @@
           <div>
             <img :src="imagePreview || defaultProfile" alt="프로필" class="profile-img" />
             <div>
-              <button class="profile-edit btn btn-light btn-sm" @click="triggerFileUpload">
-                사진 변경
-              </button>
+              <li>
+                <button class="profile-edit btn btn-light btn-sm" @click="triggerFileUpload">
+                  사진 변경
+                </button>
+              </li>
+              <li><ButtonProfileReset class="profile-reset" /></li>
               <input
                 type="file"
                 ref="fileInput"
@@ -45,7 +48,6 @@
                 accept="image/*"
                 hidden
               />
-              <ButtonProfileReset />
             </div>
           </div>
         </div>
@@ -65,7 +67,7 @@
                 @input="validateItem(item)"
               />
             </div>
-            <div class="text-danger small mt-1" v-if="errors[item.label]">
+            <div class="text-danger" v-if="errors[item.label]">
               {{ errors[item.label] }}
             </div>
           </div>
@@ -91,6 +93,7 @@ import ButtonSave from '@/components/base/ButtonSave.vue'
 import ButtonDelete from '@/components/base/ButtonDelete.vue'
 import ModalDelete from '@/components/modal/ModalDelete.vue'
 import ButtonProfileReset from '@/components/base/ButtonProfileReset.vue'
+import defaultProfile from '@/assets/imgs/user.png'
 
 const userStore = useUserStore()
 // const router = useRouter()
@@ -107,7 +110,7 @@ const validateItem = (item) => {
 
   switch (label) {
     case '이름':
-      errors.value[label] = /^[가-힣]{2,5}$/.test(value) ? '' : '이름은 한글 2~5자여야 합니다.'
+      errors.value[label] = /^[가-힣]{2,5}$/.test(value) ? '' : '한글 2~5자여야 합니다.'
       break
     case '생년월일':
       errors.value[label] = /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(value)
@@ -188,6 +191,7 @@ const handleFileChange = async (event) => {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  list-style: none;
 }
 #mypage {
   font-family: 'Noto Sans KR', sans-serif;
@@ -273,14 +277,17 @@ const handleFileChange = async (event) => {
   /* margin-left: 5rem; */
   width: 13.9rem;
   margin-left: 1rem;
+  position: relative;
+  /* z-index: 1; */
 }
 
 /* 에러 메시지 */
 .text-danger {
+  /* display: inline; */
   font-size: 0.85rem;
   color: #e53935 !important;
-  margin-left: 5rem;
-  text-align: center;
+  /* margin-left: 5rem; */
+  text-align: right;
 }
 
 /* 프로필 */
@@ -300,7 +307,7 @@ const handleFileChange = async (event) => {
 /* 버튼 */
 #btn-group {
   margin-left: 41rem;
-  margin-top: 4rem;
+  /* margin-top: 2.7rem; */
 }
 .btn-group {
   margin: 0.5rem;
@@ -311,5 +318,9 @@ const handleFileChange = async (event) => {
 }
 .profile-edit {
   margin-left: 1.1rem;
+}
+.profile-reset {
+  /* margin-top: 0.5rem; */
+  margin-left: 1.6rem;
 }
 </style>

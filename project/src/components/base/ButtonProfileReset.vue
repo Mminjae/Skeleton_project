@@ -1,5 +1,5 @@
 <template>
-  <button class="profile-reset btn btn-light" @click="resetProfileImage">초기화</button>
+  <button class="profile-reset btn btn-light btn-sm" @click="resetProfileImage">초기화</button>
 </template>
 
 <script setup>
@@ -22,3 +22,4 @@ const resetProfileImage = async () => {
   }
 }
 </script>
+<style scoped></style>
