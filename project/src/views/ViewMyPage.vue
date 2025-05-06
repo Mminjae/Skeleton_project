@@ -3,35 +3,35 @@
     <div class="container my-5">
       <h5 class="mb-5">마이페이지</h5>
       <div class="info-card">
-        <div class="d-flex justify-content-between align-items-start mb-4">
+        <div class="d-flex justify-content-between">
           <!-- 회원 정보 -->
           <div class="info-member">
-            <div class="info-title">회원정보</div>
+            <div class="info-title">회원 정보</div>
             <div class="info-item" v-for="(item, index) in memberInfo" :key="index">
               <div class="label">{{ item.label }}</div>
               <div class="value">{{ item.value }}</div>
             </div>
           </div>
 
-          <!-- 프로필 -->
+          <!-- 프로필 사진-->
           <div>
             <img src="" alt="프로필" class="profile-img" />
-            <i class="bi bi-person-fill"></i>
           </div>
         </div>
-
+        <!-- 구분선 -->
         <div class="section-divider"></div>
 
         <!-- 연락처 정보 -->
         <div class="info-contact">
-          <div class="info-title">연락처정보</div>
+          <div class="info-title">연락처 정보</div>
           <div class="info-item" v-for="(item, index) in contactInfo" :key="index">
             <div class="label">{{ item.label }}</div>
             <div class="value">{{ item.value }}</div>
           </div>
+          <!-- 버튼  -->
           <div id="btn-group">
             <ButtonEdit />
-            <ButtonDelete />
+            <!-- <ButtonDelete /> -->
           </div>
         </div>
       </div>
@@ -44,15 +44,17 @@
 <script setup>
 import { onMounted, computed } from 'vue'
 import { useUserStore } from '@/stores/userStore'
+import { useRoute } from 'vue-router'
 import ModalDelete from '@/components/modal/ModalDelete.vue'
-import ButtonDelete from '@/components/base/ButtonDelete.vue'
+// import ButtonDelete from '@/components/base/ButtonDelete.vue'
 import ButtonEdit from '@/components/base/ButtonEdit.vue'
 
 // 로그인 된 정보 가져오기
+const route = useRoute()
 const userStore = useUserStore()
-
 onMounted(() => {
-  userStore.fetchUser()
+  const userId = route.params.id // 또는 localStorage.getItem('userId')
+  userStore.fetchUser(userId)
 })
 
 const memberInfo = computed(() => userStore.memberInfo)
@@ -72,7 +74,7 @@ const contactInfo = computed(() => userStore.contactInfo)
   padding-top: 2rem;
 }
 
-/* 회원, 연락처 정보, 프로필 */
+/* 전체 카드 */
 .info-card {
   width: 50rem; /*800px */
   height: 37.5rem; /* 600px */
@@ -89,19 +91,27 @@ const contactInfo = computed(() => userStore.contactInfo)
   margin-bottom: 2rem;
   padding-left: 0.5rem;
   width: 6rem;
-  /* margin-top: 0rem; */
   background: linear-gradient(to top, #d5d7f2 30%, transparent 40%);
 }
-
 .info-member {
-  width: 10.3rem; /* 164.8px */
-  height: 9rem; /* 144px */
+  width: 10.3rem;
+  height: 9.7rem;
+}
+.d-flex {
+  padding: 1rem;
+}
+
+/* 구분선 */
+.section-divider {
+  border-top: 1px solid #eee;
+  margin: 3rem 0;
 }
 
 /* 연락처 정보 */
 .info-contact {
-  width: 24.6rem; /* 393px */
-  height: 7rem; /* 102px */
+  width: 24.6rem;
+  height: 7rem;
+  padding: 1rem;
 }
 .info-item {
   display: flex;
@@ -147,11 +157,13 @@ const contactInfo = computed(() => userStore.contactInfo)
 .value {
   padding: 0.5rem;
 }
-/* 회원정보, 연락처 정보 경계선 */
-.section-divider {
-  border-top: 1px solid #eee;
-  margin: 6rem 0;
-  padding-top: 0;
+
+/* 버튼 */
+#btn-group {
+  margin-left: 41rem;
+  margin-top: 12rem;
 }
-/* 수정, 탈퇴 버튼 */
+.btn-group {
+  margin: 0.5rem;
+}
 </style>
