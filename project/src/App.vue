@@ -10,7 +10,7 @@
   <ModalEditPost />
   <ModalExpenditure />
   <ModalImport />
-  <ModalFilter />
+  <!-- <ModalFilter /> -->
   <ModalIdpw v-if="showModalIdpw" @found-user="openResultModal" @close="showModalIdpw = false" />
   <ModalResultid v-if="showModalResult" :found-id="foundId" @close="showModalResult = false" />
 </template>
