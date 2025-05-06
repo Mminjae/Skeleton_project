@@ -110,7 +110,7 @@ const validateItem = (item) => {
 
   switch (label) {
     case '이름':
-      errors.value[label] = /^[가-힣]{2,5}$/.test(value) ? '' : '한글 2~5자여야 합니다.'
+      errors.value[label] = /^[가-힣]{2,5}$/.test(value) ? '' : '이름은 한글 2~5자여야 합니다.'
       break
     case '생년월일':
       errors.value[label] = /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(value)
@@ -294,14 +294,13 @@ const handleFileChange = async (event) => {
 .profile-img {
   width: 6rem;
   height: 6rem;
-  background-color: #e6f0ff;
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   margin-right: 2rem;
   margin-top: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 50%;
 }
 
 /* 버튼 */

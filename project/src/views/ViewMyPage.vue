@@ -145,14 +145,13 @@ const profileImage = computed(() => userStore.profileImage)
 .profile-img {
   width: 6rem;
   height: 6rem;
-  background-color: #e6f0ff;
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   margin-right: 2rem;
   margin-top: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 50%;
 }
 
 .label,
