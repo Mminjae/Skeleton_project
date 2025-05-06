@@ -267,7 +267,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
               class="btn-check" 
               name="transactionType3" 
               id="cash" 
-              value="cash"
+              value="현금"
               v-model="selectedPaymentMethod"
               :disabled="selectedType !== 'expense'" 
             /> <!-- '지출'선택시에만 클릭가능 -->
@@ -278,7 +278,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
               class="btn-check"
               name="transactionType3"
               id="card"
-              value="card"
+              value="카드"
               v-model="selectedPaymentMethod"
               :disabled="selectedType !== 'expense'"
             /> <!-- '지출'선택시에만 클릭가능 -->
