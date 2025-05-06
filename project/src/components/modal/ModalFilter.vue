@@ -75,8 +75,9 @@ const selectedCategories = ref([])  //초기설정
 // 지불수단 선택(현금/카드) 라디오박스 상태
 const selectedPaymentMethod = ref(null)  //초기설정
 
-// '초기화버튼'에 탑재되는 초기화 함수
-  const resetFilters = () => {
+//-----'초기화버튼'에 탑재되는 초기화 함수 resetFilters--------//  
+  //버튼리셋필터
+  const btnResetFilters = () => {
   filters.value.selectedPeriod = null        //연/월/일 초기화
   filters.value.date_gte = ''             //날짜-시작일 초기화
   filters.value.date_lte = ''
@@ -85,7 +86,8 @@ const selectedPaymentMethod = ref(null)  //초기설정
   selectedCategories.value = []      //카테고리 초기화
   selectedPaymentMethod.value = null //지불수단(현금/카드)초기화
   }
-// '완료버튼'에 탑재되는 저장함수 (나중에 db.json과 연동하여 거래데이터transactions 이용하여 필터적용)
+
+  // '완료버튼'에 탑재되는 저장함수 (나중에 db.json과 연동하여 거래데이터transactions 이용하여 필터적용)
   const applyFilters = () => {
     const queryParams = {};
 
@@ -112,6 +114,12 @@ const selectedPaymentMethod = ref(null)  //초기설정
       // 이걸 기반으로 pinia action 호출하거나 axios 직접 요청 가능
       transactionStore.fetchTransactions(queryParams) //Pinia store action 호출
   }
+  //btnResetFilters를 적용시킨후, applyFilter를 적용시켜, 결과적으로 적용되어있는 필터를 초기화
+const resetFilters = () => {
+  btnResetFilters()
+  applyFilters()
+} 
+//-----'초기화버튼'에 탑재되는 초기화 함수 End-----//
 
 </script>
 
@@ -125,7 +133,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
     data-bs-toggle="modal"
     data-bs-target="#FilterModal"
     data-bs-whatever="@mdo"
-    @click="resetFilters"
+    @click="btnResetFilters"
     scale="1.5"   
   ><!-- 모달을 닫았다 다시 열경우, 필터 초기화 -->
   <!-- <div class=".button--filterIcon__layout" alt="필터아이콘"></div> -->
@@ -287,7 +295,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
         </div>
         <!-- 하단 버튼(초기화, 완료) -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-filter-reset" @click="resetFilters">초기화</button>
+          <button type="button" class="btn btn-secondary btn-filter-reset" @click="resetFilters" >초기화</button>
           <button type="button" class="btn btn-primary btn-filter-done" @click="applyFilters">완료</button>
         </div>
       </div>
