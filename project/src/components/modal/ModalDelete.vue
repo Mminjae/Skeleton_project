@@ -10,6 +10,7 @@
       <div class="modal-content">
         <div class="modal-body">
           <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
+          <p class="text-danger">(탈퇴 시 모든 정보는 삭제 됩니다.)</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
