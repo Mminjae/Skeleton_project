@@ -42,13 +42,12 @@
               {{ errors[item.label] }}
             </div>
           </div>
-
           <!-- 버튼 -->
           <div class="button-group">
             <button class="save btn btn-light" @click="handleSubmit">저장</button>
+            <ButtonDelete />
           </div>
         </div>
-
         <!-- 오른쪽: 프로필 사진 -->
         <div class="text-center" style="min-width: 120px">
           <img
@@ -64,7 +63,6 @@
       </div>
     </div>
   </div>
-  <ButtonDelete />
   <!-- 탈퇴 모달 -->
   <ModalDelete />
 </template>
@@ -77,7 +75,6 @@ import axios from 'axios'
 import ModalDelete from '@/components/modal/ModalDelete.vue'
 import ButtonDelete from '@/components/base/ButtonDelete.vue'
 
-// const router = useRouter()
 const userStore = useUserStore()
 const router = useRouter()
 
@@ -242,7 +239,7 @@ h6 {
 .button-group {
   display: flex;
   justify-content: flex-end;
-  /* gap: 0.8rem; */
+  gap: 1rem;
   margin-top: 1.5rem;
 }
 .profile-edit {

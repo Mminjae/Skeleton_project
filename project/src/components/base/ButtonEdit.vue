@@ -17,6 +17,5 @@ const goEdit = () => {
 <style scoped>
 .edit {
   width: 5rem;
-  margin-right: 1rem;
 }
 </style>

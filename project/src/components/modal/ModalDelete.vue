@@ -29,22 +29,26 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
 import axios from 'axios'
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const confirmDelete = async () => {
-  const userId = localStorage.getItem('userId')
-  // if (!userId) return alert('로그인 정보가 없습니다.')
-
   try {
+    const userId = userStore.user.id // 또는 userStore.user._id
     await axios.delete(`http://localhost:3000/users/${userId}`)
-    localStorage.removeItem('userId')
     alert('탈퇴가 완료되었습니다.')
-    router.push('/login')
-  } catch (err) {
-    console.error(err)
+    // router.push('/')
+    // window.location.reload()
+
+    router.push('/').then(() => {
+      window.location.reload()
+    })
+  } catch (error) {
     alert('탈퇴 중 오류가 발생했습니다.')
+    console.error(error)
   }
 }
 </script>

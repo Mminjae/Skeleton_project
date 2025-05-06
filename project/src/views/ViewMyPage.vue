@@ -29,12 +29,14 @@
             <div class="label">{{ item.label }}</div>
             <div class="value">{{ item.value }}</div>
           </div>
+          <div id="btn-group">
+            <ButtonEdit />
+            <ButtonDelete />
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <ButtonEdit />
-  <ButtonDelete />
   <!-- 탈퇴 모달 -->
   <ModalDelete />
 </template>
@@ -152,56 +154,4 @@ const contactInfo = computed(() => userStore.contactInfo)
   padding-top: 0;
 }
 /* 수정, 탈퇴 버튼 */
-/* .btn-group {
-  display: flex;
-  justify-self: flex-end;
-  gap: 1rem;
-  margin-top: 3.5rem;
-  width: 10rem;
-  height: 2.5rem;
-}
-
-button {
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  background: white;
-  color: #535353;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.edit {
-  width: 5rem;
-  margin-right: 1rem;
-}
-.member-out {
-  width: 7rem;
-  border: none;
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-} */
-
-/* 탈퇴 클릭 시 모달 */
-/* .modal {
-  position: fixed;
-  top: 10rem;
-  left: 40rem;
-  width: 20rem;
-  height: 30rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: space-around;
-  margin: 1rem;
-} */
 </style>
