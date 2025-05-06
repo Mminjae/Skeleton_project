@@ -1,7 +1,7 @@
 <template>
   <div id="mypage">
     <div class="container my-5">
-      <h5 class="mb-5">마이페이지</h5>
+      <h5 class="mb-5">마이 페이지</h5>
       <div class="info-card">
         <div class="d-flex justify-content-between">
           <!-- 회원 정보 -->
@@ -15,7 +15,7 @@
 
           <!-- 프로필 사진-->
           <div>
-            <img src="" alt="프로필" class="profile-img" />
+            <img :src="profileImage" alt="프로필" class="profile-img" />
           </div>
         </div>
         <!-- 구분선 -->
@@ -59,6 +59,7 @@ onMounted(() => {
 
 const memberInfo = computed(() => userStore.memberInfo)
 const contactInfo = computed(() => userStore.contactInfo)
+const profileImage = computed(() => userStore.profileImage)
 </script>
 
 <style scoped>
@@ -77,13 +78,28 @@ const contactInfo = computed(() => userStore.contactInfo)
 /* 전체 카드 */
 .info-card {
   width: 50rem; /*800px */
-  height: 37.5rem; /* 600px */
+  height: 37.5rem; /*600px*/
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   padding: 2rem 5rem 0rem 2rem;
   margin: 1rem;
   background-color: white;
 }
+
+/* 정보 공통 */
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  margin-left: 2rem;
+  width: 20rem;
+}
+
+.info-item .value {
+  flex: 1;
+  color: #535353;
+}
+
 /* 회원 정보 */
 .info-title {
   font-weight: 500;
@@ -94,7 +110,7 @@ const contactInfo = computed(() => userStore.contactInfo)
   background: linear-gradient(to top, #d5d7f2 30%, transparent 40%);
 }
 .info-member {
-  width: 10.3rem;
+  /* width: 10.3rem; */
   height: 9.7rem;
 }
 .d-flex {
@@ -107,24 +123,6 @@ const contactInfo = computed(() => userStore.contactInfo)
   margin: 3rem 0;
 }
 
-/* 연락처 정보 */
-.info-contact {
-  width: 24.6rem;
-  height: 7rem;
-  padding: 1rem;
-}
-.info-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.8rem;
-  margin-left: 2rem;
-  width: 15rem;
-}
-
-.value {
-  padding-left: 1rem;
-}
-
 .label {
   border-right: 4px solid #d5d7f2;
 }
@@ -135,10 +133,13 @@ const contactInfo = computed(() => userStore.contactInfo)
   font-weight: 400;
 }
 
-.info-item .value {
-  flex: 1;
-  color: #535353;
+/* 연락처 정보 */
+.info-contact {
+  width: 24.6rem;
+  height: 7rem;
+  padding: 1rem;
 }
+
 /* 프로필 */
 .profile-img {
   width: 6rem;
@@ -161,7 +162,7 @@ const contactInfo = computed(() => userStore.contactInfo)
 /* 버튼 */
 #btn-group {
   margin-left: 41rem;
-  margin-top: 12rem;
+  margin-top: 4rem;
 }
 .btn-group {
   margin: 0.5rem;

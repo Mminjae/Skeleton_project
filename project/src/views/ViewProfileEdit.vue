@@ -1,21 +1,21 @@
 <template>
   <div id="mypage">
     <div class="container my-5">
-      <h5 class="mb-5">수정페이지</h5>
+      <h5 class="mb-5">수정 페이지</h5>
       <div class="info-card">
         <div class="d-flex justify-content-between">
           <!-- 회원 정보 -->
           <div class="info-member">
             <div class="info-title">회원 정보</div>
-            <div v-for="(item, index) in memberInfo" :key="'member-' + index" class="mb-3">
-              <div class="form-row">
-                <label class="form-label">{{ item.label }}</label>
+            <div v-for="(item, index) in memberInfo" :key="'member-' + index">
+              <div class="info-item">
+                <label class="label">{{ item.label }}</label>
                 <!-- id 고정 -->
-                <div v-if="item.label === 'ID'" class="id-style">
+                <div v-if="item.label === 'ID'" class="fixed-id">
                   {{ item.value }}
                 </div>
                 <!-- 생년월일 고정 -->
-                <div v-else-if="item.label === '생년월일'" class="id-style">
+                <div v-else-if="item.label === '생년월일'" class="fixed-id">
                   {{ item.value }}
                 </div>
                 <input
@@ -35,7 +35,7 @@
           <div>
             <img :src="imagePreview" alt="프로필" class="profile-img" />
             <div>
-              <button class="profile-edit btn btn-light" @click="triggerFileUpload">
+              <button class="profile-edit btn btn-light btn-sm" @click="triggerFileUpload">
                 사진 변경
               </button>
               <input
@@ -54,14 +54,16 @@
         <!-- 연락처 정보 -->
         <div class="info-contact">
           <div class="info-title">연락처 정보</div>
-          <div v-for="(item, index) in contactInfo" :key="'contact-' + index" class="mb-3">
-            <label class="label">{{ item.label }}</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="item.value"
-              @input="validateItem(item)"
-            />
+          <div v-for="(item, index) in contactInfo" :key="'contact-' + index">
+            <div class="info-item">
+              <label class="label">{{ item.label }}</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="item.value"
+                @input="validateItem(item)"
+              />
+            </div>
             <div class="text-danger small mt-1" v-if="errors[item.label]">
               {{ errors[item.label] }}
             </div>
@@ -80,10 +82,10 @@
 </template>
 
 <script setup>
-import { ref, computed, provide } from 'vue'
+import { ref, computed, provide, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 // import { useRouter } from 'vue-router'
-// import axios from 'axios'
+import axios from 'axios'
 import ButtonSave from '@/components/base/ButtonSave.vue'
 import ButtonDelete from '@/components/base/ButtonDelete.vue'
 import ModalDelete from '@/components/modal/ModalDelete.vue'
@@ -93,6 +95,7 @@ const userStore = useUserStore()
 
 const memberInfo = computed(() => userStore.memberInfo)
 const contactInfo = computed(() => userStore.contactInfo)
+// const profileImage = computed(() => userStore.profileImage)
 
 const errors = ref({})
 
@@ -122,34 +125,58 @@ const validateItem = (item) => {
   }
 }
 
+const imagePreview = ref('')
+
+const loadUserInfo = async () => {
+  try {
+    const res = await axios.get(`http://localhost:3000/users/1`)
+    if (res.data) {
+      // 프로필 이미지 설정
+      imagePreview.value = res.data.profileImage || ''
+      // 사용자 정보 업데이트
+      userStore.setMemberInfo(res.data.memberInfo)
+      userStore.setContactInfo(res.data.contactInfo)
+    }
+  } catch (error) {
+    console.error('사용자 정보 로딩 실패:', error)
+  }
+}
+
+// 컴포넌트 마운트 시 사용자 정보 로딩
+onMounted(() => {
+  loadUserInfo()
+})
+
 provide('memberInfo', memberInfo)
 provide('contactInfo', contactInfo)
 provide('errors', errors)
 provide('validateItem', validateItem)
+provide('imagePreview', imagePreview)
 
-// 프로필 사진 변경
 const fileInput = ref(null)
-const imagePreview = ref('#') // 기본 이미지 or 빈 값
 
-// 버튼 클릭 시 input 클릭
 const triggerFileUpload = () => {
   fileInput.value.click()
 }
 
-// 파일 선택 후 미리보기
-const handleFileChange = (event) => {
+const handleFileChange = async (event) => {
   const file = event.target.files[0]
   if (file) {
     const reader = new FileReader()
-    reader.onload = () => {
-      imagePreview.value = reader.result // base64 데이터로 미리보기
+    reader.onload = async () => {
+      imagePreview.value = reader.result
+      // const userId = localStorage.getItem('userId')
+      try {
+        await axios.patch(`http://localhost:3000/users/1`, {
+          profileImage: reader.result,
+        })
+        alert('프로필 이미지가 저장되었습니다.')
+      } catch (error) {
+        console.error('이미지 저장 실패:', error)
+        alert('이미지 저장에 실패했습니다.')
+      }
     }
     reader.readAsDataURL(file)
-
-    // 필요 시, 여기서 서버 업로드 로직 작성 가능
-    // const formData = new FormData()
-    // formData.append('profileImage', file)
-    // await axios.post('서버URL', formData)
   }
 }
 </script>
@@ -178,6 +205,24 @@ const handleFileChange = (event) => {
   background-color: white;
 }
 
+/* 정보 공통 */
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.6rem;
+  margin-left: 2rem;
+  width: 20rem;
+}
+
+.info-item .value {
+  flex: 1;
+  color: #535353;
+}
+
+.fixed-id {
+  margin-left: 1rem;
+}
+
 /* 회원 정보 */
 .info-title {
   font-weight: 500;
@@ -186,6 +231,10 @@ const handleFileChange = (event) => {
   padding-left: 0.5rem;
   width: 6rem;
   background: linear-gradient(to top, #d5d7f2 20%, transparent 40%);
+}
+.info-member {
+  width: 10.3rem;
+  height: 9.7rem;
 }
 
 .d-flex {
@@ -197,6 +246,17 @@ const handleFileChange = (event) => {
   border-top: 1px solid #eee;
   margin: 3rem 0;
 }
+.label {
+  border-right: 4px solid #d5d7f2;
+  /* margin: -1rem; */
+  height: 2rem;
+}
+
+.info-item .label {
+  width: 80px;
+  color: #535353;
+  font-weight: 400;
+}
 
 /* 연락처 정보 */
 .info-contact {
@@ -204,28 +264,13 @@ const handleFileChange = (event) => {
   height: 7rem; /* 102px */
   padding: 1rem;
 }
-/* 라벨 스타일 */
-.label {
-  font-weight: 400;
-  color: #535353;
-  width: 4rem;
-}
 
 /* 입력창 스타일 */
 .form-control {
-  display: inline;
-  align-items: center;
-  margin-bottom: 0.8rem;
-  margin-left: 5rem;
-  width: 15rem;
-}
-
-.id-style {
-  display: inline;
-  align-items: center;
-  margin-bottom: 0.8rem;
-  margin-left: 5rem;
-  width: 15rem;
+  /* display: inline; */
+  /* margin-left: 5rem; */
+  width: 13.9rem;
+  margin-left: 1rem;
 }
 
 /* 에러 메시지 */
@@ -253,13 +298,16 @@ const handleFileChange = (event) => {
 /* 버튼 */
 #btn-group {
   margin-left: 41rem;
-  margin-top: 12rem;
+  margin-top: 4rem;
 }
 .btn-group {
   margin: 0.5rem;
 }
 .btn-delete {
-  margin-top: 8.5rem;
-  margin-left: -1.5rem;
+  margin-top: 6.7rem;
+  margin-left: 37em;
+}
+.profile-edit {
+  margin-left: 1.1rem;
 }
 </style>

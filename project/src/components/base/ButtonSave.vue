@@ -13,6 +13,7 @@ const memberInfo = inject('memberInfo')
 const contactInfo = inject('contactInfo')
 const errors = inject('errors')
 const validateItem = inject('validateItem')
+const imagePreview = inject('imagePreview')
 
 const router = useRouter()
 
@@ -31,11 +32,12 @@ const handleSave = async () => {
     userId: memberInfo.value.find((i) => i.label === 'ID')?.value,
     email: contactInfo.value.find((i) => i.label === '이메일')?.value,
     phone: contactInfo.value.find((i) => i.label === '전화번호')?.value,
+    profileImage: imagePreview.value || '', // 이미지 포함!
   }
 
-  const userId = localStorage.getItem('userId')
+  // const userId = localStorage.getItem('userId')
   try {
-    await axios.put(`http://localhost:3000/users/${userId}`, payload)
+    await axios.put(`http://localhost:3000/users/1`, payload)
     alert('저장되었습니다.')
     router.push('/mypage')
   } catch (e) {
@@ -48,6 +50,5 @@ const handleSave = async () => {
 <style scoped>
 .save {
   width: 5rem;
-  /* background-color: #d5d7f2; */
 }
 </style>
