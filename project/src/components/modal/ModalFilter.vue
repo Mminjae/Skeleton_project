@@ -90,7 +90,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
   // '완료버튼'에 탑재되는 저장함수 (나중에 db.json과 연동하여 거래데이터transactions 이용하여 필터적용)
   const applyFilters = () => {
     const queryParams = {};
-
+      
       if (filters.value.date_gte && filters.value.date_lte) {
         queryParams.date_gte = filters.value.date_gte;
         queryParams.date_lte = filters.value.date_lte;
@@ -112,7 +112,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
 
       console.log('쿼리 파라미터:', queryParams);
       // 이걸 기반으로 pinia action 호출하거나 axios 직접 요청 가능
-      transactionStore.fetchTransactions(queryParams) //Pinia store action 호출
+      transactionStore.fetchTransactions(queryParams) //Pinia store action 호출  //주의할것, 이름이 같아 헷갈릴 수 있으나, 엄연히 useTransactionStore를 import하여 정의한 transactionStore을 사용한것임.
   }
   //btnResetFilters를 적용시킨후, applyFilter를 적용시켜, 결과적으로 적용되어있는 필터를 초기화
 const resetFilters = () => {
@@ -203,9 +203,9 @@ const resetFilters = () => {
             />
             <label class="btn btn-primary" for="today">오늘</label>
           </div>
-          <!-- 날짜필터2-달력버튼 -->
+          <!-- 날짜필터2-달력버튼 -->  <!-- 사용자가 입력한 날짜가 곧바로 filters.date_gte 또는 filters.date_lte 변수에 반영되고, 반대로 코드에서 해당 값을 바꾸면 input에 자동 반영됩니다. -->
           <hr />
-          <div class="callendar-group">
+          <div class="callendar-group"> 
             <input type="date" id="date-start" class="input-callendar" name="date-start" v-model="filters.date_gte">
             <label for="date-start"></label>
             <em>~</em>
