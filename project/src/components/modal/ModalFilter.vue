@@ -1,6 +1,7 @@
 <script setup>
   import { ref ,watch } from 'vue'
   import { useTransactionStore } from '@/stores/useTransactionStore'  //axios를 이용해 필터조건을 전달하기위해, store 호출.
+  import IconIcon from '@/components/base/iconIcon.vue'; //모달아이콘
   //Axios & Pinia용 스크립트
   const transactionStore = useTransactionStore()
 

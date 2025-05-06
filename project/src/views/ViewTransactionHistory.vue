@@ -8,6 +8,7 @@ import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 //리스트 컴포넌트에서 Store 사용하도록 수정
 import { useTransactionStore } from '@/stores/useTransactionStore';
+import ModalFilter from '@/components/modal/ModalFilter.vue';  //모달필터 컴포넌트 불러오기
 const transactionStore = useTransactionStore();
 // const pageNumber
 
@@ -18,6 +19,8 @@ let pageCount = ref(0);
 // const transactions = ref([]); //json.server에서 불러올 리스트 초기값 설정
 const transactions = computed(() => transactionStore.transactions); //이제 store에서 불러온다.
 const maxPage = computed(() => Math.ceil(transactions.value.length / itemsPerPage)); //transactions의 데이터 개수(길이)를 기반으로 동적으로 변경
+const showModal = ref(false); //모달 초기상태는 꺼짐
+
 
 //페이지별 리스트계산 - 우리는 한페이지당 10개의 리스트
 const paginatedList = computed(() => {
@@ -45,7 +48,8 @@ onMounted(() => {
 <template>
   <div class="viewtransactionhistory">
     <h2>거래내역조회</h2>
-    <button class="filter"><IconIcon icon="filter" scale="1.5"/></button>
+    <ModalFilter @apply-filter="handleFilter" @close="showModal = false" class="filter"/>
+    <!-- <button class="filter"><IconIcon icon="filter" scale="1.5"/></button> -->
     <button class="write"><IconIcon icon="write" scale="1.5"/></button>
     <hr>
 
