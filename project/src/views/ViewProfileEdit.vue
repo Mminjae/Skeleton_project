@@ -33,7 +33,7 @@
           </div>
           <!-- 프로필 사진 -->
           <div>
-            <img :src="imagePreview" alt="프로필" class="profile-img" />
+            <img :src="imagePreview || defaultProfile" alt="프로필" class="profile-img" />
             <div>
               <button class="profile-edit btn btn-light btn-sm" @click="triggerFileUpload">
                 사진 변경
@@ -45,6 +45,7 @@
                 accept="image/*"
                 hidden
               />
+              <ButtonProfileReset />
             </div>
           </div>
         </div>
@@ -89,6 +90,7 @@ import axios from 'axios'
 import ButtonSave from '@/components/base/ButtonSave.vue'
 import ButtonDelete from '@/components/base/ButtonDelete.vue'
 import ModalDelete from '@/components/modal/ModalDelete.vue'
+import ButtonProfileReset from '@/components/base/ButtonProfileReset.vue'
 
 const userStore = useUserStore()
 // const router = useRouter()

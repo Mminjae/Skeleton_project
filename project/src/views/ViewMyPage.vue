@@ -15,7 +15,7 @@
 
           <!-- 프로필 사진-->
           <div>
-            <img :src="profileImage" alt="프로필" class="profile-img" />
+            <img :src="profileImage || defaultProfile" alt="프로필" class="profile-img" />
           </div>
         </div>
         <!-- 구분선 -->
