@@ -121,14 +121,15 @@ const selectedPaymentMethod = ref(null)  //초기설정
       2.data-bs-target: 열릴 모달의 ID를 지정.-->
   <button
     type="button"
-    class="btn-fillter"
+    class="btn-filter"
     data-bs-toggle="modal"
     data-bs-target="#FilterModal"
     data-bs-whatever="@mdo"
-    @click="resetFilters"   
+    @click="resetFilters"
+    scale="1.5"   
   ><!-- 모달을 닫았다 다시 열경우, 필터 초기화 -->
   <!-- <div class=".button--filterIcon__layout" alt="필터아이콘"></div> -->
-    필터
+    <IconIcon icon="filter" scale="1.5"/>
   </button>
   <!-- 필터모달을 Open하는 button END -->
 
@@ -197,10 +198,10 @@ const selectedPaymentMethod = ref(null)  //초기설정
           <!-- 날짜필터2-달력버튼 -->
           <hr />
           <div class="callendar-group">
-            <input type="date" id="start" class="input-callendar" name="date-start" v-model="filters.date_gte">
+            <input type="date" id="date-start" class="input-callendar" name="date-start" v-model="filters.date_gte">
             <label for="date-start"></label>
             <em>~</em>
-            <input type="date" id="end" class="input-callendar" name="date-end" v-model="filters.date_lte">
+            <input type="date" id="date-end" class="input-callendar" name="date-end" v-model="filters.date_lte">
             <label for="date-end"></label>
           </div>
           <hr>
