@@ -406,10 +406,13 @@ const selectedPaymentMethod = ref(null)  //초기설정
   width: 6rem;  /*figma최신화 */
 }
 .btn-filter-reset{
-
 }
 .btn-filter-done{
-  
+}
+.btn-filter{
+  background-color: transparent;
+  border: none;
+  margin-left: 4rem;
 }
 /*------------모달푸터 END-----------*/
 /*--------------------필터모달 CSS END----------------*/
