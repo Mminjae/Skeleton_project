@@ -12,9 +12,9 @@ export const useUserStore = defineStore('user', () => {
     return number.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3')
   }
 
-  const fetchUser = async () => {
+  const fetchUser = async (userId) => {
     try {
-      const response = await axios.get('http://localhost:3000/users/1')
+      const response = await axios.get(`http://localhost:3000/users/${userId}`)
       user.value = response.data
 
       memberInfo.value = [
@@ -31,6 +31,5 @@ export const useUserStore = defineStore('user', () => {
       console.error('유저 정보 로딩 실패:', error)
     }
   }
-
   return { user, memberInfo, contactInfo, fetchUser }
 })
