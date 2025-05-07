@@ -60,9 +60,7 @@
 
         <div class="area-button">
           <!-- 프로필 이미지 영역: 기본이미지 or 업로드 이미지 -->
-          <div class="profile-image-wrapper">
-            <img :src="imagePreview || defaultImage" alt="프로필사진" class="profile-image" />
-          </div>
+          <img :src="imagePreview || defaultImage" alt="프로필사진" class="profile-image" />
 
           <!-- 이미지 (숨긴 input) (기본 파일 input 감추기) -->
           <input
@@ -73,7 +71,7 @@
             style="display: none"
           />
           <!-- 라벨 버튼으로 사용자 업로드 유도 -->
-          <label for="imageInput" class="upload-button">사진등록</label>
+          <label for="imageInput" class="upload-button">사진 등록</label>
           <!-- 회원가입 버튼 -->
           <button type="submit">회원가입</button>
         </div>
@@ -289,6 +287,7 @@ h2 {
 .area-button {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-top: calc(var(--space-m) * 2);
   padding-right: 5%;
   position: relative;
@@ -336,23 +335,4 @@ button[type='submit'] {
   color: var(--color-blue);
   font-size: var(--font-s);
 }
-
-/* 사진첨부 버튼 */
-/* .upload-button {
-display: inline-block;
-background-color: #f5f5f5;
-color: #333;
-border: 1px solid #ccc;
-border-radius: 0.5rem;
-padding: 0.5rem var(--space-m);
-font-size: var(--space-m);
-cursor: pointer;
-text-align: center;
-margin-top: var(--space-m);
-transition: background-color 0.3s;
-}
-
-.upload-button:hover {
-background-color: #e0e0e0;
-} */
 </style>

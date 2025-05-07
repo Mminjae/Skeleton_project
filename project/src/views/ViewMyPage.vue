@@ -1,71 +1,69 @@
 <template>
   <div id="mypage">
-    <div class="container my-5">
-      <h5 class="mb-5">마이페이지</h5>
-      <div class="info-card">
-        <div class="d-flex justify-content-between align-items-start mb-4">
-          <!-- 회원 정보 -->
-          <div class="info-member">
-            <div class="info-title">회원정보</div>
-            <div class="info-item" v-for="(item, index) in memberInfo" :key="index">
-              <div class="label">{{ item.label }}</div>
-              <div class="value">{{ item.value }}</div>
-            </div>
-          </div>
-
-          <!-- 프로필 -->
-          <div>
-            <img src="" alt="프로필" class="profile-img" />
-            <i class="bi bi-person-fill"></i>
-          </div>
-        </div>
-
-        <div class="section-divider"></div>
-
-        <!-- 연락처 정보 -->
-        <div class="info-contact">
-          <div class="info-title">연락처정보</div>
-          <div class="info-item" v-for="(item, index) in contactInfo" :key="index">
+    <h2>마이페이지</h2>
+    <div class="info-card">
+      <div class="d-flex justify-content-between align-items-start mb-4">
+        <!-- 회원 정보 -->
+        <div class="info-member">
+          <div class="info-title">회원정보</div>
+          <div class="info-item" v-for="(item, index) in memberInfo" :key="index">
             <div class="label">{{ item.label }}</div>
             <div class="value">{{ item.value }}</div>
           </div>
         </div>
-        <!-- 수정/탈퇴 버튼 -->
-        <div class="btn-group">
-          <button class="edit btn btn-light" @click="goEdit">수정</button>
-          <button
-            class="member-out btn btn-danger"
-            data-bs-toggle="modal"
-            data-bs-target="#unregisterModal"
-          >
-            회원 탈퇴
-          </button>
-        </div>
 
-        <!-- 탈퇴 클릭 시 모달 -->
-        <div
-          class="modal fade"
-          id="unregisterModal"
-          tabindex="-1"
-          aria-labelledby="unregisterModalLabel"
-          aria-hidden="true"
+        <!-- 프로필 -->
+        <div>
+          <img src="@/assets/imgs/user-gray.svg" alt="프로필" class="profile-img" />
+          <i class="bi bi-person-fill"></i>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- 연락처 정보 -->
+      <div class="info-contact">
+        <div class="info-title">연락처정보</div>
+        <div class="info-item" v-for="(item, index) in contactInfo" :key="index">
+          <div class="label">{{ item.label }}</div>
+          <div class="value">{{ item.value }}</div>
+        </div>
+      </div>
+      <!-- 수정/탈퇴 버튼 -->
+      <div class="btn-group">
+        <button class="edit" @click="goEdit">수정</button>
+        <button
+          class="member-out"
+          data-bs-toggle="modal"
+          data-bs-target="#unregisterModal"
         >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-body">
-                <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
-                <button
-                  type="button"
-                  class="member-out btn btn-danger"
-                  @click="confirmDelete"
-                  data-bs-dismiss="modal"
-                >
-                  네, 탈퇴할래요
-                </button>
-              </div>
+          회원 탈퇴
+        </button>
+      </div>
+
+      <!-- 탈퇴 클릭 시 모달 -->
+      <div
+        class="modal fade"
+        id="unregisterModal"
+        tabindex="-1"
+        aria-labelledby="unregisterModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" data-bs-dismiss="modal">취소</button>
+              <button
+                type="button"
+                class="member-out btn btn-danger"
+                @click="confirmDelete"
+                data-bs-dismiss="modal"
+              >
+                네, 탈퇴할래요
+              </button>
             </div>
           </div>
         </div>
@@ -102,119 +100,119 @@ const goEdit = () => {
 }
 #mypage {
   font-family: 'Noto Sans KR', sans-serif;
-  margin-left: 5rem;
-  padding: 1rem;
-  padding-top: 2rem;
+}
+h2 {
+  padding: var(--space-l) 0 var(--space-s) calc(var(--space-m) * 2.5);
+  color: var(--color-black);
+  font-size: var(--font-xl);
 }
 
 /* 회원, 연락처 정보, 프로필 */
 .info-card {
-  width: 50rem; /*800px */
-  height: 37.5rem; /* 600px */
-  border-radius: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  padding: 2rem 5rem 0rem 2rem;
-  margin: 1rem;
-  background-color: white;
+  width: calc(var(--space-m) * 50);
+  margin: var(--space-m) 0 0 calc(var(--space-m) * 5);
+  padding: var(--space-xl);
+  background: var(--color-white);
+  border-radius: var(--space-m);
+  box-shadow: 0 0 var(--space-m) rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 /* 회원 정보 */
 .info-title {
-  font-weight: 500;
-  color: #4a4a4a;
   margin-bottom: 2rem;
-  padding-left: 0.5rem;
-  width: 6rem;
-  /* margin-top: 0rem; */
-  background: linear-gradient(to top, #d5d7f2 30%, transparent 40%);
+  /* width: 7rem; */
+  width: fit-content;
+  padding: 0 0.5rem;
+  color: var(--color-black);
+  font-size: var(--font-l);
+  font-weight: 500;
+  background: linear-gradient(to top, var(--color-purple) 30%, transparent 40%);
 }
 
 .info-member {
-  width: 10.3rem; /* 164.8px */
-  height: 9rem; /* 144px */
+  width: calc(var(--space-m) * 10.3); /* 164.8px */
+  height: calc(var(--space-m) * 9); /* 144px */
 }
 
 /* 연락처 정보 */
 .info-contact {
-  width: 24.6rem; /* 393px */
-  height: 7rem; /* 102px */
+  width: calc(var(--space-m) * 24.6); /* 393px */
+  height: calc(var(--space-m) * 7); /* 102px */
 }
 .info-item {
   display: flex;
   align-items: center;
   margin-bottom: 0.8rem;
-  margin-left: 2rem;
-  width: 15rem;
+  margin-left: calc(var(--space-m) * 2);
+  width: calc(var(--space-m) * 20);
+  gap: var(--space-m);
 }
 
 .value {
-  padding-left: 1rem;
+  margin-left: var(--space-m);
 }
-
 .label {
-  border-right: 4px solid #d5d7f2;
+  border-right: 4px solid var(--color-purple);
+}
+.label,
+.value {
+  padding: 0.4rem;
 }
 
 .info-item .label {
-  width: 80px;
-  color: #535353;
+  width: calc(var(--space-m) * 6);
+  color: var(--color-black);
   font-weight: 400;
 }
 
 .info-item .value {
   flex: 1;
-  color: #535353;
+  color: var(--color-black);
 }
 /* 프로필 */
 .profile-img {
-  width: 6rem;
-  height: 6rem;
-  background-color: #e6f0ff;
-  border-radius: 12px;
+  
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  width: calc(var(--space-m) * 7);
+  height: calc(var(--space-m) * 7);
+  border-radius: 50%;
+  object-fit: cover;
   margin-right: 2rem;
   margin-top: 2rem;
 }
 
-.label,
-.value {
-  padding: 0.5rem;
-}
 /* 회원정보, 연락처 정보 경계선 */
 .section-divider {
   border-top: 1px solid #eee;
   margin: 6rem 0;
   padding-top: 0;
 }
+
+button {
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--space-s);
+  background-color: var(--color-white);
+  color: var(--color-black);
+  cursor: pointer;
+  transition: 0.3s;
+  width: calc(var(--space-m) * 7.5);
+}
 /* 수정, 탈퇴 버튼 */
 .btn-group {
   display: flex;
   justify-self: flex-end;
-  gap: 1rem;
-  margin-top: 3.5rem;
-  width: 10rem;
-  height: 2.5rem;
+  gap: var(--space-s);
+  margin-top: calc(var(--space-m) * 3.5);
+}
+.btn-group button {
+  padding: var(--space-s) var(--space-m);
+  font-size: 0.8rem;
 }
 
-button {
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  background: white;
-  color: #535353;
-  cursor: pointer;
-  transition: 0.3s;
-}
 .edit {
-  width: 5rem;
   margin-right: 1rem;
-}
-.member-out {
-  width: 7rem;
-  border: none;
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
 /* 탈퇴 클릭 시 모달 */
