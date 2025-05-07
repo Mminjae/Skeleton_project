@@ -25,7 +25,7 @@ function handleClick(buttonType) {
       </h1>
 
       <div class="nav-bar-profile">
-        <img src="../assets/imgs/user.png" alt="사용자프로필" />
+        <img src="../assets/imgs/user-white.svg" alt="사용자프로필" />
         <span class="nav-bar-userName">000님</span>
       </div>
 
@@ -85,12 +85,13 @@ h1 img {
 
 /*---nav바 프로필사진(사용자)---*/
 .nav-bar-profile {
-  width: calc(var(--space-m) * 7.5);
-  height: calc(var(--space-m) * 7.5);
+  width: calc(var(--space-m) * 7);
+  height: calc(var(--space-m) * 7);
   margin-top: var(--space-l);
 }
 .nav-bar-profile img {
   width: 100%;
+  margin-bottom: var(--space-m);
 }
 .nav-bar-userName {
   display: block;
