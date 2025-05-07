@@ -16,7 +16,13 @@ function handleClick(buttonType) {
 <template>
   <div class="navClass">
     <nav id="nav">
-      <h1><RouterLink to="/main"><img src="../assets/imgs/logo.png" alt="사이트로고" /></RouterLink></h1>
+      <h1>
+        <img
+          role=button
+          @click="handleClick('main')"
+          src="../assets/imgs/logo.png"
+          alt="사이트로고" />
+      </h1>
 
       <div class="nav-bar-profile">
         <img src="../assets/imgs/user.png" alt="사용자프로필" />
