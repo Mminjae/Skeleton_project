@@ -45,8 +45,8 @@ onMounted(() => {
 <template>
   <div class="viewtransactionhistory">
     <h2>거래내역조회</h2>
-    <button class="filter"><IconIcon icon="filter" scale="1.5"/></button>
-    <button class="write"><IconIcon icon="write" scale="1.5"/></button>
+    <button class="filter"><IconIcon icon="filter" scale="1.3"/></button>
+    <button class="write"><IconIcon icon="write" scale="1.3"/></button>
     <hr>
 
     <ul class="list" >
@@ -101,26 +101,23 @@ onMounted(() => {
   height: 100vh;
 }
 h2 {
-  padding: var(--space-xl) 0 1rem 2.5rem;
+  padding: var(--space-l) 0 var(--space-s) calc(var(--space-m) * 2.5);
   color: var(--color-black);
+  font-size: var(--font-xl);
 }
 button {
   border: none;
   background-color: transparent;
 }
-img {
-  width: 40px;
-  height: 40px;
-}
 hr {
   border: 2px solid var(--color-gray-light);
   width: 95%;
-  margin: var(--space-md) 2.5%;
+  margin: var(--space-m) 2.5% 0 2.5%;
 }
 
 .list {
   list-style: none;
-  padding: 0 5.5rem;
+  padding: 0 calc(var(--space-m) * 4);
 }
 .list > li {
   border-bottom: 2px solid var(--color-gray-light);
@@ -130,22 +127,22 @@ hr {
 }
 
 .filter {
-  padding-left: 4rem;
+  padding-left: calc(var(--space-m) * 3);
 }
 .write {
   position: absolute;
   right: 0;
-  padding-right: 4rem;
+  padding-right: calc(var(--space-m) * 3.5);
 }
 
 .pagination {
   position: absolute;
-  bottom: 0;
+  bottom: 0.2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: var(--space-xl);
-  padding: var(--space-md) 0;
+  padding: var(--space-m) 0;
   width: 100%;
 }
 
