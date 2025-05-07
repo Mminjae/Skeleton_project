@@ -28,27 +28,27 @@
             <div class="label">{{ item.label }}</div>
             <div class="value">{{ item.value }}</div>
           </div>
-          <!-- 버튼  -->
-          <div id="btn-group">
-            <ButtonEdit />
-            <!-- <ButtonDelete /> -->
-          </div>
         </div>
+        <!-- 버튼  -->
+        <!-- <ButtonDelete /> -->
+        <ButtonEdit class="btn-edit" />
+        <TheDark />
       </div>
     </div>
   </div>
   <!-- 탈퇴 모달 -->
-  <ModalDelete />
+  <!-- <ModalDelete /> -->
 </template>
 
 <script setup>
 import { onMounted, computed } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useRoute } from 'vue-router'
-import ModalDelete from '@/components/modal/ModalDelete.vue'
+// import ModalDelete from '@/components/modal/ModalDelete.vue'
 // import ButtonDelete from '@/components/base/ButtonDelete.vue'
 import ButtonEdit from '@/components/base/ButtonEdit.vue'
 import defaultProfile from '@/assets/imgs/user.png'
+import TheDark from '@/layouts/TheDark.vue'
 
 // 로그인 된 정보 가져오기
 const route = useRoute()
@@ -63,7 +63,7 @@ const contactInfo = computed(() => userStore.contactInfo)
 const profileImage = computed(() => userStore.profileImage)
 </script>
 
-<style scoped>
+<style>
 * {
   margin: 0;
   padding: 0;
@@ -160,11 +160,10 @@ const profileImage = computed(() => userStore.profileImage)
 }
 
 /* 버튼 */
-#btn-group {
-  margin-left: 41rem;
-  margin-top: 4rem;
-}
-.btn-group {
-  margin: 0.5rem;
+.btn-edit {
+  margin-left: 42.5rem;
+  margin-top: 7.8rem;
+  position: relative;
+  white-space: nowrap;
 }
 </style>

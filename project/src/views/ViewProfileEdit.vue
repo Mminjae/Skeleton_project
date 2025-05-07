@@ -26,7 +26,7 @@
                   @input="validateItem(item)"
                 />
               </div>
-              <div class="text-danger" v-if="errors[item.label]">
+              <div class="text-danger text-right" v-if="errors[item.label]">
                 {{ errors[item.label] }}
               </div>
             </div>
@@ -71,11 +71,9 @@
               {{ errors[item.label] }}
             </div>
           </div>
-          <!-- 버튼 -->
-          <div id="btn-group">
-            <ButtonSave />
-          </div>
         </div>
+        <!-- 버튼 -->
+        <ButtonSave class="btn-save" />
         <ButtonDelete class="btn-delete" />
       </div>
     </div>
@@ -112,11 +110,11 @@ const validateItem = (item) => {
     case '이름':
       errors.value[label] = /^[가-힣]{2,5}$/.test(value) ? '' : '이름은 한글 2~5자여야 합니다.'
       break
-    case '생년월일':
-      errors.value[label] = /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(value)
-        ? ''
-        : '2021-2-17 형식으로 입력해주세요.'
-      break
+    // case '생년월일':
+    //   errors.value[label] = /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(value)
+    //     ? ''
+    //     : '2021-2-17 형식으로 입력해주세요.'
+    //   break
     case '이메일':
       errors.value[label] = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
         ? ''
@@ -211,18 +209,13 @@ const handleFileChange = async (event) => {
   background-color: white;
 }
 
-/* 정보 공통 */
+/* 공통 */
 .info-item {
   display: flex;
   align-items: center;
   margin-bottom: 1.6rem;
   margin-left: 2rem;
   width: 20rem;
-}
-
-.info-item .value {
-  flex: 1;
-  color: #535353;
 }
 
 .fixed-id {
@@ -273,8 +266,6 @@ const handleFileChange = async (event) => {
 
 /* 입력창 스타일 */
 .form-control {
-  /* display: inline; */
-  /* margin-left: 5rem; */
   width: 13.9rem;
   margin-left: 1rem;
   position: relative;
@@ -283,11 +274,15 @@ const handleFileChange = async (event) => {
 
 /* 에러 메시지 */
 .text-danger {
-  /* display: inline; */
   font-size: 0.85rem;
-  color: #e53935 !important;
-  /* margin-left: 5rem; */
   text-align: right;
+  margin-top: -1.3rem;
+  min-height: 1.2rem;
+  white-space: nowrap;
+}
+
+.text-right {
+  margin-left: 11.5rem;
 }
 
 /* 프로필 */
@@ -304,15 +299,15 @@ const handleFileChange = async (event) => {
 }
 
 /* 버튼 */
-#btn-group {
-  margin-left: 41rem;
+.btn-save {
+  margin-left: 42.5rem;
+  margin-top: 6.3rem;
+  position: relative;
   /* margin-top: 2.7rem; */
 }
-.btn-group {
-  margin: 0.5rem;
-}
+
 .btn-delete {
-  margin-top: 6.7rem;
+  margin-top: -3.7rem;
   margin-left: 37em;
 }
 .profile-edit {
