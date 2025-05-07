@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
-    <TheSidebar />
+    <!-- <TheSidebar /> -->
 
-    <!-- <TheSidebarLogin /> -->
+    <TheSidebarLogin />
     <RouterView />
     <ViewMainLogin v-if="isLogin" />
   </div>
