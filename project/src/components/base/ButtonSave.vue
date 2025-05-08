@@ -1,0 +1,54 @@
+<template>
+  <div class="btn-group">
+    <button class="save btn btn-light" @click="handleSave">저장</button>
+  </div>
+</template>
+
+<script setup>
+import { inject } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+
+const memberInfo = inject('memberInfo')
+const contactInfo = inject('contactInfo')
+const errors = inject('errors')
+const validateItem = inject('validateItem')
+const imagePreview = inject('imagePreview')
+
+const router = useRouter()
+
+const handleSave = async () => {
+  ;[...memberInfo.value, ...contactInfo.value].forEach(validateItem)
+  const isValid = Object.values(errors.value).every((msg) => !msg)
+
+  if (!isValid) {
+    alert('입력값을 확인해주세요.')
+    return
+  }
+
+  const payload = {
+    name: memberInfo.value.find((i) => i.label === '이름')?.value,
+    brith: memberInfo.value.find((i) => i.label === '생년월일')?.value,
+    userId: memberInfo.value.find((i) => i.label === 'ID')?.value,
+    email: contactInfo.value.find((i) => i.label === '이메일')?.value,
+    phone: contactInfo.value.find((i) => i.label === '전화번호')?.value,
+    profileImage: imagePreview.value || '', // 이미지 포함!
+  }
+
+  // const userId = localStorage.getItem('userId')
+  try {
+    await axios.put(`http://localhost:3000/users/1`, payload)
+    alert('저장되었습니다.')
+    router.push('/mypage')
+  } catch (e) {
+    console.error('저장 실패:', e)
+    alert('저장에 실패했습니다.')
+  }
+}
+</script>
+
+<style scoped>
+.save {
+  width: 5rem;
+}
+</style>

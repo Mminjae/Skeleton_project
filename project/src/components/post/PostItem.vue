@@ -11,8 +11,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <li>
-    <button class="item">
+  <li class="post-item">
+    <div class="item" @click="$emit('open-import', item)">
       <p class="date color--gray">
         {{ item.dateYear }}.{{ item.dateMonth }}.{{ item.dateDay }}({{ item.dayOfWeek }})
       </p>
@@ -23,16 +23,16 @@ const props = defineProps({
       <div class="payment">
         <p class="color--gray">{{ item.paymentMethod }}</p>
         <span class="amount">
-          <p :class="item.isIncome === true ? 'color--black color--blue' : 'color--black color--red'">
-            {{ item.isIncome === true ? '+' : '-' }}
-            {{ item.amount.toLocaleString() }}</p>
+          <p :class="item.isIncome ? 'color--black color--blue' : 'color--black color--red'">
+            {{ item.isIncome ? '+' : '-' }} {{ item.amount.toLocaleString() }}
+          </p>
           <p>원</p>
         </span>
       </div >
       <div class="memo">
         <IconIcon v-if="item.memo" icon="memo"/>
       </div>
-    </button>
+    </div>
   </li>
 </template>
 

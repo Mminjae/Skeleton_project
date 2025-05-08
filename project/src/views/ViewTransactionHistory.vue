@@ -1,59 +1,72 @@
 <script setup>
+import { ref, computed, onMounted, nextTick } from 'vue'
+import axios from 'axios'
+import { Modal } from 'bootstrap'
 
-import PostItem from '@/components/post/PostItem.vue';
-// import ExpenseIcons from '@/components/base/ExpenseIcons.vue';
-// import IncomeIcon from '@/components/base/IncomeIcon.vue';
-import IconIcon from '@/components/base/iconIcon.vue';
-import { ref, computed, onMounted } from 'vue';
-import axios from 'axios';
-//리스트 컴포넌트에서 Store 사용하도록 수정
-import { useTransactionStore } from '@/stores/useTransactionStore';
-const transactionStore = useTransactionStore();
-// const pageNumber
+// 컴포넌트 import
+import PostItem from '@/components/post/PostItem.vue'
+import IconIcon from '@/components/base/iconIcon.vue'
+import ModalAddPost from '@/components/modal/ModalAddPost.vue'
+import ModalImport from '@/components/modal/ModalImport.vue'
 
+// Pinia store 사용
+import { useTransactionStore } from '@/stores/useTransactionStore'
+const transactionStore = useTransactionStore()
 
-const itemsPerPage = 10; // 한 페이지당 10개
-let currentPage = ref(1);
-let pageCount = ref(0);
-// const transactions = ref([]); //json.server에서 불러올 리스트 초기값 설정
-const transactions = computed(() => transactionStore.transactions); //이제 store에서 불러온다.
-const maxPage = computed(() => Math.ceil(transactions.value.length / itemsPerPage)); //transactions의 데이터 개수(길이)를 기반으로 동적으로 변경
+// 상태 변수
+const selectedItem    = ref(null)
+const showModalImport = ref(false)   // ← 모달 표시 플래그 추가
+const showModalAdd    = ref(false)   // (기존 코드)
 
-//페이지별 리스트계산 - 우리는 한페이지당 10개의 리스트
+// 모달 열기 함수
+function onOpenImport(item) {
+  selectedItem.value  = item      // 클릭한 거래 데이터를 저장
+  showModalImport.value = true    // 모달 컴포넌트 마운트 트리거
+  nextTick(() => {
+    // 렌더링이 끝난 뒤에 실제 DOM 엘리먼트를 찾아서 부트스트랩 모달 호출
+    const modalEl = document.getElementById('ModalImport')
+    if (modalEl) {
+      new Modal(modalEl).show()
+    }
+  })
+}
+
+// 페이징 관련
+const itemsPerPage = 10
+const currentPage  = ref(1)
+const pageCount    = ref(0)
+
+const transactions = computed(() => transactionStore.transactions)
+const maxPage      = computed(() => Math.ceil(transactions.value.length / itemsPerPage))
 const paginatedList = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return transactions.value.slice(start, end);
-});
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end   = start + itemsPerPage
+  return transactions.value.slice(start, end)
+})
 
-
-//JSON Server에서 데이터 불러오기
-const fetchTransactions = async () => {
-  try {
-    const res = await axios.get('http://localhost:3000/transactions');
-    transactions.value = res.data;
-  } catch (error) {
-    console.error('데이터 가져오기 실패:', error);
-  }
-};
+// 초기 데이터 로딩
 onMounted(() => {
-  transactionStore.fetchTransactions(); // 초기에 전체 데이터 가져오기
-});
-
+  transactionStore.fetchTransactions()
+})
 </script>
 
 <template>
   <div class="viewtransactionhistory">
     <h2>거래내역조회</h2>
-    <button class="filter"><IconIcon icon="filter" scale="1.3"/></button>
-    <button class="write"><IconIcon icon="write" scale="1.3"/></button>
     <hr>
+    <button class="filter"><IconIcon icon="filter" scale="1.3"/></button>
+    <button class="write" type="button" data-bs-toggle="modal" data-bs-target="#ModalAddPost">
+      <IconIcon icon="write" scale="1.3" />
+    </button>
 
-    <ul class="list" >
+    <hr />
+
+    <ul class="list">
       <PostItem
         v-for="item in paginatedList"
         :key="item.id"
         :item="item"
+        @open-import="onOpenImport"
       />
     </ul>
 
@@ -66,9 +79,11 @@ onMounted(() => {
       </button>
 
       <button
-        v-for="n in 5" :key="n"
+        v-for="n in 5"
+        :key="n"
         @click="currentPage = n + pageCount"
-        :class="{ hidden: n + pageCount > maxPage }">
+        :class="{ hidden: n + pageCount > maxPage }"
+      >
         <span :class="{ activePage: currentPage === n + pageCount }">{{ n + pageCount }}</span>
       </button>
 
@@ -80,6 +95,14 @@ onMounted(() => {
       </button>
     </div>
   </div>
+  <ModalAddPost v-if="showModalAdd" @close="showModalAdd = false" />
+
+   <!-- 거래 상세보기 모달 -->
+    <ModalImport
+     v-if="showModalImport"
+     :item="selectedItem"
+     @close="showModalImport = false"
+   />
 </template>
 
 <style scoped>
@@ -143,5 +166,4 @@ hr {
 .hidden {
   display: none;
 }
-
 </style>

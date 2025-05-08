@@ -1,15 +1,65 @@
 <template>
-  <div id="mypage" class="container my-5">
-    <h5 class="mb-4">마이페이지</h5>
-    <div class="info-card p-4 rounded shadow-sm bg-white">
-      <div class="d-flex justify-content-between flex-wrap gap-4">
-        <!-- 왼쪽: 회원 + 연락처 정보 -->
-        <div class="flex-grow-1" style="min-width: 280px">
+  <div id="mypage">
+    <div class="container my-5">
+      <h5 class="mb-5">수정 페이지</h5>
+      <div class="info-card">
+        <div class="d-flex justify-content-between">
           <!-- 회원 정보 -->
-          <h6 class="mb-3 border-bottom pb-1">회원정보</h6>
-          <div v-for="(item, index) in memberInfo" :key="'member-' + index" class="mb-3">
-            <div class="form-row">
-              <label class="form-label">{{ item.label }}</label>
+          <div class="info-member">
+            <div class="info-title">회원 정보</div>
+            <div v-for="(item, index) in memberInfo" :key="'member-' + index">
+              <div class="info-item">
+                <label class="label">{{ item.label }}</label>
+                <!-- id 고정 -->
+                <div v-if="item.label === 'ID'" class="fixed-id">
+                  {{ item.value }}
+                </div>
+                <!-- 생년월일 고정 -->
+                <div v-else-if="item.label === '생년월일'" class="fixed-id">
+                  {{ item.value }}
+                </div>
+                <input
+                  v-else
+                  type="text"
+                  class="form-control"
+                  v-model="item.value"
+                  @input="validateItem(item)"
+                />
+              </div>
+              <div class="text-danger text-right" v-if="errors[item.label]">
+                {{ errors[item.label] }}
+              </div>
+            </div>
+          </div>
+          <!-- 프로필 사진 -->
+          <div>
+            <img :src="imagePreview || defaultProfile" alt="프로필" class="profile-img" />
+            <div>
+              <li>
+                <button class="profile-edit btn btn-light btn-sm" @click="triggerFileUpload">
+                  사진 변경
+                </button>
+              </li>
+              <li><ButtonProfileReset class="profile-reset" /></li>
+              <input
+                type="file"
+                ref="fileInput"
+                @change="handleFileChange"
+                accept="image/*"
+                hidden
+              />
+            </div>
+          </div>
+        </div>
+        <!-- 구분선 -->
+        <div class="section-divider"></div>
+
+        <!-- 연락처 정보 -->
+        <div class="info-contact">
+          <div class="info-title">연락처 정보</div>
+          <div v-for="(item, index) in contactInfo" :key="'contact-' + index">
+            <div class="info-item">
+              <label class="label">{{ item.label }}</label>
               <input
                 type="text"
                 class="form-control"
@@ -17,85 +67,38 @@
                 @input="validateItem(item)"
               />
             </div>
-            <div v-if="item.label === 'ID' && item.value && !errors['ID']" class="text-info">
-              사용 가능한 ID입니다.
-            </div>
-            <div class="text-danger small mt-1" v-if="errors[item.label]">
+            <div class="text-danger" v-if="errors[item.label]">
               {{ errors[item.label] }}
             </div>
           </div>
-
-          <div class="section-divider"></div>
-
-          <!-- 연락처 정보 -->
-          <h6 class="mt-4 mb-3 border-bottom pb-1">연락처정보</h6>
-          <div v-for="(item, index) in contactInfo" :key="'contact-' + index" class="mb-3">
-            <label class="form-label">{{ item.label }}</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="item.value"
-              @input="validateItem(item)"
-            />
-            <div class="text-danger small mt-1" v-if="errors[item.label]">
-              {{ errors[item.label] }}
-            </div>
-          </div>
-
-          <!-- 버튼 -->
-          <div class="button-group">
-            <button class="btn btn-light" @click="handleSubmit">저장</button>
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unregisterModal">
-              회원탈퇴
-            </button>
-          </div>
         </div>
-
-        <!-- 오른쪽: 프로필 사진 -->
-        <div class="text-center" style="min-width: 120px">
-          <img
-            src="#"
-            alt="프로필"
-            class="profile-img mb-2"
-            style="width: 100px; height: 100px; background-color: #eee; object-fit: cover"
-          />
-          <div>
-            <button class="btn btn-outline-secondary btn-sm">사진 변경</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 탈퇴 모달 -->
-      <div class="modal fade" id="unregisterModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-              <p class="fw-bold text-dark">정말 탈퇴하시겠습니까?</p>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-light" data-bs-dismiss="modal">취소</button>
-              <button class="btn btn-danger" data-bs-dismiss="modal" @click="confirmDelete">
-                네, 탈퇴할래요
-              </button>
-            </div>
-          </div>
-        </div>
+        <!-- 버튼 -->
+        <ButtonSave class="btn-save" />
+        <ButtonDelete class="btn-delete" />
       </div>
     </div>
   </div>
+  <!-- 탈퇴 모달 -->
+  <ModalDelete />
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, provide, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 import axios from 'axios'
+import ButtonSave from '@/components/base/ButtonSave.vue'
+import ButtonDelete from '@/components/base/ButtonDelete.vue'
+import ModalDelete from '@/components/modal/ModalDelete.vue'
+import ButtonProfileReset from '@/components/base/ButtonProfileReset.vue'
+import defaultProfile from '@/assets/imgs/user-gray.svg'
 
-const router = useRouter()
 const userStore = useUserStore()
+// const router = useRouter()
 
 const memberInfo = computed(() => userStore.memberInfo)
 const contactInfo = computed(() => userStore.contactInfo)
+// const profileImage = computed(() => userStore.profileImage)
 
 const errors = ref({})
 
@@ -107,62 +110,77 @@ const validateItem = (item) => {
     case '이름':
       errors.value[label] = /^[가-힣]{2,5}$/.test(value) ? '' : '이름은 한글 2~5자여야 합니다.'
       break
-    case '생년월일':
-      errors.value[label] = /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(value)
-        ? ''
-        : '예: 2021-2-17 형식으로 입력해주세요.'
-      break
-    case 'ID':
-      errors.value[label] = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{4,16}$/.test(value)
-        ? ''
-        : 'ID는 영문+숫자 조합 4~16자여야 합니다.'
-      break
+    // case '생년월일':
+    //   errors.value[label] = /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(value)
+    //     ? ''
+    //     : '2021-2-17 형식으로 입력해주세요.'
+    //   break
     case '이메일':
       errors.value[label] = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
         ? ''
-        : '올바른 이메일 형식이 아닙니다.'
+        : '유효한 이메일 형식이 아닙니다.'
       break
     case '전화번호':
       errors.value[label] = /^01[016789]-\d{3,4}-\d{4}$/.test(value)
         ? ''
-        : '예: 010-1234-5678 형식으로 입력해주세요.'
+        : '010-1234-5678 형식으로 입력해주세요.'
       break
   }
 }
 
-const handleSubmit = async () => {
-  ;[...memberInfo.value, ...contactInfo.value].forEach(validateItem)
-  const isValid = Object.values(errors.value).every((msg) => !msg)
+const imagePreview = ref('')
 
-  if (!isValid) {
-    alert('입력값을 확인해주세요.')
-    return
-  }
-
-  // 1. payload 생성
-  const payload = {
-    name: memberInfo.value.find((i) => i.label === '이름')?.value,
-    brith: memberInfo.value.find((i) => i.label === '생년월일')?.value,
-    userId: Number(memberInfo.value.find((i) => i.label === 'ID')?.value),
-    email: contactInfo.value.find((i) => i.label === '이메일')?.value,
-    phone: contactInfo.value.find((i) => i.label === '전화번호')?.value,
-    password: '12341234', // 기존 비밀번호 유지
-    id: '1', // user의 고유 id
-  }
-
-  // 2. 서버에 저장
+const loadUserInfo = async () => {
   try {
-    await axios.put('http://localhost:3000/users/1', payload)
-    alert('저장되었습니다.')
-    router.push('/mypage')
-  } catch (e) {
-    console.error('저장 실패:', e)
-    alert('저장에 실패했습니다.')
+    const res = await axios.get(`http://localhost:3000/users/1`)
+    if (res.data) {
+      // 프로필 이미지 설정
+      imagePreview.value = res.data.profileImage || ''
+      // 사용자 정보 업데이트
+      userStore.setMemberInfo(res.data.memberInfo)
+      userStore.setContactInfo(res.data.contactInfo)
+    }
+  } catch (error) {
+    console.error('사용자 정보 로딩 실패:', error)
   }
 }
 
-const confirmDelete = () => {
-  router.push('/')
+// 컴포넌트 마운트 시 사용자 정보 로딩
+onMounted(() => {
+  loadUserInfo()
+})
+
+provide('memberInfo', memberInfo)
+provide('contactInfo', contactInfo)
+provide('errors', errors)
+provide('validateItem', validateItem)
+provide('imagePreview', imagePreview)
+
+const fileInput = ref(null)
+
+const triggerFileUpload = () => {
+  fileInput.value.click()
+}
+
+const handleFileChange = async (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = async () => {
+      imagePreview.value = reader.result
+      // const userId = localStorage.getItem('userId')
+      try {
+        await axios.patch(`http://localhost:3000/users/1`, {
+          profileImage: reader.result,
+        })
+        alert('프로필 이미지가 저장되었습니다.')
+      } catch (error) {
+        console.error('이미지 저장 실패:', error)
+        alert('이미지 저장에 실패했습니다.')
+      }
+    }
+    reader.readAsDataURL(file)
+  }
 }
 </script>
 
@@ -171,15 +189,16 @@ const confirmDelete = () => {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  list-style: none;
 }
 #mypage {
   font-family: 'Noto Sans KR', sans-serif;
   margin-left: 5rem;
-  /* padding: 1rem; */
-  /* padding-top: 2rem; */
+  padding: 1rem;
+  padding-top: 2rem;
 }
 
-/* 전체 카드 스타일 */
+/* 전체 카드 */
 .info-card {
   width: 50rem; /* 800px */
   height: 37.5rem; /* 600px */
@@ -190,100 +209,112 @@ const confirmDelete = () => {
   background-color: white;
 }
 
-/* 제목 텍스트 */
-h5,
-h6 {
-  font-weight: 400;
-  color: #535353;
+/* 공통 */
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.6rem;
+  margin-left: 2rem;
+  width: 20rem;
 }
 
-/* 구분선 스타일 */
-.border-bottom {
+.fixed-id {
+  margin-left: 1rem;
+}
+
+/* 회원 정보 */
+.info-title {
   font-weight: 500;
-  color: #535353;
-  padding-left: 0.8rem;
-  width: 5.7rem;
-
-  background: linear-gradient(to top, #d5d7f2 30%, transparent 40%);
+  color: #4a4a4a;
+  margin-bottom: 2rem;
+  padding-left: 0.5rem;
+  width: 6rem;
+  background: linear-gradient(to top, #d5d7f2 20%, transparent 40%);
+}
+.info-member {
+  width: 10.3rem;
+  height: 9.7rem;
 }
 
-/* 라벨 스타일 */
-.form-label {
-  font-weight: 400;
+.d-flex {
+  padding: 1rem;
+}
+
+/* 구분선 */
+.section-divider {
+  border-top: 1px solid #eee;
+  margin: 3rem 0;
+}
+.label {
+  border-right: 4px solid #d5d7f2;
+  /* margin: -1rem; */
+  height: 2rem;
+}
+
+.info-item .label {
+  width: 80px;
   color: #535353;
-  width: 4rem;
+  font-weight: 400;
+}
+
+/* 연락처 정보 */
+.info-contact {
+  width: 24.6rem; /* 393px */
+  height: 7rem; /* 102px */
+  padding: 1rem;
 }
 
 /* 입력창 스타일 */
 .form-control {
-  display: inline;
-  align-items: center;
-  margin-bottom: 0.8rem;
-  margin-left: 5rem;
-  width: 15rem;
-}
-
-.form-control:focus {
-  outline-color: red;
+  width: 13.9rem;
+  margin-left: 1rem;
+  position: relative;
+  /* z-index: 1; */
 }
 
 /* 에러 메시지 */
 .text-danger {
   font-size: 0.85rem;
-  color: #e53935 !important;
-  margin-left: 5rem;
-  text-align: center;
+  text-align: right;
+  margin-top: -1.3rem;
+  min-height: 1.2rem;
+  white-space: nowrap;
 }
 
-/* 프로필 이미지 스타일 */
+.text-right {
+  margin-left: 11.5rem;
+}
+
+/* 프로필 */
 .profile-img {
   width: 6rem;
   height: 6rem;
-  background-color: #e6f0ff;
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   margin-right: 2rem;
   margin-top: 2rem;
-}
-.section-divider {
-  border-top: 1px solid #eee;
-}
-
-/* 버튼 스타일 */
-.button-group {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.8rem;
-  margin-top: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 50%;
 }
 
-.btn-light {
-  width: 5rem;
-  background: white;
-  border: 1px solid #ddd;
-  color: #333;
+/* 버튼 */
+.btn-save {
+  margin-left: 42.5rem;
+  margin-top: 6.3rem;
+  position: relative;
+  /* margin-top: 2.7rem; */
 }
 
-.btn-danger {
-  width: 6rem;
-  background-color: #e53935;
-  color: white;
-  border: none;
+.btn-delete {
+  margin-top: -3.7rem;
+  margin-left: 37em;
 }
-
-.btn-outline-secondary {
-  border: 1px solid #bbb;
-  color: #555;
+.profile-edit {
+  margin-left: 1.1rem;
 }
-
-.modal-content {
-  border-radius: 12px;
-}
-
-.modal-body p {
-  font-size: 1.05rem;
+.profile-reset {
+  /* margin-top: 0.5rem; */
+  margin-left: 1.6rem;
 }
 </style>

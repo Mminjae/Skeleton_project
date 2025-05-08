@@ -6,6 +6,7 @@ export const useUserStore = defineStore('user', () => {
   const user = ref(null)
   const memberInfo = ref([])
   const contactInfo = ref([])
+  const profileImage = ref('')
 
   const formatPhone = (number) => {
     if (!number) return ''
@@ -14,7 +15,7 @@ export const useUserStore = defineStore('user', () => {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/users/1')
+      const response = await axios.get(`http://localhost:3000/users/1`)
       user.value = response.data
 
       memberInfo.value = [
@@ -27,10 +28,12 @@ export const useUserStore = defineStore('user', () => {
         { label: '이메일', value: user.value.email },
         { label: '전화번호', value: formatPhone(user.value.phone) },
       ]
+
+      profileImage.value = user.value.profileImage || ''
     } catch (error) {
       console.error('유저 정보 로딩 실패:', error)
     }
   }
 
-  return { user, memberInfo, contactInfo, fetchUser }
+  return { user, memberInfo, contactInfo, profileImage, fetchUser }
 })

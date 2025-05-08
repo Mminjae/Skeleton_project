@@ -7,6 +7,7 @@ import ViewTransactionHistory from '../views/ViewTransactionHistory.vue'
 import ViewMyPage from '../views/ViewMyPage.vue'
 import ViewProfileEdit from '../views/ViewProfileEdit.vue'
 import ViewSignUp from '../views/ViewSignUp.vue'
+import ViewIdpwpage from '@/views/ViewIdpwpage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,14 +36,14 @@ const router = createRouter({
       component: ViewProfileEdit,
     },
     {
-      path: '/membershipguide',
-      name: 'SignUp',
-      component: ViewSignUp,
-    },
-    {
       path: '/signUp',
       name: 'signUp',
       component: ViewSignUp,
+    },
+    {
+      path: '/find-idpw',
+      name: 'FindIdpw',
+      component: ViewIdpwpage,
     },
   ],
 })

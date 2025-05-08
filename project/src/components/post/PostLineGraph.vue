@@ -2,7 +2,7 @@
   <div class="chart-container">
     <div class="header">
       <!-- 현재 차트 종류에 따라 타이틀을 다르게 보여줌 -->
-      <h2>{{ currentChart === 'daily' ? '일별 수입/지출 추세' : '월별 수입/지출 추세' }}</h2>
+      <h2>{{ currentTitle }}</h2>
 
       <!-- 버튼 누르면 차트 토글됨 (텍스트도 바뀜) -->
       <button @click="toggleChart">
@@ -22,7 +22,46 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
+import { useFinancialSummaryStore } from '@/stores/useFinancialSummaryStore'
+
+const store = useFinancialSummaryStore()
+
+// onMounted(async () => {
+//   // store.fetchData(1)
+//   await store.fetchData(1) // 데이터를 먼저 가져오고
+//   store.data.forEach((item) => {
+//     console.log('🕓 날짜 확인:', item.dateYear, item.dateMonth, item.dateDay) // 📍 여기서 체크
+//   })
+// })
+
+const monthlyIncome = computed(() => {
+  const result = store.monthlySummary.map((d) => d.income || 0)
+  return Array.from({ length: 12 }, (_, i) => result[i] || 0) // 12개월 처리
+})
+
+const monthlyExpense = computed(() => {
+  const result = store.monthlySummary.map((d) => d.expense || 0)
+  return Array.from({ length: 12 }, (_, i) => result[i] || 0) // 12개월 처리
+})
+
+const dailyIncome = computed(() => {
+  const result = store.dailySummary.map((d) => d.income || 0)
+  return Array.from({ length: 31 }, (_, i) => result[i] || 0) // 31일 처리
+})
+
+const dailyExpense = computed(() => {
+  const result = store.dailySummary.map((d) => d.expense || 0)
+  return Array.from({ length: 31 }, (_, i) => result[i] || 0) // 31일 처리
+})
+
+// // 일별 데이터 가공 (음수 처리 추가)
+// const dailyIncome = computed(() => store.dailySummary.map((d) => Math.max(0, d.income))) // 음수 필터링
+// const dailyExpense = computed(() => store.dailySummary.map((d) => Math.max(0, d.expense))) // 음수 필터링
+
+// // 월별 데이터 가공 (음수 처리 추가)
+// const monthlyIncome = computed(() => store.monthlySummary.map((d) => Math.max(0, d.income))) // 음수 필터링
+// const monthlyExpense = computed(() => store.monthlySummary.map((d) => Math.max(0, d.expense))) // 음수 필터링
 
 // Chart.js에서 필요한 요소들을 import
 import {
@@ -51,6 +90,12 @@ Chart.register(
 
 // 현재 어떤 차트를 보여줄지 상태값
 const currentChart = ref('daily') // 기본은 일별 차트
+
+const currentTitle = computed(() => {
+  return currentChart.value === 'daily'
+    ? `${store.selectedMonth}월 수입/지출 추세`
+    : `${store.selectedYear}년 수입/지출 추세`
+})
 
 // 각 canvas를 참조하기 위한 ref
 const dailyChartRef = ref(null)
@@ -129,30 +174,26 @@ const createChart = (ctx, labels, datasets, isDaily = false) => {
 }
 
 // 컴포넌트가 마운트될 때 차트 초기화
-onMounted(() => {
-  // x축 라벨: 1일부터 31일까지
+onMounted(async () => {
+  await store.fetchData(1) // 🛠
+  console.log('✅ 가져온 일별 데이터:', store.dailySummary) // 🛠
+  console.log('✅ 가져온 월별 데이터:', store.monthlySummary) // 🛠
+
   const dailyLabels = Array.from({ length: 31 }, (_, i) => i + 1)
+  const monthlyLabels = Array.from({ length: 12 }, (_, i) => `${i + 1}월`)
 
   // 일별 데이터셋 (수입/지출)
   const dailyDatasets = [
     {
       label: '지출',
-      data: [
-        450000, 300000, 150000, 200000, 250000, 390000, 100000, 110000, 90000, 230000, 270000,
-        400000, 370000, 190000, 180000, 160000, 140000, 220000, 280000, 260000, 310000, 240000,
-        330000, 300000, 210000, 200000, 190000, 230000, 250000, 270000, 290000,
-      ],
+      data: dailyExpense.value,
       borderColor: '#ef7979',
       backgroundColor: 'transparent',
       fill: false,
     },
     {
       label: '수입',
-      data: [
-        300000, 320000, 280000, 270000, 330000, 500000, 350000, 250000, 270000, 290000, 310000,
-        330000, 300000, 340000, 360000, 380000, 320000, 300000, 280000, 270000, 290000, 310000,
-        300000, 280000, 260000, 250000, 270000, 290000, 310000, 330000, 350000,
-      ],
+      data: dailyIncome.value,
       borderColor: '#5d47d6',
       backgroundColor: 'transparent',
       fill: false,
@@ -160,23 +201,20 @@ onMounted(() => {
   ]
 
   // x축 라벨: 1월부터 12월까지
-  const monthlyLabels = Array.from({ length: 12 }, (_, i) => `${i + 1}월`)
+  // const monthlyLabels = Array.from({ length: 12 }, (_, i) => `${i + 1}월`)
 
   // 월별 데이터셋 (수입/지출)
   const monthlyDatasets = [
     {
       label: '지출',
-      data: [
-        2900000, 1200000, 1800000, 2500000, 500000, 600000, 450000, 350000, 1600000, 2000000,
-        2200000, 2500000,
-      ],
+      data: monthlyExpense.value,
       borderColor: '#ef7979',
       backgroundColor: '#ef7979',
       fill: false,
     },
     {
       label: '수입',
-      data: [2100000, 2300000, 2000000, 1900000, 2200000, 3000000, 2800000],
+      data: monthlyIncome.value,
       borderColor: '#5d47d6',
       backgroundColor: '#5d47d6',
       fill: false,

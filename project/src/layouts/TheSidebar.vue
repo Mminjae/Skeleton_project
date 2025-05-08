@@ -1,8 +1,9 @@
 <script setup>
-// import { useRouter } from 'vue-router'
-import axios from 'axios'
 import { ref } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
+import axios from 'axios'
+
+const router = useRouter()
 
 const id = ref('')
 const password = ref('')
@@ -10,15 +11,17 @@ const idError = ref('')
 const pwError = ref('')
 const showLoginForm = ref(false)
 const isLoginActive = ref(false)
-const activeButton = ref('');
-const router = useRouter();
+// const activeButton = ref('');
+// const router = useRouter();
 
 function handleClick(buttonType) {
   activeButton.value = buttonType;
   if (buttonType !== 'login')
     router.push('/' + buttonType);
 }
+const isIdPwActive = ref(false) // 아이디/비번 찾기 버튼 활성화용
 
+// 로그인 시도
 async function login() {
   try {
     const res = await axios.get(
@@ -27,7 +30,7 @@ async function login() {
 
     if (res.data.length > 0) {
       alert('로그인 성공!')
-      emit('login-success') // App.vue로 이벤트 보냄
+      // emit('login-success') // App.vue로 이벤트 보냄
     } else {
       alert('아이디 또는 비밀번호가 틀렸습니다.')
     }
@@ -44,24 +47,7 @@ async function login() {
   }
 }
 
-// const router = useRouter()
-// 버튼 활성화 상태 변수
-const isIdPwActive = ref(false)
-
-// 아이디/비밀번호 찾기 버튼 클릭 시 모달 열기 + 버튼 활성화
-function toggleIdPwModal() {
-  showModal.value = true
-  isIdPwActive.value = true
-}
-
-// 모달 닫힐 때 버튼 비활성화
-function handleModalClose() {
-  showModal.value = false
-  isIdPwActive.value = false
-}
-
-// 로그인 공란 경고문 출력
-// 로그인 폼 열기, 닫기
+// 로그인 공란 경고문 출력 및 폼 열고 닫기
 function toggleLogin() {
   if (!showLoginForm.value) {
     // 처음 클릭 → 로그인 폼 열기
@@ -91,11 +77,11 @@ function toggleLogin() {
   }
 }
 
-// 모달 스크립트
-import ModalIdpw from '@/components/modal/ModalIdpw.vue'
-const showModal = ref(false)
-
-//버튼 엑티브 스크립트
+// ✅ ID/PW 찾기 페이지로 이동
+function goToFindIdPwPage() {
+  isIdPwActive.value = true
+  router.push('/find-idpw')
+}
 </script>
 
 <template>
@@ -130,7 +116,8 @@ const showModal = ref(false)
       </div>
 
       <div class="nav-bar-btnbox">
-        <button
+        <!-- 은우 수정한 부분 -->
+        <!-- <button
           class="btn-unclicked nav-bar__button--login"
           @click="() => {handleClick('login'); toggleLogin();}"
           :class="{ active: isLoginActive }"
@@ -145,13 +132,30 @@ const showModal = ref(false)
         </button>
         <button
           class="btn-unclicked nav-bar__button--idpw"
-          @click="toggleIdPwModal"
+          @click="toggleIdPwModal" -->
+        <router-link class="nav-link">
+          <button
+            class="nav-bar-btn nav-bar__button--login"
+            @click="toggleLogin"
+            :class="{ active: isLoginActive }"
+          >
+            로그인
+          </button>
+        </router-link>
+
+        <router-link class="nav-link" to="/signUp">
+          <button class="nav-bar-btn">회원가입</button>
+        </router-link>
+
+        <!-- ✅ ID/PW 찾기 페이지로 이동 -->
+        <button
+          class="nav-bar-btn nav-bar__button--idpw"
+          @click="goToFindIdPwPage"
           :class="{ active: isIdPwActive }"
         >
           아이디/비밀번호 찾기
         </button>
       </div>
-      <ModalIdpw v-if="showModal" @close="handleModalClose" />
     </nav>
   </div>
 </template>
@@ -159,13 +163,12 @@ const showModal = ref(false)
 <style scoped>
 #nav {
   position: relative;
-  display: flex; /* 1.레이아웃 */
+  display: flex;
   flex-direction: column;
 
   width: calc(var(--space-xl) * 7.5); /* 2.BOX */
   height: 100vh;
-
-  background-color: var(--color-purple); /* 3.배경 */
+  background-color: var(--color-purple);
 }
 #nav,
 #nav > * {
@@ -181,7 +184,8 @@ h1 img {
   height: calc(var(--space-m) * 7.5);
 }
 
-.nav-bar-btnbox {
+/* 은우 수정한 부분 */
+/* .nav-bar-btnbox {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -193,7 +197,21 @@ h1 img {
   border-radius: var(--space-l);
   border: none;
   padding: 0 var(--space-m);
-  margin-bottom: var(--space-m);
+  margin-bottom: var(--space-m); */
+.nav-bar-btnbox {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 5%;
+}
+.nav-bar-btn {
+  background-color: var(--color-purple);
+  width: 13.125rem;
+  height: 4.25rem;
+  border-radius: 1.875rem;
+  border: none;
+  padding: 0 2.5rem;
+  margin-bottom: 1.2rem;
   align-items: center;
   font-size: var(--font-base);
 }
@@ -207,7 +225,14 @@ h1 img {
   color: var(--color-black);
 }
 
-.bar-login-form {
+/* .bar-login-form { */
+.nav-login-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+.login-form-wrapper {
   display: flex;
   margin-top: calc(var(--space-m) * 8);
   flex-direction: column;
@@ -234,7 +259,6 @@ h1 img {
   font-size: var(--font-s);
 }
 .login-form--checkbox {
-  /* 기본 스타일 제거 */
   all: unset;
   /* 체크박스 기본 틀 */
   width: var(--space-m);
@@ -249,13 +273,9 @@ h1 img {
     background-color 0.2s ease,
     border-color 0.2s ease;
 }
-
-/* 체크 시 상태 */
 .login-form--checkbox:checked {
   background-color: var(--color-purple9);
 }
-
-/* 체크 마크 만들기 */
 .login-form--checkbox:checked::after {
   content: '';
   position: absolute;
@@ -267,36 +287,15 @@ h1 img {
   border-width: 0 0.15rem 0.15rem 0;
   transform: translate(-50%, -50%) rotate(45deg);
 }
-
-/* 마우스 올렸을 때 부드럽게 */
 .login-form--checkbox:hover {
   border-color: var(--color-purple9);
 }
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.4s ease;
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.slide-fade-enter-to,
-.slide-fade-leave-from {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* 로그인 인풋창 에러경고문  */
 .login_id_error,
 .login_pw_error {
   font-size: var(--font-s);
   color: var(--color-red);
   margin: 0 0 calc(var(--space-s)) var(--space-s);
 }
-
 .router-button,
 .nav-bar__button--login {
   transition: background-color 0.3s ease;
@@ -304,24 +303,25 @@ h1 img {
 .nav-bar__button--idpw {
   transition: background-color 0.3s ease;
 }
-
-/* 모달 스타일링 */
-.find-account-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .nav-bar__button--login.active,
 .nav-bar__button--idpw.active,
 .router-button.active {
   background-color: var(--color-purple9);
   color: var(--color-white);
+}
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.4s ease;
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.slide-fade-enter-to,
+.slide-fade-leave-from {
+  opacity: 1;
+  transform: translateY(0);
 }
 @media screen and (max-width: 320px) {
   #nav {
@@ -338,6 +338,48 @@ h1 img {
     padding: var(--space-s);
     background-color: var(--color-purple);
     z-index: 999;
+  }
+  .nav-logo {
+    width: 3rem;
+    height: 3rem;
+    margin: 0.3rem 0;
+    border: 2.5rem;
+  }
+  .bar-login-form input[type='text'],
+  .bar-login-form input[type='password'] {
+    width: 100%;
+    height: 2rem;
+    font-size: 0.8rem;
+  }
+  .login-form--remember {
+    font-size: 0.75rem;
+  }
+  .nav-bar__button {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+  .nav-bar__button--login,
+  .nav-bar__button--idpw,
+  .router-button {
+    all: unset;
+    background-color: var(--color-purple9);
+    padding: 0.4rem 0.8rem;
+    border-radius: 1rem;
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-align: center;
+  }
+  .login_id_error,
+  .login_pw_error {
+    font-size: 0.75rem;
+    min-height: 1rem;
+    color: var(--color-red);
   }
 }
 </style>

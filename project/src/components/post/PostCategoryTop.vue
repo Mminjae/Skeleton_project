@@ -16,14 +16,30 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import ExpenseIcons from '../base/ExpenseIcons.vue'
+import { useFinancialSummaryStore } from '@/stores/useFinancialSummaryStore'
+import { storeToRefs } from 'pinia'
 
-const top3 = ref([
-  { name: 'foodcost', amount: 150000 },
-  { name: 'shopping', amount: 3000000 },
-  { name: 'miscExpense', amount: 420000 },
-])
+const store = useFinancialSummaryStore()
+const { bestCategory } = storeToRefs(store)
+
+onMounted(() => {
+  store.fetchData(1)
+})
+
+const top3 = computed(() => {
+  return bestCategory.value.map((item) => ({
+    name: item.category,
+    amount: item.amount,
+  }))
+})
+
+// const top3 = ref([
+//   { name: 'foodcost', amount: 150000 },
+//   { name: 'shopping', amount: 3000000 },
+//   { name: 'miscExpense', amount: 420000 },
+// ])
 
 const formatAmount = (amount) => {
   return amount.toLocaleString() + '원'
