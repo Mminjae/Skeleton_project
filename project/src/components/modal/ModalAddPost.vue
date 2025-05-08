@@ -1,14 +1,4 @@
 <template>
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#ModalAddPost"
-    data-bs-whatever="@mdo"
-  >
-    생성
-  </button>
-
   <div
     class="modal fade"
     id="ModalAddPost"
@@ -305,7 +295,7 @@ const submitTransaction = async () => {
   display: flex;
   align-items: center;
 }
-.mb-3 input, 
+.mb-3 input,
 .mb-3 select,
 .mb-3 textarea {
   width: 20rem;

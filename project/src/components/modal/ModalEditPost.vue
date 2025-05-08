@@ -1,14 +1,4 @@
 <template>
-  <!-- 수정 버튼 -->
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#ModalEditPost"
-  >
-    수정
-  </button>
-
   <!-- 수정 모달 -->
   <div
     class="modal fade"
@@ -134,6 +124,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="resetForm">초기화</button>
+          <button type="button" class="btn btn-primary" >완료</button>
         </div>
       </div>
     </div>
