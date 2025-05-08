@@ -32,7 +32,6 @@
         <!-- 버튼  -->
         <!-- <ButtonDelete /> -->
         <ButtonEdit class="btn-edit" />
-        <TheDark />
       </div>
     </div>
   </div>
@@ -48,7 +47,6 @@ import { useRoute } from 'vue-router'
 // import ButtonDelete from '@/components/base/ButtonDelete.vue'
 import ButtonEdit from '@/components/base/ButtonEdit.vue'
 import defaultProfile from '@/assets/imgs/user.png'
-import TheDark from '@/layouts/TheDark.vue'
 
 // 로그인 된 정보 가져오기
 const route = useRoute()
