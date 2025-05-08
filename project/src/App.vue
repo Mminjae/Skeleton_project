@@ -12,7 +12,7 @@
   <ModalEditPost />
   <ModalExpenditure />
   <ModalImport />
-  <ModalFilter />
+ 
   <ModalResultid v-if="showModalResult" :found-id="foundId" @close="showModalResult = false" />
 </template>
 
@@ -27,7 +27,6 @@ import ModalAddPost from './components/modal/ModalAddPost.vue'
 import ModalEditPost from './components/modal/ModalEditPost.vue'
 import ModalExpenditure from '@/components/modal/ModalExpenditure.vue'
 import ModalImport from '@/components/modal/ModalImport.vue'
-import ModalFilter from './components/modal/ModalFilter.vue'
 import ModalResultid from '@/components/modal/ModalResultid.vue'
 // 로그인 상태 전역관리 (초기 false)
 const isLogin = ref(false)

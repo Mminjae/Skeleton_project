@@ -1,6 +1,7 @@
 <script setup>
   import { ref ,watch } from 'vue'
   import { useTransactionStore } from '@/stores/useTransactionStore'  //axios를 이용해 필터조건을 전달하기위해, store 호출.
+  import IconIcon from '@/components/base/iconIcon.vue'; //모달아이콘
   //Axios & Pinia용 스크립트
   const transactionStore = useTransactionStore()
 
@@ -74,8 +75,9 @@ const selectedCategories = ref([])  //초기설정
 // 지불수단 선택(현금/카드) 라디오박스 상태
 const selectedPaymentMethod = ref(null)  //초기설정
 
-// '초기화버튼'에 탑재되는 초기화 함수
-  const resetFilters = () => {
+//-----'초기화버튼'에 탑재되는 초기화 함수 resetFilters--------//  
+  //버튼리셋필터
+  const btnResetFilters = () => {
   filters.value.selectedPeriod = null        //연/월/일 초기화
   filters.value.date_gte = ''             //날짜-시작일 초기화
   filters.value.date_lte = ''
@@ -84,10 +86,11 @@ const selectedPaymentMethod = ref(null)  //초기설정
   selectedCategories.value = []      //카테고리 초기화
   selectedPaymentMethod.value = null //지불수단(현금/카드)초기화
   }
-// '완료버튼'에 탑재되는 저장함수 (나중에 db.json과 연동하여 거래데이터transactions 이용하여 필터적용)
+
+  // '완료버튼'에 탑재되는 저장함수 (나중에 db.json과 연동하여 거래데이터transactions 이용하여 필터적용)
   const applyFilters = () => {
     const queryParams = {};
-
+      
       if (filters.value.date_gte && filters.value.date_lte) {
         queryParams.date_gte = filters.value.date_gte;
         queryParams.date_lte = filters.value.date_lte;
@@ -109,8 +112,14 @@ const selectedPaymentMethod = ref(null)  //초기설정
 
       console.log('쿼리 파라미터:', queryParams);
       // 이걸 기반으로 pinia action 호출하거나 axios 직접 요청 가능
-      transactionStore.fetchTransactions(queryParams) //Pinia store action 호출
+      transactionStore.fetchTransactions(queryParams) //Pinia store action 호출  //주의할것, 이름이 같아 헷갈릴 수 있으나, 엄연히 useTransactionStore를 import하여 정의한 transactionStore을 사용한것임.
   }
+  //btnResetFilters를 적용시킨후, applyFilter를 적용시켜, 결과적으로 적용되어있는 필터를 초기화
+const resetFilters = () => {
+  btnResetFilters()
+  applyFilters()
+} 
+//-----'초기화버튼'에 탑재되는 초기화 함수 End-----//
 
 </script>
 
@@ -120,14 +129,15 @@ const selectedPaymentMethod = ref(null)  //초기설정
       2.data-bs-target: 열릴 모달의 ID를 지정.-->
   <button
     type="button"
-    class="btn-fillter"
+    class="btn-filter"
     data-bs-toggle="modal"
     data-bs-target="#FilterModal"
     data-bs-whatever="@mdo"
-    @click="resetFilters"   
+    @click="btnResetFilters"
+    scale="1.5"   
   ><!-- 모달을 닫았다 다시 열경우, 필터 초기화 -->
   <!-- <div class=".button--filterIcon__layout" alt="필터아이콘"></div> -->
-    필터
+    <IconIcon icon="filter" scale="1.5"/>
   </button>
   <!-- 필터모달을 Open하는 button END -->
 
@@ -193,13 +203,13 @@ const selectedPaymentMethod = ref(null)  //초기설정
             />
             <label class="btn btn-primary" for="today">오늘</label>
           </div>
-          <!-- 날짜필터2-달력버튼 -->
+          <!-- 날짜필터2-달력버튼 -->  <!-- 사용자가 입력한 날짜가 곧바로 filters.date_gte 또는 filters.date_lte 변수에 반영되고, 반대로 코드에서 해당 값을 바꾸면 input에 자동 반영됩니다. -->
           <hr />
-          <div class="callendar-group">
-            <input type="date" id="start" class="input-callendar" name="date-start" v-model="filters.date_gte">
+          <div class="callendar-group"> 
+            <input type="date" id="date-start" class="input-callendar" name="date-start" v-model="filters.date_gte">
             <label for="date-start"></label>
             <em>~</em>
-            <input type="date" id="end" class="input-callendar" name="date-end" v-model="filters.date_lte">
+            <input type="date" id="date-end" class="input-callendar" name="date-end" v-model="filters.date_lte">
             <label for="date-end"></label>
           </div>
           <hr>
@@ -265,7 +275,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
               class="btn-check" 
               name="transactionType3" 
               id="cash" 
-              value="cash"
+              value="현금"
               v-model="selectedPaymentMethod"
               :disabled="selectedType !== 'expense'" 
             /> <!-- '지출'선택시에만 클릭가능 -->
@@ -276,7 +286,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
               class="btn-check"
               name="transactionType3"
               id="card"
-              value="card"
+              value="카드"
               v-model="selectedPaymentMethod"
               :disabled="selectedType !== 'expense'"
             /> <!-- '지출'선택시에만 클릭가능 -->
@@ -285,7 +295,7 @@ const selectedPaymentMethod = ref(null)  //초기설정
         </div>
         <!-- 하단 버튼(초기화, 완료) -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-filter-reset" @click="resetFilters">초기화</button>
+          <button type="button" class="btn btn-secondary btn-filter-reset" @click="resetFilters" >초기화</button>
           <button type="button" class="btn btn-primary btn-filter-done" @click="applyFilters">완료</button>
         </div>
       </div>
@@ -404,10 +414,13 @@ const selectedPaymentMethod = ref(null)  //초기설정
   width: 6rem;  /*figma최신화 */
 }
 .btn-filter-reset{
-
 }
 .btn-filter-done{
-  
+}
+.btn-filter{
+  background-color: transparent;
+  border: none;
+  margin-left: 4rem;
 }
 /*------------모달푸터 END-----------*/
 /*--------------------필터모달 CSS END----------------*/
