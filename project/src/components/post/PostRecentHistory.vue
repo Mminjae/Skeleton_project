@@ -5,9 +5,10 @@
       <button class="plus-button">+</button>
     </div>
     <hr />
+
     <ul class="history-list">
       <li v-for="(history, index) in recentHistory" :key="index" class="history-item">
-        <span class="icon">{{ icon[history.category] }}</span>
+        <span class="icon"><ExpenseIcons :icon="history.category" /></span>
         <div class="details">
           <span class="item-title">{{ history.title }}</span>
           <span class="date">{{ history.date }}</span>
@@ -19,23 +20,42 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useFinancialSummaryStore } from '@/stores/useFinancialSummaryStore'
+import { storeToRefs } from 'pinia'
+import ExpenseIcons from '../base/ExpenseIcons.vue'
 
-const recentHistory = ref([
-  { category: '식비', title: '스타벅스 커피', date: '2025-04-08', amount: 5800 },
-  { category: '쇼핑', title: '무신사 바지 구매', date: '2025-04-06', amount: 87000 },
-  { category: '교통', title: '지하철 정기권', date: '2025-04-01', amount: 65000 },
-  { category: '기타', title: '넷플릭스 구독료', date: '2025-04-03', amount: 13500 },
-  { category: '주거', title: '월세 납부', date: '2025-04-05', amount: 500000 },
-])
+const store = useFinancialSummaryStore()
+const { recentData } = storeToRefs(store)
 
-const icon = {
-  식비: '🥑',
-  쇼핑: '🛍️',
-  교통: '🚇',
-  기타: '💡',
-  주거: '🏠',
-}
+onMounted(() => {
+  store.fetchData(1)
+})
+
+const recentHistory = computed(() => {
+  return recentData.value.map((item) => ({
+    category: item.category,
+    title: item.merchant,
+    date: item.date,
+    amount: item.amount,
+  }))
+})
+
+// const recentHistory = ref([
+//   { category: '식비', title: '스타벅스 커피', date: '2025-04-08', amount: 5800 },
+//   { category: '쇼핑', title: '무신사 바지 구매', date: '2025-04-06', amount: 87000 },
+//   { category: '교통', title: '지하철 정기권', date: '2025-04-01', amount: 65000 },
+//   { category: '기타', title: '넷플릭스 구독료', date: '2025-04-03', amount: 13500 },
+//   { category: '주거', title: '월세 납부', date: '2025-04-05', amount: 500000 },
+// ])
+
+// const icon = {
+//   식비: '🥑',
+//   쇼핑: '🛍️',
+//   교통: '🚇',
+//   기타: '💡',
+//   주거: '🏠',
+// }
 </script>
 
 <style scoped>
