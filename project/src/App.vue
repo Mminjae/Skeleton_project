@@ -1,17 +1,18 @@
 <template>
   <div class="app-container">
-    <!-- <TheSidebar /> -->
-
-    <TheSidebarLogin />
-    <RouterView />
-    <ViewMainLogin v-if="isLogin" />
+    <TheSidebar v-if="!isLogin" />
+    <TheSidebarLogin v-if="isLogin" />
+    <RouterView v-slot="{ Component, route }">
+      <component :is="Component" />
+      <ViewMainLoginOut v-if="!isLogin && route.path === '/'" />
+      <ViewMainLogin v-if="isLogin && route.path === '/'" />
+    </RouterView>
   </div>
   <ModalAddPost />
   <ModalEditPost />
   <ModalExpenditure />
   <ModalImport />
   <ModalFilter />
-  <ModalIdpw v-if="showModalIdpw" @found-user="openResultModal" @close="showModalIdpw = false" />
   <ModalResultid v-if="showModalResult" :found-id="foundId" @close="showModalResult = false" />
 </template>
 
@@ -27,7 +28,6 @@ import ModalEditPost from './components/modal/ModalEditPost.vue'
 import ModalExpenditure from '@/components/modal/ModalExpenditure.vue'
 import ModalImport from '@/components/modal/ModalImport.vue'
 import ModalFilter from './components/modal/ModalFilter.vue'
-import ModalIdpw from '@/components/modal/ModalIdpw.vue'
 import ModalResultid from '@/components/modal/ModalResultid.vue'
 // 로그인 상태 전역관리 (초기 false)
 const isLogin = ref(false)
@@ -36,18 +36,6 @@ provide('isLogin', isLogin) // 하위 컴포넌트에 제공
 // 로그인 성공 시 실행될 함수
 function handleLoginSuccess() {
   isLogin.value = true
-}
-//ID 찾기 함수
-
-const foundId = ref('')
-const showModalIdpw = ref(false)
-const showModalResult = ref(false)
-const foundUser = ref(null)
-// ModalIdpw에서 ID를 찾았을 때
-function openResultModal(id) {
-  foundId.value = id
-  showModalIdpw.value = false
-  showModalResult.value = true
 }
 </script>
 <style scoped>
