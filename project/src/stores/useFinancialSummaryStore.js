@@ -108,7 +108,103 @@ export const useFinancialSummaryStore = defineStore('financialSummary', () => {
     return topCategories;
   });
 
-  return { data, fetchData, recentData, categorizedData, bestCategory };
+  // 이번 달 지출/수입 일별 합계 -> PostLineGraph.vue 1
+  const dailySummary = computed(() => {
+    const summary = {}
+
+    // 🟣 최신 날짜 기준 연, 월 구하기
+    const latest = [...data.value].sort((a, b) => {
+      const dateA = new Date(a.dateYear, a.dateMonth - 1, a.dateDay)
+      const dateB = new Date(b.dateYear, b.dateMonth - 1, b.dateDay)
+      return dateB - dateA
+    })[0]
+
+    const year = latest?.dateYear ?? new Date().getFullYear()
+    const month = latest?.dateMonth ?? (new Date().getMonth() + 1) // 월 계산 수정: 1-based 월로 변경
+
+    // 🟣 해당 월 데이터만 필터링
+    const filtered = data.value.filter(item =>
+      item.dateYear === year && item.dateMonth === month // 현재 연도, 월에 맞는 데이터만 필터링
+    )
 
 
-})
+    filtered.forEach(item => {
+      const key = `${item.dateYear}-${item.dateMonth}-${item.dateDay}`
+      if (!summary[key]) {
+        summary[key] = { income: 0, expense: 0 }
+      }
+
+      const amount = Number(item.amount)
+
+      if (item.isIncome) {
+        summary[key].income += amount
+      } else {
+        summary[key].expense += Math.abs(amount)
+      }
+    })
+
+    return Object.entries(summary).map(([date, { income, expense }]) => ({
+      date,
+      income,
+      expense
+    }))
+  })
+
+
+  // 올해 지출/수입 월별 합계 -> PostLineGraph.vue 2
+  const monthlySummary = computed(() => {
+    const summary = Array.from({ length: 12 }, () => ({
+      income: 0,
+      expense: 0
+    }))
+
+    // 🟣 최신 연도 기준 필터링
+    const latest = [...data.value].sort((a, b) => {
+      const dateA = new Date(a.dateYear, a.dateMonth - 1, a.dateDay)
+      const dateB = new Date(b.dateYear, b.dateMonth - 1, b.dateDay)
+      return dateB - dateA
+    })[0]
+
+    const year = latest?.dateYear ?? new Date().getFullYear()
+
+    const filtered = data.value.filter(item => item.dateYear === year)
+
+    filtered.forEach(item => {
+      const monthIndex = item.dateMonth - 1
+      const amount = Number(item.amount)
+
+      if (monthIndex < 0 || monthIndex > 11) return
+
+      if (item.isIncome) {
+        summary[monthIndex].income += amount
+      } else {
+        summary[monthIndex].expense += Math.abs(amount)
+      }
+    })
+
+    return summary
+  })
+
+  const selectedYear = computed(() => {
+    const latest = [...data.value].sort((a, b) => {
+      const dateA = new Date(a.dateYear, a.dateMonth - 1, a.dateDay);
+      const dateB = new Date(b.dateYear, b.dateMonth - 1, b.dateDay);
+      return dateB - dateA; // 최신순 정렬
+    })[0];
+
+    return latest ? latest.dateYear : new Date().getFullYear();
+  });
+
+  // selectedMonth 계산
+  const selectedMonth = computed(() => {
+    const latest = [...data.value].sort((a, b) => {
+      const dateA = new Date(a.dateYear, a.dateMonth - 1, a.dateDay);
+      const dateB = new Date(b.dateYear, b.dateMonth - 1, b.dateDay);
+      return dateB - dateA; // 최신순 정렬
+    })[0];
+
+    return latest ? latest.dateMonth : new Date().getMonth(); // 1-based month 반환
+  });
+
+  return { data, fetchData, recentData, categorizedData, bestCategory, dailySummary, monthlySummary, selectedYear, selectedMonth };
+});
