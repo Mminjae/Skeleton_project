@@ -8,6 +8,7 @@ import PostItem from '@/components/post/PostItem.vue'
 import IconIcon from '@/components/base/iconIcon.vue'
 import ModalAddPost from '@/components/modal/ModalAddPost.vue'
 import ModalImport from '@/components/modal/ModalImport.vue'
+import ModalFilter from '@/components/modal/ModalFilter.vue';  //모달필터 컴포넌트 불러오기
 
 // Pinia store 사용
 import { useTransactionStore } from '@/stores/useTransactionStore'
@@ -38,6 +39,8 @@ const pageCount    = ref(0)
 
 const transactions = computed(() => transactionStore.transactions)
 const maxPage      = computed(() => Math.ceil(transactions.value.length / itemsPerPage))
+const showModal = ref(false); //모달 초기상태는 꺼짐
+//페이지별 리스트계산 - 우리는 한페이지당 10개의 리스트
 const paginatedList = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   const end   = start + itemsPerPage
@@ -45,6 +48,15 @@ const paginatedList = computed(() => {
 })
 
 // 초기 데이터 로딩
+//JSON Server에서 데이터 불러오기
+const fetchTransactions = async () => {
+  try {
+    const res = await axios.get('http://localhost:3000/transactions');
+    transactions.value = res.data;
+  } catch (error) {
+    console.error('데이터 가져오기 실패:', error);
+  }
+};
 onMounted(() => {
   transactionStore.fetchTransactions()
 })
@@ -54,7 +66,7 @@ onMounted(() => {
   <div class="viewtransactionhistory">
     <h2>거래내역조회</h2>
     <hr>
-    <button class="filter"><IconIcon icon="filter" scale="1.3"/></button>
+    <ModalFilter @apply-filter="handleFilter" @close="showModal = false" class="filter"/>
     <button class="write" type="button" data-bs-toggle="modal" data-bs-target="#ModalAddPost">
       <IconIcon icon="write" scale="1.3" />
     </button>
