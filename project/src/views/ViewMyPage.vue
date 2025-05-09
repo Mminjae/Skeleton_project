@@ -46,7 +46,7 @@ import { useRoute } from 'vue-router'
 // import ModalDelete from '@/components/modal/ModalDelete.vue'
 // import ButtonDelete from '@/components/base/ButtonDelete.vue'
 import ButtonEdit from '@/components/base/ButtonEdit.vue'
-import defaultProfile from '@/assets/imgs/user.png'
+import defaultProfile from '@/assets/imgs/user-gray.svg'
 
 // 로그인 된 정보 가져오기
 const route = useRoute()
@@ -69,9 +69,11 @@ const profileImage = computed(() => userStore.profileImage)
 }
 #mypage {
   font-family: 'Noto Sans KR', sans-serif;
-  margin-left: 5rem;
-  padding: 1rem;
-  padding-top: 2rem;
+}
+h2 {
+  padding: var(--space-l) 0 var(--space-s) calc(var(--space-m) * 2.5);
+  color: var(--color-black);
+  font-size: var(--font-xl);
 }
 
 /* 전체 카드 */
@@ -101,8 +103,6 @@ const profileImage = computed(() => userStore.profileImage)
 
 /* 회원 정보 */
 .info-title {
-  font-weight: 500;
-  color: #4a4a4a;
   margin-bottom: 2rem;
   padding-left: 0.5rem;
   width: 6rem;
@@ -121,14 +121,17 @@ const profileImage = computed(() => userStore.profileImage)
   border-top: 1px solid #eee;
   margin: 3rem 0;
 }
-
 .label {
-  border-right: 4px solid #d5d7f2;
+  border-right: 4px solid var(--color-purple);
+}
+.label,
+.value {
+  padding: 0.4rem;
 }
 
 .info-item .label {
-  width: 80px;
-  color: #535353;
+  width: calc(var(--space-m) * 6);
+  color: var(--color-black);
   font-weight: 400;
 }
 

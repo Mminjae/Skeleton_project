@@ -5,7 +5,7 @@
 <script setup>
 import { inject } from 'vue'
 import axios from 'axios'
-import defaultProfile from '@/assets/imgs/user.png'
+import defaultProfile from '@/assets/imgs/user-gray.svg'
 
 const imagePreview = inject('imagePreview')
 

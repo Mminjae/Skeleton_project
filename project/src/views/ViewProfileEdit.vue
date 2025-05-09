@@ -91,7 +91,7 @@ import ButtonSave from '@/components/base/ButtonSave.vue'
 import ButtonDelete from '@/components/base/ButtonDelete.vue'
 import ModalDelete from '@/components/modal/ModalDelete.vue'
 import ButtonProfileReset from '@/components/base/ButtonProfileReset.vue'
-import defaultProfile from '@/assets/imgs/user.png'
+import defaultProfile from '@/assets/imgs/user-gray.svg'
 
 const userStore = useUserStore()
 // const router = useRouter()

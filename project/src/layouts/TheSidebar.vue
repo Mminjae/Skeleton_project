@@ -11,6 +11,14 @@ const idError = ref('')
 const pwError = ref('')
 const showLoginForm = ref(false)
 const isLoginActive = ref(false)
+// const activeButton = ref('');
+// const router = useRouter();
+
+function handleClick(buttonType) {
+  activeButton.value = buttonType;
+  if (buttonType !== 'login')
+    router.push('/' + buttonType);
+}
 const isIdPwActive = ref(false) // 아이디/비번 찾기 버튼 활성화용
 
 // 로그인 시도
@@ -77,33 +85,54 @@ function goToFindIdPwPage() {
 </script>
 
 <template>
-  <div :class="navClass">
+  <div class="navClass">
     <nav id="nav">
       <h1>
-        <RouterLink to="/"><img src="../assets/imgs/logo.png" alt="사이트로고" /></RouterLink>
+        <img
+          role=button
+          @click="handleClick('')"
+          src="../assets/imgs/logo.png"
+          alt="사이트로고" />
       </h1>
 
       <!-- 로그인 폼 영역 -->
       <div class="nav-login-wrapper">
         <transition name="slide-fade">
           <form class="bar-login-form" v-show="showLoginForm">
-            <div class="login-form-wrapper">
               <label class="login-form-label">ID</label>
               <input type="text" placeholder="아이디" v-model="id" />
-              <div class="login_id_error">{{ idError }}</div>
+              <div class="login_id_error" v-show="idError">{{ idError }}</div>
+
               <label class="login-form-label">PW</label>
               <input type="password" placeholder="비밀번호" v-model="password" />
-              <div class="login_pw_error">{{ pwError }}</div>
+              <div class="login_pw_error" v-show="pwError">{{ pwError }}</div>
+
               <div class="login-form--remember">
                 <input class="login-form--checkbox" type="checkbox" />
                 <span>로그인 정보 저장</span>
               </div>
-            </div>
           </form>
         </transition>
       </div>
 
       <div class="nav-bar-btnbox">
+        <!-- 은우 수정한 부분 -->
+        <!-- <button
+          class="btn-unclicked nav-bar__button--login"
+          @click="() => {handleClick('login'); toggleLogin();}"
+          :class="{ active: isLoginActive }"
+        >
+          로그인
+        </button>
+        <button
+          :class="activeButton === 'signUp' ? 'btn-clicked' : 'btn-unclicked'"
+          @click="handleClick('signUp')"
+        >
+          회원가입
+        </button>
+        <button
+          class="btn-unclicked nav-bar__button--idpw"
+          @click="toggleIdPwModal" -->
         <router-link class="nav-link">
           <button
             class="nav-bar-btn nav-bar__button--login"
@@ -136,7 +165,8 @@ function goToFindIdPwPage() {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 18.75rem;
+
+  width: calc(var(--space-xl) * 7.5); /* 2.BOX */
   height: 100vh;
   background-color: var(--color-purple);
 }
@@ -145,13 +175,29 @@ function goToFindIdPwPage() {
   align-items: center;
   text-align: center;
 }
+
 h1 {
-  margin-top: 2.5rem;
+  margin-top: calc(var(--space-m) * 2.5);
 }
 h1 img {
-  width: 10rem;
-  height: 10rem;
+  width: calc(var(--space-m) * 7.5);
+  height: calc(var(--space-m) * 7.5);
 }
+
+/* 은우 수정한 부분 */
+/* .nav-bar-btnbox {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 5%;
+}
+.nav-bar-btnbox button {
+  width: calc(var(--space-xl) * 5.5);
+  height: calc(var(--space-xl) * 1.7);
+  border-radius: var(--space-l);
+  border: none;
+  padding: 0 var(--space-m);
+  margin-bottom: var(--space-m); */
 .nav-bar-btnbox {
   display: flex;
   flex-direction: column;
@@ -168,16 +214,18 @@ h1 img {
   margin-bottom: 1.2rem;
   align-items: center;
   font-size: var(--font-base);
-  color: var(--color-black);
 }
-.nav-bar-btn:hover {
+.nav-bar-btnbox button:hover,
+.btn-clicked {
   background-color: var(--color-purple9);
   color: var(--color-white);
 }
-.logout {
-  background-color: var(--color-white);
-  color: var(--color-purple9);
+.btn-unclicked {
+  background-color: var(--color-purple);
+  color: var(--color-black);
 }
+
+/* .bar-login-form { */
 .nav-login-wrapper {
   width: 100%;
   display: flex;
@@ -186,34 +234,37 @@ h1 img {
 }
 .login-form-wrapper {
   display: flex;
-  margin-top: 10rem;
+  margin-top: calc(var(--space-m) * 8);
   flex-direction: column;
   align-items: flex-start;
-  width: 12.5rem;
-  font-weight: 600;
+  color: var(--color-black);
+}
+.bar-login-form label {
+  margin-bottom: calc(var(--space-m) / 3);
 }
 .bar-login-form input[type='text'],
 .bar-login-form input[type='password'] {
-  height: 2.5rem;
-  border-radius: 0.375rem;
-  padding: 0 0.625rem;
-  border: 1px solid var(--color-purple9);
-  width: 12.5rem;
-  margin-bottom: 0.1rem;
+  height: calc(var(--space-m) * 2.5);
+  width: calc(var(--space-m) * 11);
+  border-radius: var(--space-s);
+  margin-bottom: var(--space-s);
+  padding: 0 var(--space-m);
+  border: none;
 }
 .login-form--remember {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.625rem;
+  margin-top: var(--space-s);
+  gap: var(--space-s);
+  font-size: var(--font-s);
 }
 .login-form--checkbox {
   all: unset;
-  font-size: 1rem;
-  width: 1.1rem;
-  height: 1.1rem;
-  border: 1px solid var(--color-purple9);
+  /* 체크박스 기본 틀 */
+  width: var(--space-m);
+  height: var(--space-m);
   border-radius: 0.25rem;
+  border-radius: calc(var(--space-m) / 4);
   background-color: var(--color-white);
   cursor: pointer;
   position: relative;
@@ -224,7 +275,6 @@ h1 img {
 }
 .login-form--checkbox:checked {
   background-color: var(--color-purple9);
-  border-color: var(--color-purple9);
 }
 .login-form--checkbox:checked::after {
   content: '';
@@ -242,10 +292,9 @@ h1 img {
 }
 .login_id_error,
 .login_pw_error {
-  font-size: 1rem;
+  font-size: var(--font-s);
   color: var(--color-red);
-  margin-bottom: 0.5rem;
-  min-height: 1rem;
+  margin: 0 0 calc(var(--space-s)) var(--space-s);
 }
 .router-button,
 .nav-bar__button--login {
@@ -258,7 +307,7 @@ h1 img {
 .nav-bar__button--idpw.active,
 .router-button.active {
   background-color: var(--color-purple9);
-  color: white;
+  color: var(--color-white);
 }
 .slide-fade-enter-active,
 .slide-fade-leave-active {
@@ -286,7 +335,7 @@ h1 img {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0.5rem;
+    padding: var(--space-s);
     background-color: var(--color-purple);
     z-index: 999;
   }

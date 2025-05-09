@@ -1,5 +1,6 @@
 <script setup>
 import CategoryInfo from '../base/CategoryInfo.vue';
+import IconIcon from '@/components/base/iconIcon.vue';
 
 const props = defineProps({
   item: {
@@ -27,9 +28,9 @@ const props = defineProps({
           </p>
           <p>원</p>
         </span>
-      </div>
+      </div >
       <div class="memo">
-        <img v-if="item.memo" src="../../assets/imgs/icons_layout/memo.svg" alt="memo" />
+        <IconIcon v-if="item.memo" icon="memo"/>
       </div>
     </div>
   </li>
@@ -56,19 +57,20 @@ const props = defineProps({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-md) var(--space-md);
+  padding: calc(var(--space-l) / 2);
 }
 .item * {
   margin: 0;
 }
 .item p {
   display: inline-block;
+  font-size: 0.95rem;
 }
 .item:hover {
   box-shadow: 0 10px 6px -6px rgba(0, 0, 0, 0.1);
 }
-.item:hover * {
-  transform: translate(-1px, -1px);
+.item:hover > * {
+  transform: translate(-1.5px, -1.5px);
   transition: transform 0.2s ease;
 }
 
@@ -79,7 +81,7 @@ const props = defineProps({
 
 .category {
   display: flex;
-  gap: var(--space-md);
+  gap: var(--space-m);
   width: 10rem;
 }
 
@@ -95,13 +97,15 @@ const props = defineProps({
 }
 .amount {
   display: flex;
-  gap: var(--space-xs);
+  gap: var(--space-s);
 }
 
 .memo,
 .memo img {
+  display: flex;
+  align-items: center;
   text-align: right;
-  width: var(--space-lg);
-  height: var(--space-lg);
+  width: var(--space-l);
+  height: var(--space-l);
 }
 </style>

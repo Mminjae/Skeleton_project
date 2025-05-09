@@ -24,28 +24,31 @@
               type="date"
               class="form-input"
               @blur="validateBirth"
-              placeholder="YYYY-MM-DD"
             />
           </div>
           <span v-if="errors.birth" class="error-text">{{ errors.birth }}</span>
+
           <!-- 이메일 입력창 -->
           <div class="input-box">
             <label>이메일</label>
             <input v-model="form.email" type="text" @blur="validateEmail" />
           </div>
           <span v-if="errors.email" class="error-text">{{ errors.email }}</span>
+
           <!-- 전화번호 입력창 -->
           <div class="input-box">
             <label>전화번호</label>
             <input v-model="form.phone" type="text" @blur="validatePhone" />
           </div>
           <span v-if="errors.phone" class="error-text">{{ errors.phone }}</span>
+
           <!-- 아이디 입력창 -->
           <div class="input-box">
             <label>아이디</label>
             <input v-model="form.userId" type="text" @blur="validateuserId" />
           </div>
           <span v-if="errors.userId" class="error-text">{{ errors.userId }}</span>
+          
           <!-- 비밀번호 입력창 -->
           <div class="input-box">
             <label>비밀번호</label>
@@ -62,9 +65,7 @@
 
         <div class="area-button">
           <!-- 프로필 이미지 영역: 기본이미지 or 업로드 이미지 -->
-          <div class="profile-image-wrapper">
-            <img :src="imagePreview || defaultImage" alt="프로필사진" class="profile-image" />
-          </div>
+          <img :src="imagePreview || defaultImage" alt="프로필사진" class="profile-image" />
 
           <!-- 이미지 (숨긴 input) (기본 파일 input 감추기) -->
           <input
@@ -75,10 +76,10 @@
             style="display: none"
           />
           <!-- 라벨 버튼으로 사용자 업로드 유도 -->
-          <label for="imageInput" class="upload-button">사진등록</label>
+          <label for="imageInput" class="upload-button">사진 등록</label>
           <!-- 회원가입 버튼 -->
+          <button type="submit">회원가입</button>
         </div>
-        <button type="submit">회원가입</button>
       </form>
     </div>
   </div>
@@ -111,7 +112,7 @@ const passwordSuccess = ref('')
 
 const imageFile = ref(null)
 const imagePreview = ref('')
-import defaultImageUrl from '@/assets/imgs/user.png'
+import defaultImageUrl from '@/assets/imgs/user-gray.svg'
 const defaultImage = defaultImageUrl
 
 const validateName = () => {
@@ -242,33 +243,30 @@ const submitForm = async () => {
   width: 80%;
 }
 h2 {
-  padding: var(--space-xl) 0 var(--space-xl) 2.5rem;
+  padding: var(--space-l) 0 var(--space-s) calc(var(--space-m) * 2.5);
   color: var(--color-black);
-}
-button {
-  border: none;
-  background-color: transparent;
+  font-size: var(--font-xl);
 }
 
 #joinPage {
-  width: 65%;
-  margin: 1rem 0 0 5rem;
-  padding: 2rem;
+  width: calc(var(--space-m) * 50);
+  margin: var(--space-m) 0 0 calc(var(--space-m) * 5);
+  padding: var(--space-xl);
   background: var(--color-white);
-  border-radius: 1rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.05);
+  border-radius: var(--space-m);
+  box-shadow: 0 0 var(--space-m) rgba(0, 0, 0, 0.05);
   position: relative;
 }
 
 .area-input {
   width: 70%;
-  margin-bottom: 4rem;
+  margin-bottom: calc(var(--space-m) * 4);
   position: relative;
 }
 .area-input > span {
   position: absolute;
   right: 0;
-  padding-top: 0.4rem;
+  padding-top: var(--space-s);
 }
 
 .join-form {
@@ -279,148 +277,59 @@ button {
 
 .input-box {
   display: flex;
-  gap: 4rem;
-  margin: 1rem 0 0 1rem;
-  padding-top: 1rem;
+  gap: calc(var(--space-m) * 3);
+  margin: var(--space-m) 0 0 var(--space-m);
+  padding-top: var(--space-m);
   align-items: center;
 }
 .input-box label {
   font-size: var(--font-m);
   color: var(--color-black);
-  width: 200px;
+  width: calc(var(--space-m) * 14);
 }
 .input-box input {
   width: 100%;
-  height: 2.5rem;
-  padding: 0.75rem 1rem;
+  height: calc(var(--space-m) * 2.5);
+  padding: var(--space-m) 0.75rem var(--space-m) var(--space-m);
   font-size: var(--font-m);
   border: 1px solid var(--color-gray-light);
-  border-radius: 0.4rem;
-}
-.input-box span {
-  position: left;
-  font-size: var(--font-s);
-  margin-top: -0.25rem;
-  margin-bottom: 0.5rem;
+  border-radius: var(--space-s);
 }
 
 .area-button {
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
-  padding-right: 6%;
+  align-items: center;
+  margin-top: calc(var(--space-m) * 2);
+  padding-right: 5%;
   position: relative;
 }
-.area-button label {
-  text-align: center;
-}
-
-/* 전체 form을 좌우 2열로 구성 */
-/* form {
-display: flex;
-gap: 2rem;
-flex-wrap: wrap;
-} */
-
-/* input {
-  width: 21rem;
-} */
-
-/* input {
-height: 2.5rem;
-padding: 0.75rem 1rem;
-} */
-
-/* 왼쪽: input 영역 (세로 정렬) */
-/* form > div:not(.profile-image-wrapper):not(.upload-button) {
-flex: 1 1 60%;
-display: flex;
-flex-direction: column;
-margin-bottom: 1rem;
-} */
-
-/* label {
-font-size: 1rem;
-font-weight: bold;
-margin-bottom: 0.5rem;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="date"],
-input[type="email"],
-input[type="number"] {
-width: 100%;
-padding: 0.625rem;
-font-size: 0.875rem;
-border: 1px solid #ccc;
-border-radius: 0.375rem;
-box-sizing: border-box;
-margin-bottom: 0.5rem;
-} */
-/* 
-.error-text,
-span.error-text {
-position: left;
-color: red;
-font-size: 0.8125rem;
-margin-top: -0.25rem;
-margin-bottom: 0.5rem;
-}
-
-span.success-text {
-position: left;
-color: blue;
-font-size: 0.8125rem;
-margin-top: -0.25rem;
-margin-bottom: 0.5rem;
-} */
-
-/* 오른쪽: 프로필 이미지 + 버튼 */
-/* .profile-image-wrapper {
-flex: 0 0 30%;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: flex-start;
-padding-top: 1rem;
-} */
 
 .profile-image {
-  width: 7.5rem;
-  height: 7.5rem;
+  width: calc(var(--space-m) * 7);
+  height: calc(var(--space-m) * 7);
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid #ccc;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-m);
 }
 
-.upload-button {
+/* 버튼 */
+.upload-button,
+button[type='submit'] {
   display: inline-block;
-  background-color: var(--color-white);
-  color: var(--color-black);
-  padding: 0.5rem 1.25rem;
-  font-size: var(--font-s);
-  border-radius: 0.5rem;
-  border: 1px solid var(--color-gray-light);
+  text-align: center;
+  width: calc(var(--space-m) * 7.5);
+  padding: 0.5rem var(--space-m);
   cursor: pointer;
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--space-s);
+  font-size: 0.8rem;
+  color: var(--color-black);
+  background-color: var(--color-white);
 }
-
-/* 회원가입 버튼 */
 button[type='submit'] {
   position: absolute;
-  display: inline-block;
-  background-color: var(--color-white);
-  color: var(--color-black);
-  border: 1px solid var(--color-gray-light);
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-size: var(--font-s);
-  text-align: center;
-  margin-top: 20rem;
-  right: 10%;
-  width: 7.5rem;
-  bottom: 2rem;
+  bottom: var(--space-s);
 }
 
 /* 유효성 검증 메시지 */
@@ -438,23 +347,4 @@ button[type='submit'] {
   color: var(--color-blue);
   font-size: var(--font-s);
 }
-
-/* 사진첨부 버튼 */
-/* .upload-button {
-display: inline-block;
-background-color: #f5f5f5;
-color: #333;
-border: 1px solid #ccc;
-border-radius: 0.5rem;
-padding: 0.5rem 1rem;
-font-size: 1rem;
-cursor: pointer;
-text-align: center;
-margin-top: 1rem;
-transition: background-color 0.3s;
-}
-
-.upload-button:hover {
-background-color: #e0e0e0;
-} */
 </style>

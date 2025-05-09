@@ -3162,6 +3162,20 @@
       "isIncome": false,
       "paymentMethod": "현금",
       "date": "2025-06-05"
+    },
+    {
+      "id": "500",
+      "amount": 234,
+      "category": "salary",
+      "merchant": "asdf",
+      "memo": "asdf",
+      "userId": 1,
+      "dateYear": 2025,
+      "dateMonth": 5,
+      "dateDay": 10,
+      "dayOfWeek": "토",
+      "isIncome": true,
+      "paymentMethod": ""
     }
   ]
 }

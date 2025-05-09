@@ -35,17 +35,20 @@ const incomes = {
   <template>
 	<template v-if="isIncome">
 	  <template v-for="(item, key) in incomes" :key="key">
-		<span class="icon" v-if="key === category"><incomeIcon :icon="key"/> {{ item.name }}</span>
+		<span class="icon" v-if="key === category"><incomeIcon :icon="key" scale="0.9"/> {{ item.name }}</span>
 	  </template>
 	</template>
 	<template v-else>
 	  <template v-for="(item, key) in expenses" :key="key">
-		<span class="icon" v-if="key === category"><ExpenseIcons :icon="key"/>{{ item.name }}</span>
+		<span class="icon" v-if="key === category"><ExpenseIcons :icon="key" scale="0.9"/>{{ item.name }}</span>
 	  </template>
 	</template>
   </template>
 
 <style scoped>
+span {
+  font-size: 0.95rem;
+}
 .icon {
 	display: flex;
 	gap: 0.7rem;
