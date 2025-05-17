@@ -196,7 +196,7 @@ const submitTransaction = async () => {
     : 0
 
   const newTransaction = {
-    id: String(lastId + 500),
+    id: String(lastId + 1),
     amount: parsedAmount,
     category,
     merchant: title.value,
@@ -208,6 +208,7 @@ const submitTransaction = async () => {
     dayOfWeek: getKoreanDay(dateObj),
     isIncome: activeTab.value === 'income',
     paymentMethod: activeTab.value === 'income' ? '' : '현금',
+    date: selectedDate.value,
   }
 
   await store.addTransaction(newTransaction)

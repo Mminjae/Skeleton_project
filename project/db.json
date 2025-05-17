@@ -47,7 +47,7 @@
       "amount": 182019,
       "category": "foodcost",
       "merchant": "버거킹",
-      "memo": "커피 구매",
+      "memo": "커피 구매1\n",
       "userId": 1,
       "dateYear": 2025,
       "dateMonth": 1,
@@ -55,7 +55,8 @@
       "dayOfWeek": "금",
       "isIncome": false,
       "paymentMethod": "현금",
-      "date": "2025-01-10"
+      "date": "2025-01-10",
+      "dateString": "2025-01-10"
     },
     {
       "id": "4",
@@ -3149,33 +3150,20 @@
       "date": "2025-06-04"
     },
     {
-      "id": "210",
-      "amount": 5000,
-      "category": "miscExpense",
-      "merchant": "문방구",
-      "memo": "볼펜 구매",
-      "userId": 1,
-      "dateYear": 2025,
-      "dateMonth": 6,
-      "dateDay": 5,
-      "dayOfWeek": "목",
-      "isIncome": false,
-      "paymentMethod": "현금",
-      "date": "2025-06-05"
-    },
-    {
       "id": "500",
-      "amount": 234,
-      "category": "salary",
-      "merchant": "asdf",
-      "memo": "asdf",
+      "amount": 23123,
+      "category": "allowance",
+      "merchant": "카택",
+      "memo": "ㄼㅈㄼㅈㄹ",
       "userId": 1,
       "dateYear": 2025,
       "dateMonth": 5,
-      "dateDay": 10,
+      "dateDay": 8,
       "dayOfWeek": "토",
       "isIncome": true,
-      "paymentMethod": ""
+      "paymentMethod": "",
+      "date": "2025-05-08",
+      "dateString": "2025-05-10"
     }
   ]
 }
