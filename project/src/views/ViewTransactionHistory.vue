@@ -65,7 +65,6 @@ onMounted(() => {
 <template>
   <div class="viewtransactionhistory">
     <h2>거래내역조회</h2>
-    <hr>
     <ModalFilter @apply-filter="handleFilter" @close="showModal = false" class="filter"/>
     <button class="write" type="button" data-bs-toggle="modal" data-bs-target="#ModalAddPost">
       <IconIcon icon="write" scale="1.3" />
