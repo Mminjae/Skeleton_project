@@ -208,6 +208,7 @@ const submitTransaction = async () => {
     dayOfWeek: getKoreanDay(dateObj),
     isIncome: activeTab.value === 'income',
     paymentMethod: activeTab.value === 'income' ? '' : '현금',
+  
   }
 
   await store.addTransaction(newTransaction)

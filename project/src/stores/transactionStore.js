@@ -33,6 +33,8 @@ export const useTransactionStore = defineStore('transaction', {
         ? Math.max(...this.transactions.map((t) => Number(t.id)))
         : 0
 
+      const formattedDate = date.toISOString().split('T')[0]
+
       return {
         id: String(lastId + 500),
         amount: item.amount,
@@ -46,6 +48,7 @@ export const useTransactionStore = defineStore('transaction', {
         dayOfWeek: this.getDayOfWeek(date),
         isIncome: item.type === 'income' || item.isIncome === true,
         paymentMethod: item.paymentMethod || '',
+         date: formattedDate,
       }
     },
 
