@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <TheSidebar v-if="!isLogin" />
-    <TheSidebarLogin v-if="isLogin" />
+    <TheSidebarLogin />
     <RouterView v-slot="{ Component, route }">
       <component :is="Component" />
       <ViewMainLoginOut v-if="!isLogin && route.path === '/'" />
@@ -9,8 +9,6 @@
     </RouterView>
   </div>
   <ModalAddPost />
-  <ModalEditPost />
-  <ModalExpenditure />
   <ModalImport />
  
   <ModalResultid v-if="showModalResult" :found-id="foundId" @close="showModalResult = false" />
@@ -24,8 +22,6 @@ import TheSidebarLogin from '@/layouts/TheSidebarLogin.vue'
 // import ViewMainLoginOut from '@/views/ViewMainLoginOut.vue'
 import ViewMainLogin from '@/views/ViewMainLogin.vue'
 import ModalAddPost from './components/modal/ModalAddPost.vue'
-import ModalEditPost from './components/modal/ModalEditPost.vue'
-import ModalExpenditure from '@/components/modal/ModalExpenditure.vue'
 import ModalImport from '@/components/modal/ModalImport.vue'
 import ModalResultid from '@/components/modal/ModalResultid.vue'
 // 로그인 상태 전역관리 (초기 false)

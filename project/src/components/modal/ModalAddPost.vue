@@ -87,6 +87,17 @@
             <!-- 지출 탭 -->
             <template v-else>
               <div class="mb-3">
+                <label for="payment-method" class="col-form-label">결제방식</label>
+                <input
+                  type="text"
+                  id="payment-method"
+                  class="form-control"
+                  v-model="paymentMethod"
+                  placeholder="예: 카드, 현금 등"
+                  style="text-align: right"
+                />
+              </div>
+              <div class="mb-3">
                 <label for="amount-expense" class="col-form-label">금액</label>
                 <input
                   type="text"
@@ -143,6 +154,7 @@ const amount = ref('0원')
 const memo = ref('')
 const categoryIncome = ref('')
 const categoryExpense = ref('')
+const paymentMethod = ref('')
 
 const handleFocus = () => {
   if (amount.value === '0원') amount.value = ''
@@ -167,6 +179,7 @@ const resetForm = () => {
   categoryIncome.value = ''
   categoryExpense.value = ''
   activeTab.value = 'income'
+  paymentMethod.value = ''
 }
 
 const getKoreanDay = (dateObj) => {
@@ -196,7 +209,7 @@ const submitTransaction = async () => {
     : 0
 
   const newTransaction = {
-    id: String(lastId + 500),
+    id: String(lastId + 1),
     amount: parsedAmount,
     category,
     merchant: title.value,
@@ -207,7 +220,8 @@ const submitTransaction = async () => {
     dateDay: dateObj.getDate(),
     dayOfWeek: getKoreanDay(dateObj),
     isIncome: activeTab.value === 'income',
-    paymentMethod: activeTab.value === 'income' ? '' : '현금',
+    paymentMethod: activeTab.value === 'income' ? '' : paymentMethod.value,
+    date: selectedDate.value,
   }
 
   await store.addTransaction(newTransaction)
@@ -216,6 +230,25 @@ const submitTransaction = async () => {
 </script>
 
 <style scoped>
+.mb-3 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.col-form-label {
+  padding: 0 0.5rem 0 1.5rem;
+  color: var(--color-black);
+  width: 6rem; /* 라벨 너비 고정 */
+}
+
+.mb-3 input,
+.mb-3 select,
+.mb-3 textarea {
+  width: 20rem;
+  margin-left: 1rem;
+}
+
 .tab-header {
   display: flex;
   gap: 0.5rem;
@@ -251,14 +284,10 @@ const submitTransaction = async () => {
 .mb-3 {
   display: flex;
 }
-.form-control {
-  width: 22rem;
-  margin: 0 0 0 3rem;
-}
-
+.form-control,
 .form-select {
-  width: 22rem;
-  margin: 0 0 0 1rem;
+  margin: 0;
+  width: 20rem; /* 너비 동일하게 */
 }
 .modal-footer .btn,
 .modal-header .btn {

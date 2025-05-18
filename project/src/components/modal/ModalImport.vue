@@ -17,7 +17,9 @@
             <div class="header-left">
               <div class="icon-box">
                 <IconIcon :icon="item.category" size="36" />
-                <span class="category-text">{{ item.category }}</span>
+                <span class="category-text">
+                  {{ categoryMapReverse[item.category] || item.category }}
+                </span>
               </div>
             </div>
             <div class="header-right">
@@ -222,6 +224,24 @@ const emit = defineEmits(['close'])
 
 const transactionStore = useTransactionStore()
 
+// 모달 카테고리명 영어 --> 한글 변경 
+const categoryMapReverse = {
+  // 수입
+  'salary': '월급',
+  'finance': '금융 소득',
+  'allowance': '용돈',
+  'carryover': '이월',
+  'miscIncome': '기타',
+  // 지출
+  'foodcost': '식비',
+  'saving': '저축',
+  'transport': '교통비',
+  'culture': '문화생활',
+  'essentials': '생필품',
+  'shopping': '쇼핑',
+  'miscExpense': '기타'
+}
+
 // 편집 모드 토글 및 초기화
 const isEditing       = ref(false)
 const activeTab       = ref('expense')
@@ -265,19 +285,55 @@ function onDelete() {
     .catch(err => console.error(err))
 }
 
-// 저장 (수정)
+// 수정(저장)
 function onSave() {
   const [Y, M, D] = selectedDate.value.split('-')
+
+  // ✅ 유효성 검사
+  if (
+    !selectedDate.value ||
+    !title.value.trim() ||
+    !amount.value.replace(/,/g, '') ||
+    (activeTab.value === 'income' && !categoryIncome.value) ||
+    (activeTab.value === 'expense' && !categoryExpense.value)
+  ) {
+    alert('모든 항목을 입력해주세요.')
+    return
+  }
+
+  // ✅ 한글 → 영문 카테고리 매핑
+  const categoryMap = {
+    // 수입
+    '월급': 'salary',
+    '금융 소득': 'finance',
+    '용돈': 'allowance',
+    '이월': 'carryover',
+    '기타': 'miscIncome',
+    // 지출
+    '식비': 'foodcost',
+    '저축': 'saving',
+    '교통비': 'transport',
+    '문화생활': 'culture',
+    '생필품': 'essentials',
+    '쇼핑': 'shopping',
+    '기타': 'miscExpense'
+  }
+
+  const selectedCategory =
+    activeTab.value === 'income' ? categoryIncome.value : categoryExpense.value
+  const mappedCategory = categoryMap[selectedCategory] || selectedCategory
+
   const payload = {
     ...props.item,
-    dateYear:   Number(Y),
-    dateMonth:  Number(M),
-    dateDay:    Number(D),
-    merchant:   title.value,
-    amount:     Number(amount.value.replace(/,/g, '')),
-    memo:       memo.value,
-    category:   activeTab.value === 'income' ? categoryIncome.value : categoryExpense.value,
-    isIncome:   activeTab.value === 'income'
+    dateYear: Number(Y),
+    dateMonth: Number(M),
+    dateDay: Number(D),
+    date: `${Y}-${M}-${D}`,
+    merchant: title.value,
+    amount: Number(amount.value.replace(/,/g, '')),
+    memo: memo.value,
+    category: mappedCategory, // ✅ 변환된 영문 카테고리 저장
+    isIncome: activeTab.value === 'income'
   }
 
   axios
@@ -289,6 +345,7 @@ function onSave() {
     })
     .catch(err => console.error(err))
 }
+
 
 // 모달 닫기
 function hideModal() {
@@ -305,7 +362,13 @@ function onClose() {
 
 // 폼 초기화
 function resetForm() {
-  onEdit()
+  // 강제로 리셋
+  selectedDate.value = '0'
+  title.value = ''
+  amount.value = '0원'
+  memo.value = ''
+  categoryIncome.value = ''
+  categoryExpense.value = ''
 }
 
 // 금액 입력 핸들러
