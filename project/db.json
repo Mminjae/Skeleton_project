@@ -3148,22 +3148,6 @@
       "isIncome": false,
       "paymentMethod": "현금",
       "date": "2025-06-04"
-    },
-    {
-      "id": "500",
-      "amount": 23123,
-      "category": "allowance",
-      "merchant": "카택",
-      "memo": "ㄼㅈㄼㅈㄹ",
-      "userId": 1,
-      "dateYear": 2025,
-      "dateMonth": 5,
-      "dateDay": 8,
-      "dayOfWeek": "토",
-      "isIncome": true,
-      "paymentMethod": "",
-      "date": "2025-05-08",
-      "dateString": "2025-05-10"
     }
   ]
 }
