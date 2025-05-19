@@ -1,7 +1,7 @@
 <template>
   <div id="mypage">
     <div class="container my-5">
-      <h5 class="mb-5">마이 페이지</h5>
+      <h2 class="mb-5">마이 페이지</h2>
       <div class="info-card">
         <div class="d-flex justify-content-between">
           <!-- 회원 정보 -->
@@ -61,7 +61,7 @@ const contactInfo = computed(() => userStore.contactInfo)
 const profileImage = computed(() => userStore.profileImage)
 </script>
 
-<style>
+<style scoped>
 * {
   margin: 0;
   padding: 0;
@@ -69,18 +69,24 @@ const profileImage = computed(() => userStore.profileImage)
 }
 #mypage {
   font-family: 'Noto Sans KR', sans-serif;
-  margin-left: 0.4rem;
+  margin-left: 1.1rem;
+}
+
+h2 {
+  padding: var(--space-l) 0 var(--space-s) calc(var(--space-m) * 2.5);
+  color: var(--color-black);
+  font-size: var(--font-xl);
 }
 
 /* 전체 카드 */
 .info-card {
-  width: 50rem; /*800px */
-  height: 37.5rem; /*600px*/
-  border-radius: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  padding: 2rem 5rem 0rem 2rem;
-  margin: 1rem;
-  background-color: white;
+  width: calc(var(--space-m) * 50);
+  margin: var(--space-m) 0 0 calc(var(--space-m) * 5);
+  padding: var(--space-xl);
+  background: var(--color-white);
+  border-radius: var(--space-m);
+  box-shadow: 0 0 var(--space-m) rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
 /* 정보 공통 */

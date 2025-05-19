@@ -1,7 +1,7 @@
 <template>
   <div id="editpage">
     <div class="container my-5">
-      <h5 class="mb-5">수정 페이지</h5>
+      <h2 class="mb-5">수정 페이지</h2>
       <div class="info-card">
         <div class="d-flex justify-content-between">
           <!-- 회원 정보 -->
@@ -197,16 +197,21 @@ const handleFileChange = async (event) => {
   /* padding: 1rem; */
   /* padding-top: 2rem; */
 }
+h2 {
+  padding: var(--space-l) 0 var(--space-s) calc(var(--space-m) * 2.5);
+  color: var(--color-black);
+  font-size: var(--font-xl);
+}
 
 /* 전체 카드 */
 .info-card {
-  width: 50rem; /* 800px */
-  height: 37.5rem; /* 600px */
-  border-radius: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  padding: 2rem 5rem 0rem 2rem;
-  margin: 1rem;
-  background-color: white;
+  width: calc(var(--space-m) * 50);
+  margin: var(--space-m) 0 0 calc(var(--space-m) * 5);
+  padding: var(--space-xl);
+  background: var(--color-white);
+  border-radius: var(--space-m);
+  box-shadow: 0 0 var(--space-m) rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
 /* 공통 */
@@ -246,15 +251,15 @@ const handleFileChange = async (event) => {
   border-top: 1px solid #eee;
   margin: 3rem;
 }
-/* .label {
+.label {
   border-right: 4px solid var(--color-purple);
-} */
+}
 
-/* .info-item .label {
+.info-item .label {
   width: calc(var(--space-m) * 6);
   color: var(--color-black);
   font-weight: 400;
-} */
+}
 
 .label,
 .value {
