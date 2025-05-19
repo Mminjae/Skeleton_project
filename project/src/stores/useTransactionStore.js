@@ -36,9 +36,11 @@ export const useTransactionStore = defineStore('useTransactionStore', {
     async fetchTransactions(queryParams) {  //filters 객체는 필터링 조건들이 담긴 { isIncome, category, date_gte, date_lte, ... } 형태
       this.isLoading = true
       try {
-        const res = await axios.get('http://localhost:3000/transactions', {
-          params: queryParams     //여기서 쿼리를 전송해줌, GET방식임 주의!!
-        })
+        //queryParams에 빈 값 제거
+        const cleanQueryParams = Object.fromEntries(
+          Object.entries(queryParams).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
+        )
+
         // 👉 URLSearchParams로 수동 처리 (중복 key 허용)
         const params = new URLSearchParams()
 
@@ -60,14 +62,15 @@ export const useTransactionStore = defineStore('useTransactionStore', {
         // 이거 정렬하기
         this.transactions = res.data.map(convertTransaction)
         console.log(this.transactions[0]);
-        this.transactions.sort((a, b) => {
-          if (b.dateYear != a.dateYear)
-            return b.dateYear - a.dateYear;
-          if (b.dateMonth != a.dateMonth)
-            return b.dateMonth - a.dateMonth;
-          if (b.dateDay != a.dateDay)
-            return b.dateDay - a.dateDay;
-        });
+        this.transactions.sort((a, b) => b.date - a.date)
+        //   {
+        //   if (b.dateYear != a.dateYear)
+        //     return b.dateYear - a.dateYear;
+        //   if (b.dateMonth != a.dateMonth)
+        //     return b.dateMonth - a.dateMonth;
+        //   if (b.dateDay != a.dateDay)
+        //     return b.dateDay - a.dateDay;
+        // });
         console.log(this.transactions[0]);
         console.log("\n\n\n\n");
       } catch (error) {
