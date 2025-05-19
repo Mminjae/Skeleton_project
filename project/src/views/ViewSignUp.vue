@@ -48,7 +48,7 @@
             <input v-model="form.userId" type="text" @blur="validateuserId" />
           </div>
           <span v-if="errors.userId" class="error-text">{{ errors.userId }}</span>
-          
+
           <!-- 비밀번호 입력창 -->
           <div class="input-box">
             <label>비밀번호</label>
@@ -217,6 +217,7 @@ const submitForm = async () => {
         userId: form.userId,
         email: form.email,
         password: form.password,
+        profileImage: imagePreview.value || '',
       }),
     })
 
