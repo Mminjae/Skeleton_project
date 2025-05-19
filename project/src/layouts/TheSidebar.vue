@@ -1,9 +1,12 @@
+<!-- TheSidebar.vue -->
 <script setup>
 import { ref } from 'vue'
-import { useRouter, RouterLink } from 'vue-router'
+import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { useLoginStore } from '@/stores/useLoginStore'
 
 const router = useRouter()
+const loginStore = useLoginStore()
 
 const id = ref('')
 const password = ref('')
@@ -11,15 +14,7 @@ const idError = ref('')
 const pwError = ref('')
 const showLoginForm = ref(false)
 const isLoginActive = ref(false)
-// const activeButton = ref('');
-// const router = useRouter();
-
-function handleClick(buttonType) {
-  activeButton.value = buttonType;
-  if (buttonType !== 'login')
-    router.push('/' + buttonType);
-}
-const isIdPwActive = ref(false) // 아이디/비번 찾기 버튼 활성화용
+const isIdPwActive = ref(false)
 
 // 로그인 시도
 async function login() {
@@ -30,7 +25,8 @@ async function login() {
 
     if (res.data.length > 0) {
       alert('로그인 성공!')
-      // emit('login-success') // App.vue로 이벤트 보냄
+      loginStore.login() // ✅ 상태 변경 함수 사용
+      router.push('/main')
     } else {
       alert('아이디 또는 비밀번호가 틀렸습니다.')
     }
@@ -47,32 +43,20 @@ async function login() {
   }
 }
 
-// 로그인 공란 경고문 출력 및 폼 열고 닫기
+// 로그인 버튼 동작
 function toggleLogin() {
   if (!showLoginForm.value) {
-    // 처음 클릭 → 로그인 폼 열기
     showLoginForm.value = true
     isLoginActive.value = true
   } else {
-    // 폼이 열린 상태에서 다시 누른 경우
     const trimmedId = id.value.trim()
     const trimmedPw = password.value.trim()
 
     if (trimmedId && trimmedPw) {
-      // 모두 입력 시 → 로그인
       login()
-    } else if (trimmedId && !trimmedPw) {
-      pwError.value = '비밀번호를 입력해주세요.'
-      idError.value = ''
-    } else if (!trimmedId && trimmedPw) {
-      idError.value = '아이디를 입력해주세요.'
-      pwError.value = ''
     } else {
-      // 아무것도 입력 안 했을 때 → 로그인 폼 닫기
-      showLoginForm.value = false
-      idError.value = ''
-      pwError.value = ''
-      isLoginActive.value = false
+      idError.value = trimmedId ? '' : '아이디를 입력해주세요.'
+      pwError.value = trimmedPw ? '' : '비밀번호를 입력해주세요.'
     }
   }
 }
@@ -86,68 +70,48 @@ function goToFindIdPwPage() {
 
 <template>
   <div class="navClass">
-    <nav id="nav">
+    <nav id="nav-default">
       <h1>
         <img
-          role=button
-          @click="handleClick('')"
+          role="button"
+          @click="() => router.push('/')"
           src="../assets/imgs/logo.png"
-          alt="사이트로고" />
+          alt="사이트로고"
+        />
       </h1>
 
-      <!-- 로그인 폼 영역 -->
       <div class="nav-login-wrapper">
         <transition name="slide-fade">
           <form class="bar-login-form" v-show="showLoginForm">
-              <label class="login-form-label">ID</label>
-              <input type="text" placeholder="아이디" v-model="id" />
-              <div class="login_id_error" v-show="idError">{{ idError }}</div>
+            <label class="login-form-label">ID</label>
+            <input type="text" placeholder="아이디" v-model="id" />
+            <div class="login_id_error" v-if="idError">{{ idError }}</div>
 
-              <label class="login-form-label">PW</label>
-              <input type="password" placeholder="비밀번호" v-model="password" />
-              <div class="login_pw_error" v-show="pwError">{{ pwError }}</div>
+            <label class="login-form-label">PW</label>
+            <input type="password" placeholder="비밀번호" v-model="password" />
+            <div class="login_pw_error" v-if="pwError">{{ pwError }}</div>
 
-              <div class="login-form--remember">
-                <input class="login-form--checkbox" type="checkbox" />
-                <span>로그인 정보 저장</span>
-              </div>
+            <div class="login-form--remember">
+              <input class="login-form--checkbox" type="checkbox" />
+              <span>로그인 정보 저장</span>
+            </div>
           </form>
         </transition>
       </div>
 
       <div class="nav-bar-btnbox">
-        <!-- 은우 수정한 부분 -->
-        <!-- <button
-          class="btn-unclicked nav-bar__button--login"
-          @click="() => {handleClick('login'); toggleLogin();}"
+        <button
+          class="nav-bar-btn nav-bar__button--login"
+          @click="toggleLogin"
           :class="{ active: isLoginActive }"
         >
           로그인
         </button>
-        <button
-          :class="activeButton === 'signUp' ? 'btn-clicked' : 'btn-unclicked'"
-          @click="handleClick('signUp')"
-        >
-          회원가입
-        </button>
-        <button
-          class="btn-unclicked nav-bar__button--idpw"
-          @click="toggleIdPwModal" -->
-        <router-link class="nav-link">
-          <button
-            class="nav-bar-btn nav-bar__button--login"
-            @click="toggleLogin"
-            :class="{ active: isLoginActive }"
-          >
-            로그인
-          </button>
-        </router-link>
 
         <router-link class="nav-link" to="/signUp">
           <button class="nav-bar-btn">회원가입</button>
         </router-link>
 
-        <!-- ✅ ID/PW 찾기 페이지로 이동 -->
         <button
           class="nav-bar-btn nav-bar__button--idpw"
           @click="goToFindIdPwPage"
@@ -161,17 +125,18 @@ function goToFindIdPwPage() {
 </template>
 
 <style scoped>
-#nav {
-  position: relative;
+/*---nav아웃라인---*/
+#nav-default {
+  position: relative; /* ✅ 변경 */
+  z-index: 0; /* ✅ 명시적으로 낮춤 */
   display: flex;
   flex-direction: column;
-
-  width: calc(var(--space-xl) * 7.5); /* 2.BOX */
+  width: calc(var(--space-xl) * 7.5);
   height: 100vh;
   background-color: var(--color-purple);
 }
-#nav,
-#nav > * {
+#nav-default,
+#nav-default > * {
   align-items: center;
   text-align: center;
 }
@@ -183,21 +148,9 @@ h1 img {
   width: calc(var(--space-m) * 7.5);
   height: calc(var(--space-m) * 7.5);
 }
+/*---nav아웃라인 END---*/
 
-/* 은우 수정한 부분 */
-/* .nav-bar-btnbox {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  bottom: 5%;
-}
-.nav-bar-btnbox button {
-  width: calc(var(--space-xl) * 5.5);
-  height: calc(var(--space-xl) * 1.7);
-  border-radius: var(--space-l);
-  border: none;
-  padding: 0 var(--space-m);
-  margin-bottom: var(--space-m); */
+/*---버튼박스 영역---*/
 .nav-bar-btnbox {
   display: flex;
   flex-direction: column;
@@ -224,20 +177,14 @@ h1 img {
   background-color: var(--color-purple);
   color: var(--color-black);
 }
+/*---버튼박스 영역 END---*/
 
-/* .bar-login-form { */
+/*---로그인폼 영역---*/
 .nav-login-wrapper {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 0.5rem;
-}
-.login-form-wrapper {
-  display: flex;
-  margin-top: calc(var(--space-m) * 8);
-  flex-direction: column;
-  align-items: flex-start;
-  color: var(--color-black);
 }
 .bar-login-form label {
   margin-bottom: calc(var(--space-m) / 3);
@@ -260,18 +207,13 @@ h1 img {
 }
 .login-form--checkbox {
   all: unset;
-  /* 체크박스 기본 틀 */
   width: var(--space-m);
   height: var(--space-m);
-  border-radius: 0.25rem;
   border-radius: calc(var(--space-m) / 4);
   background-color: var(--color-white);
   cursor: pointer;
   position: relative;
   display: inline-block;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
 }
 .login-form--checkbox:checked {
   background-color: var(--color-purple9);
@@ -287,28 +229,15 @@ h1 img {
   border-width: 0 0.15rem 0.15rem 0;
   transform: translate(-50%, -50%) rotate(45deg);
 }
-.login-form--checkbox:hover {
-  border-color: var(--color-purple9);
-}
 .login_id_error,
 .login_pw_error {
   font-size: var(--font-s);
   color: var(--color-red);
   margin: 0 0 calc(var(--space-s)) var(--space-s);
 }
-.router-button,
-.nav-bar__button--login {
-  transition: background-color 0.3s ease;
-}
-.nav-bar__button--idpw {
-  transition: background-color 0.3s ease;
-}
-.nav-bar__button--login.active,
-.nav-bar__button--idpw.active,
-.router-button.active {
-  background-color: var(--color-purple9);
-  color: var(--color-white);
-}
+/*---로그인폼 영역 END---*/
+
+/*---트랜지션 효과---*/
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: all 0.4s ease;
@@ -323,8 +252,11 @@ h1 img {
   opacity: 1;
   transform: translateY(0);
 }
+/*---트랜지션 END---*/
+
+/*---반응형 모바일---*/
 @media screen and (max-width: 320px) {
-  #nav {
+  #nav-default {
     position: fixed;
     bottom: 0;
     top: auto;
@@ -337,13 +269,7 @@ h1 img {
     align-items: center;
     padding: var(--space-s);
     background-color: var(--color-purple);
-    z-index: 999;
-  }
-  .nav-logo {
-    width: 3rem;
-    height: 3rem;
-    margin: 0.3rem 0;
-    border: 2.5rem;
+    z-index: auto;
   }
   .bar-login-form input[type='text'],
   .bar-login-form input[type='password'] {
@@ -363,18 +289,6 @@ h1 img {
     width: 100%;
     margin: 0.5rem 0;
   }
-  .nav-bar__button--login,
-  .nav-bar__button--idpw,
-  .router-button {
-    all: unset;
-    background-color: var(--color-purple9);
-    padding: 0.4rem 0.8rem;
-    border-radius: 1rem;
-    color: white;
-    font-size: 0.8rem;
-    cursor: pointer;
-    text-align: center;
-  }
   .login_id_error,
   .login_pw_error {
     font-size: 0.75rem;
@@ -382,4 +296,5 @@ h1 img {
     color: var(--color-red);
   }
 }
+/*---반응형 END---*/
 </style>
