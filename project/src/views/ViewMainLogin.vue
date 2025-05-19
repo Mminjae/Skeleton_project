@@ -7,15 +7,15 @@ import PostLineGraph from '@/components/post/PostLineGraph.vue'
 
 // Svg 좌표 내부에서는 px만 사용할 수 있기 때문에 Rem을 px로 계산하는 코드 (1rem = 16px 기준)
 
-const donutData = [
-  { percentage: 25, color: '#D1B7FF', label: '식비', tooltip: '이번 달 식비: 25%' },
-  { percentage: 15, color: '#9176E0', label: '교통', tooltip: '교통비: 15%' },
-  { percentage: 10, color: '#D5D7F2', label: '쇼핑', tooltip: '쇼핑 지출: 10%' },
-  { percentage: 20, color: '#B9A8F0', label: '여가/문화', tooltip: '여가 및 문화생활: 20%' },
-  { percentage: 5, color: '#C1BBE6', label: '기타', tooltip: '기타 지출: 5%' },
-  { percentage: 15, color: '#E4DCFF', label: '생필품', tooltip: '정기구독 서비스: 15%' },
-  { percentage: 10, color: '#5D45DB', label: '저축', tooltip: '저축 비율: 10%' },
-]
+// const donutData = [
+//   { percentage: 25, color: '#D1B7FF', label: '식비', tooltip: '이번 달 식비: 25%' },
+//   { percentage: 15, color: '#9176E0', label: '교통', tooltip: '교통비: 15%' },
+//   { percentage: 10, color: '#D5D7F2', label: '쇼핑', tooltip: '쇼핑 지출: 10%' },
+//   { percentage: 20, color: '#B9A8F0', label: '여가/문화', tooltip: '여가 및 문화생활: 20%' },
+//   { percentage: 5, color: '#C1BBE6', label: '기타', tooltip: '기타 지출: 5%' },
+//   { percentage: 15, color: '#E4DCFF', label: '생필품', tooltip: '정기구독 서비스: 15%' },
+//   { percentage: 10, color: '#5D45DB', label: '저축', tooltip: '저축 비율: 10%' },
+// ]
 
 // 페이지네이션
 const currentIndex = ref(0) // 현재 슬라이드 인덱스
@@ -32,7 +32,7 @@ const goToSlide = (index) => {
       <div class="donut-graph-container">
         <!-- 도넛 그래프 섹션 (페이지네이션에 포함)-->
         <section v-show="currentIndex === 0" class="donut-graph">
-          <PostDonutChart :segments="donutData" />
+          <PostDonutChart />
         </section>
         <!-- 최근 히스토리 섹션 (페이지네이션에 포함)-->
         <section v-show="currentIndex === 1" class="recent-history">

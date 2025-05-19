@@ -64,11 +64,11 @@ export const useFinancialSummaryStore = defineStore('financialSummary', () => {
     const totalAmount = categoryAverage.reduce((sum, item) => sum + item.totalAmount, 0);
     // d-2. 각 카테고리가 전체에서 차지하는 비율 계산
     categoryAverage.forEach(item => {
-      item.percentage = ((item.totalAmount / totalAmount) * 100);
+      item.percentage = Math.round((item.totalAmount / totalAmount) * 100);
     })
 
 
-    return categoryAverage; // 카테고리별 평균, 총합, 비율 정보가 포함된 배열 반환
+    return categoryAverage.filter(item => item.percentage >= 1); // 카테고리별 평균, 총합, 비율 정보가 포함된 배열 반환
   });
 
   console.log("data", data)
