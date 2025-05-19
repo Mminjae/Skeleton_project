@@ -39,6 +39,22 @@ export const useTransactionStore = defineStore('useTransactionStore', {
         const res = await axios.get('http://localhost:3000/transactions', {
           params: queryParams     //여기서 쿼리를 전송해줌, GET방식임 주의!!
         })
+        // 👉 URLSearchParams로 수동 처리 (중복 key 허용)
+        const params = new URLSearchParams()
+
+        for (const key in cleanQueryParams) {
+          const value = cleanQueryParams[key]
+          if (Array.isArray(value)) {
+            value.forEach(v => params.append(key, v)) // ex. category=foodcost&category=shopping
+          } else {
+            params.append(key, value)
+          }
+        }
+        
+        const res = await axios.get(`http://localhost:3000/transactions?${params.toString()}`)
+        // ('http://localhost:3000/transactions', {
+        //   params: cleanQueryParams     //여기서 쿼리를 전송해줌, GET방식임 주의!!
+        // })
         console.log('📦 필터링 결과:', res.data)
         console.log("\n\n\n\n------------------- item ----------------\n");
         // 이거 정렬하기
