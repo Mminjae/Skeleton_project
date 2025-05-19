@@ -1,13 +1,13 @@
 <script setup>
 import { computed, ref } from 'vue'
 
+const remToPx = (rem) => rem * 16
+
+const sizeX = remToPx(33.75)
+const sizeY = remToPx(28.125)
+const circleSize = remToPx(20.36125)
+
 const props = defineProps({
-  sizeX: Number,
-
-  sizeY: Number,
-
-  circleSize: Number,
-
   segments: {
     type: Array,
     required: true,
@@ -15,11 +15,11 @@ const props = defineProps({
 })
 
 // 원의 중심 촤표
-const centerX = computed(() => props.sizeX / 2)
-const centerY = computed(() => props.sizeY / 2)
+const centerX = computed(() => sizeX / 2)
+const centerY = computed(() => sizeY / 2)
 
 // 반지름
-const radius = computed(() => Math.max(props.sizeX, props.sizeY) / 2 - props.circleSize / 2) // stroke(선 굵기)를 사용해 도넛 모양 그래프를 만들기 위해서 수정.
+const radius = computed(() => Math.max(sizeX, sizeY) / 2 - circleSize / 2) // stroke(선 굵기)를 사용해 도넛 모양 그래프를 만들기 위해서 수정.
 
 // 원의 둘레 =  2πr
 const circumference = computed(() => 2 * Math.PI * radius.value)
@@ -87,7 +87,7 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
 <template>
   <div style="position: relative">
     <!-- SVG 설정 | 540px -> 33.75rem / 450px -> 28.125rem -->
-    <svg :width="props.sizeX" :height="props.sizeY" :viewBox="`0 0 ${props.sizeX} ${props.sizeY}`">
+    <svg :width="sizeX" :height="sizeY" :viewBox="`0 0 ${sizeX} ${sizeY}`">
       <!-- 퍼센트원 -->
       <circle
         v-for="(segment, index) in segmentsWithOffset"
@@ -98,7 +98,7 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
         fill="none"
         :stroke="segment.color"
         stroke-linecap="butt"
-        :stroke-width="props.circleSize / 3"
+        :stroke-width="circleSize / 3"
         :stroke-dasharray="segment.dashArray"
         :stroke-dashoffset="segment.dashOffset"
         :transform="`rotate(${segment.rotation}, ${centerX}, ${centerY})`"
@@ -106,8 +106,7 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
         @mouseleave="handleMouseLeave"
         :style="{
           transition: 'all 0.3s ease',
-          strokeWidth:
-            hoverIndex === index ? `${props.circleSize / 2.65}` : `${props.circleSize / 3}`, // 커지는거 조절하는 곳
+          strokeWidth: hoverIndex === index ? `${circleSize / 2.65}` : `${circleSize / 3}`, // 커지는거 조절하는 곳
         }"
       />
 

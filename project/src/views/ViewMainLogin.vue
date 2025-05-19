@@ -6,7 +6,6 @@ import PostRecentHistory from '@/components/post/PostRecentHistory.vue'
 import PostLineGraph from '@/components/post/PostLineGraph.vue'
 
 // Svg 좌표 내부에서는 px만 사용할 수 있기 때문에 Rem을 px로 계산하는 코드 (1rem = 16px 기준)
-const remToPx = (rem) => rem * 16
 
 const donutData = [
   { percentage: 25, color: '#D1B7FF', label: '식비', tooltip: '이번 달 식비: 25%' },
@@ -33,12 +32,7 @@ const goToSlide = (index) => {
       <div class="donut-graph-container">
         <!-- 도넛 그래프 섹션 (페이지네이션에 포함)-->
         <section v-show="currentIndex === 0" class="donut-graph">
-          <PostDonutChart
-            :sizeX="remToPx(33.75)"
-            :sizeY="remToPx(28.125)"
-            :circleSize="remToPx(20.36125)"
-            :segments="donutData"
-          />
+          <PostDonutChart :segments="donutData" />
         </section>
         <!-- 최근 히스토리 섹션 (페이지네이션에 포함)-->
         <section v-show="currentIndex === 1" class="recent-history">
