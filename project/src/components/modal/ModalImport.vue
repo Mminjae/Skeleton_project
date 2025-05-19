@@ -10,156 +10,200 @@
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <template v-if="item">
-          <!-- 읽기 전용 뷰 -->
-          <template v-if="!isEditing">
-            <div class="modal-header">
-              <div class="header-left">
-                <div class="icon-box">
-                  <IconIcon :icon="item.category" size="36" />
-                  <span class="category-text">
-                    {{ categoryMapReverse[item.category] || item.category }}
-                  </span>
-                </div>
-              </div>
-              <div class="header-right">
-                <span class="date-text">
-                  {{ item.dateYear }}.{{ item.dateMonth }}.{{ item.dateDay }} ({{ item.dayOfWeek }})
+
+        <!-- 읽기 전용 뷰 -->
+        <template v-if="!isEditing">
+          <div class="modal-header">
+            <div class="header-left">
+              <div class="icon-box">
+                <IconIcon :icon="item.category" size="36" />
+                <span class="category-text">
+                  {{ categoryMapReverse[item.category] || item.category }}
                 </span>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
               </div>
             </div>
-
-            <div class="modal-body">
-              <div class="title-row">
-                <div class="title">{{ item.merchant }}</div>
-                <div class="amount">
-                  <span :class="item.isIncome ? 'plus' : 'minus'">
-                    {{ item.isIncome ? '+' : '-' }}
-                    {{ item.amount.toLocaleString() }}
-                  </span>
-                  <span class="unit">원</span>
-                </div>
-              </div>
-              <div class="memo-group">
-                <label class="memo-label">메모</label>
-                <hr />
-                <p>{{ item.memo }}</p>
-              </div>
-            </div>
-
-            <div class="modal-footer justify-content-end">
-              <button type="button" class="btn btn-outline-secondary" @click="onEdit">수정</button>
-              <button type="button" class="btn btn-outline-danger" @click="onDelete">삭제</button>
-            </div>
-          </template>
-
-          <!-- 수정 뷰 -->
-          <template v-else>
-            <div class="modal-header">
+            <div class="header-right">
+              <span class="date-text">
+                {{ item.dateYear }}.{{ item.dateMonth }}.{{ item.dateDay }}
+                ({{ item.dayOfWeek }})
+              </span>
               <button
-                :class="['tab-button', activeTab === 'income' ? 'active' : '']"
-                @click="activeTab = 'income'"
-              >
-                수입
-              </button>
-              <button
-                :class="['tab-button', activeTab === 'expense' ? 'active' : '']"
-                @click="activeTab = 'expense'"
-              >
-                지출
-              </button>
-              <button type="button" class="btn-close" aria-label="Close" @click="onClose"></button>
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
+          </div>
 
-            <div class="modal-body">
-              <form @submit.prevent="onSave">
-                <div class="mb-3">
-                  <label class="col-form-label">날짜</label>
-                  <input type="date" class="form-control" v-model="selectedDate" />
-                </div>
-                <div class="mb-3">
-                  <label class="col-form-label">내역</label>
-                  <input type="text" class="form-control text-end" v-model="title" />
-                </div>
-
-                <template v-if="activeTab === 'income'">
-                  <div class="mb-3">
-                    <label class="col-form-label">금액</label>
-                    <input
-                      type="text"
-                      class="form-control text-end"
-                      v-model="amount"
-                      inputmode="numeric"
-                      @input="formatAmount"
-                      @focus="handleFocus"
-                      @blur="handleBlur"
-                      placeholder="0원"
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label class="col-form-label">카테고리</label>
-                    <select class="form-select" v-model="categoryIncome">
-                      <option value="">선택</option>
-                      <option value="월급">🟣월급</option>
-                      <option value="금융 소득">🟣금융 소득</option>
-                      <option value="용돈">🟣용돈</option>
-                      <option value="이월">🟣이월</option>
-                      <option value="기타">🟣기타</option>
-                    </select>
-                  </div>
-                  <div class="mb-3">
-                    <label class="col-form-label">메모</label>
-                    <textarea class="form-control" v-model="memo"></textarea>
-                  </div>
-                </template>
-
-                <template v-else>
-                  <div class="mb-3">
-                    <label class="col-form-label">금액</label>
-                    <input
-                      type="text"
-                      class="form-control text-end"
-                      v-model="amount"
-                      inputmode="numeric"
-                      @input="formatAmount"
-                      @focus="handleFocus"
-                      @blur="handleBlur"
-                      placeholder="0원"
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label class="col-form-label">카테고리</label>
-                    <select class="form-select" v-model="categoryExpense">
-                      <option value="">선택</option>
-                      <option value="식비">🟣식비</option>
-                      <option value="저축">🟣저축</option>
-                      <option value="교통비">🟣교통비</option>
-                      <option value="문화생활">🟣문화생활</option>
-                      <option value="생필품">🟣생필품</option>
-                      <option value="쇼핑">🟣쇼핑</option>
-                      <option value="기타">🟣기타</option>
-                    </select>
-                  </div>
-                  <div class="mb-3">
-                    <label class="col-form-label">메모</label>
-                    <textarea class="form-control" v-model="memo"></textarea>
-                  </div>
-                </template>
-              </form>
+          <div class="modal-body">
+            <div class="title-row">
+              <div class="title">{{ item.merchant }}</div>
+              <div class="amount">
+                <span :class="item.isIncome ? 'plus' : 'minus'">
+                  {{ item.isIncome ? '+' : '-' }}
+                  {{ item.amount.toLocaleString() }}
+                </span>
+                <span class="unit">원</span>
+              </div>
             </div>
-
-            <div class="modal-footer justify-content-end">
-              <button type="button" class="btn btn-secondary" @click="resetForm">초기화</button>
-              <button type="button" class="btn btn-primary" @click="onSave">완료</button>
+            <div class="memo-group">
+              <label class="memo-label">메모</label>
+              <hr />
+              <p>{{ item.memo }}</p>
             </div>
-          </template>
+          </div>
+
+          <div class="modal-footer justify-content-end">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              @click="onEdit"
+            >
+              수정
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              @click="onDelete"
+            >
+              삭제
+            </button>
+          </div>
         </template>
+
+        <!-- 수정 뷰 -->
+        <template v-else>
+          <div class="modal-header">
+            <button
+              :class="['tab-button', activeTab === 'income' ? 'active' : '']"
+              @click="activeTab = 'income'"
+            >
+              수입
+            </button>
+            <button
+              :class="['tab-button', activeTab === 'expense' ? 'active' : '']"
+              @click="activeTab = 'expense'"
+            >
+              지출
+            </button>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              @click="onClose"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <form @submit.prevent="onSave">
+              <div class="mb-3">
+                <label class="col-form-label">날짜</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  v-model="selectedDate"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="col-form-label">내역</label>
+                <input
+                  type="text"
+                  class="form-control text-end"
+                  v-model="title"
+                />
+              </div>
+
+              <template v-if="activeTab === 'income'">
+                <div class="mb-3">
+                  <label class="col-form-label">금액</label>
+                  <input
+                    type="text"
+                    class="form-control text-end"
+                    v-model="amount"
+                    inputmode="numeric"
+                    @input="formatAmount"
+                    @focus="handleFocus"
+                    @blur="handleBlur"
+                    placeholder="0원"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="col-form-label">카테고리</label>
+                  <select class="form-select" v-model="categoryIncome">
+                    <option value="">선택</option>
+                    <option value="월급">🟣월급</option>
+                    <option value="금융 소득">🟣금융 소득</option>
+                    <option value="용돈">🟣용돈</option>
+                    <option value="이월">🟣이월</option>
+                    <option value="기타">🟣기타</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="col-form-label">메모</label>
+                  <textarea
+                    class="form-control"
+                    v-model="memo"
+                  ></textarea>
+                </div>
+              </template>
+
+              <template v-else>
+                <div class="mb-3">
+                  <label class="col-form-label">금액</label>
+                  <input
+                    type="text"
+                    class="form-control text-end"
+                    v-model="amount"
+                    inputmode="numeric"
+                    @input="formatAmount"
+                    @focus="handleFocus"
+                    @blur="handleBlur"
+                    placeholder="0원"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="col-form-label">카테고리</label>
+                  <select class="form-select" v-model="categoryExpense">
+                    <option value="">선택</option>
+                    <option value="식비">🟣식비</option>
+                    <option value="저축">🟣저축</option>
+                    <option value="교통비">🟣교통비</option>
+                    <option value="문화생활">🟣문화생활</option>
+                    <option value="생필품">🟣생필품</option>
+                    <option value="쇼핑">🟣쇼핑</option>
+                    <option value="기타">🟣기타</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="col-form-label">메모</label>
+                  <textarea
+                    class="form-control"
+                    v-model="memo"
+                  ></textarea>
+                </div>
+              </template>
+            </form>
+          </div>
+
+          <div class="modal-footer justify-content-end">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              @click="resetForm"
+            >
+              초기화
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="onSave"
+            >
+              완료
+            </button>
+          </div>
+        </template>
+
       </div>
     </div>
   </div>
@@ -174,58 +218,58 @@ import { useTransactionStore } from '@/stores/useTransactionStore'
 import IconIcon from '@/components/base/iconIcon.vue'
 
 const props = defineProps({
-  item: { type: Object, required: true },
+  item: { type: Object, required: true }
 })
 const emit = defineEmits(['close'])
 
 const transactionStore = useTransactionStore()
 
-// 모달 카테고리명 영어 --> 한글 변경
+// 모달 카테고리명 영어 --> 한글 변경 
 const categoryMapReverse = {
   // 수입
-  salary: '월급',
-  finance: '금융 소득',
-  allowance: '용돈',
-  carryover: '이월',
-  miscIncome: '기타',
+  'salary': '월급',
+  'finance': '금융 소득',
+  'allowance': '용돈',
+  'carryover': '이월',
+  'miscIncome': '기타',
   // 지출
-  foodcost: '식비',
-  saving: '저축',
-  transport: '교통비',
-  culture: '문화생활',
-  essentials: '생필품',
-  shopping: '쇼핑',
-  miscExpense: '기타',
+  'foodcost': '식비',
+  'saving': '저축',
+  'transport': '교통비',
+  'culture': '문화생활',
+  'essentials': '생필품',
+  'shopping': '쇼핑',
+  'miscExpense': '기타'
 }
 
 // 편집 모드 토글 및 초기화
-const isEditing = ref(false)
-const activeTab = ref('expense')
-const selectedDate = ref('')
-const title = ref('')
-const amount = ref('0원')
-const memo = ref('')
-const categoryIncome = ref('')
+const isEditing       = ref(false)
+const activeTab       = ref('expense')
+const selectedDate    = ref('')
+const title           = ref('')
+const amount          = ref('0원')
+const memo            = ref('')
+const categoryIncome  = ref('')
 const categoryExpense = ref('')
 
 function onEdit() {
-  isEditing.value = true
-  activeTab.value = props.item.isIncome ? 'income' : 'expense'
+  isEditing.value  = true
+  activeTab.value  = props.item.isIncome ? 'income' : 'expense'
   // 날짜 세팅 (yyyy-MM-dd)
-  const Y = String(props.item.dateYear).padStart(4, '0')
-  const M = String(props.item.dateMonth).padStart(2, '0')
-  const D = String(props.item.dateDay).padStart(2, '0')
+  const Y = String(props.item.dateYear).padStart(4,'0')
+  const M = String(props.item.dateMonth).padStart(2,'0')
+  const D = String(props.item.dateDay).padStart(2,'0')
   selectedDate.value = `${Y}-${M}-${D}`
 
-  title.value = props.item.merchant
-  amount.value = props.item.amount.toLocaleString()
-  memo.value = props.item.memo || ''
+  title.value   = props.item.merchant
+  amount.value  = props.item.amount.toLocaleString() 
+  memo.value    = props.item.memo || ''
   if (props.item.isIncome) {
-    categoryIncome.value = props.item.category
+    categoryIncome.value  = props.item.category
     categoryExpense.value = ''
   } else {
     categoryExpense.value = props.item.category
-    categoryIncome.value = ''
+    categoryIncome.value  = ''
   }
 }
 
@@ -238,7 +282,7 @@ function onDelete() {
       hideModal()
       emit('close')
     })
-    .catch((err) => console.error(err))
+    .catch(err => console.error(err))
 }
 
 // 수정(저장)
@@ -260,19 +304,19 @@ function onSave() {
   // ✅ 한글 → 영문 카테고리 매핑
   const categoryMap = {
     // 수입
-    월급: 'salary',
+    '월급': 'salary',
     '금융 소득': 'finance',
-    용돈: 'allowance',
-    이월: 'carryover',
-    기타: 'miscIncome',
+    '용돈': 'allowance',
+    '이월': 'carryover',
+    '기타': 'miscIncome',
     // 지출
-    식비: 'foodcost',
-    저축: 'saving',
-    교통비: 'transport',
-    문화생활: 'culture',
-    생필품: 'essentials',
-    쇼핑: 'shopping',
-    기타: 'miscExpense',
+    '식비': 'foodcost',
+    '저축': 'saving',
+    '교통비': 'transport',
+    '문화생활': 'culture',
+    '생필품': 'essentials',
+    '쇼핑': 'shopping',
+    '기타': 'miscExpense'
   }
 
   const selectedCategory =
@@ -289,7 +333,7 @@ function onSave() {
     amount: Number(amount.value.replace(/,/g, '')),
     memo: memo.value,
     category: mappedCategory, // ✅ 변환된 영문 카테고리 저장
-    isIncome: activeTab.value === 'income',
+    isIncome: activeTab.value === 'income'
   }
 
   axios
@@ -299,8 +343,9 @@ function onSave() {
       hideModal()
       emit('close')
     })
-    .catch((err) => console.error(err))
+    .catch(err => console.error(err))
 }
+
 
 // 모달 닫기
 function hideModal() {
@@ -327,12 +372,8 @@ function resetForm() {
 }
 
 // 금액 입력 핸들러
-const handleFocus = () => {
-  if (amount.value === '0원') amount.value = ''
-}
-const handleBlur = () => {
-  if (!amount.value.trim()) amount.value = '0원'
-}
+const handleFocus = () => { if (amount.value === '0원') amount.value = '' }
+const handleBlur  = () => { if (!amount.value.trim()) amount.value = '0원' }
 function formatAmount(e) {
   const raw = e.target.value.replace(/[^0-9]/g, '')
   amount.value = raw ? Number(raw).toLocaleString() : ''
@@ -428,9 +469,7 @@ function formatAmount(e) {
   color: #555;
   font-weight: 600;
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 .tab-button.active {
   background-color: var(--color-purple9);

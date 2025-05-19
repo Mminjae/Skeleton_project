@@ -1,17 +1,16 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useLoginStore } from '@/stores/useLoginStore' //  주성추가
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const loginStore = useLoginStore() //주성추가
-const currentPath = ref('/login')
-const activeButton = ref('')
-const router = useRouter()
+const currentPath = ref('/login');
+const activeButton = ref('');
+const router = useRouter();
 
 function handleClick(buttonType) {
-  activeButton.value = buttonType
-  router.push('/' + buttonType)
+  activeButton.value = buttonType;
+  router.push('/' + buttonType);
 }
+
 </script>
 
 <template>
@@ -19,11 +18,10 @@ function handleClick(buttonType) {
     <nav id="nav">
       <h1>
         <img
-          role="button"
+          role=button
           @click="handleClick('main')"
           src="../assets/imgs/logo.png"
-          alt="사이트로고"
-        />
+          alt="사이트로고" />
       </h1>
 
       <div class="nav-bar-profile">
@@ -50,13 +48,16 @@ function handleClick(buttonType) {
         >
           마이페이지
         </button>
-        <button class="btn-logout" @click="currentPath = '/'">로그아웃</button>
+        <button class="btn-logout" @click="currentPath = '/'">
+          로그아웃
+        </button>
       </div>
     </nav>
   </div>
 </template>
 
 <style scoped>
+
 /*---nav아웃라인---*/
 #nav {
   display: flex; /* 1.레이아웃 */
