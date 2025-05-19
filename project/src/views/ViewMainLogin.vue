@@ -32,6 +32,10 @@ const goToSlide = (index) => {
       <div class="donut-graph-container">
         <!-- 도넛 그래프 섹션 (페이지네이션에 포함)-->
         <section v-show="currentIndex === 0" class="donut-graph">
+          <div class="section-header">
+            <h2>카테고리별 지출 비중</h2>
+            <!-- <hr class="section-divider" /> -->
+          </div>
           <PostDonutChart />
         </section>
         <!-- 최근 히스토리 섹션 (페이지네이션에 포함)-->
@@ -76,7 +80,30 @@ const goToSlide = (index) => {
   /* border: 1px solid red; */
 }
 
-.donut-graph,
+/* 도넛차트 h2  */
+.section-header {
+  font-size: 15px;
+  position: relative;
+  left: 8rem;
+  top: 3rem;
+  padding-bottom: 0.4rem;
+}
+
+.section-header::after {
+  content: '';
+  position: absolute;
+  left: -100px; /* 부모 기준으로 왼쪽 0 */
+  bottom: 0;
+  top: -5rem;
+  width: 500px; /* 원하는 밑줄 길이 */
+  border-bottom: 2px solid #e4e4e4; /* 원하는 색상 */
+}
+
+.donut-graph {
+  position: relative;
+  top: -2rem;
+  /* bottom: -5rem; */
+}
 .recent-history {
   display: block;
   width: 50%; /* 슬라이드 하나씩 보이도록 설정 */
