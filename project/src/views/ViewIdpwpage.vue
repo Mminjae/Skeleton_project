@@ -127,7 +127,7 @@ function handleFindID() {
     .get(`http://localhost:3000/users?name=${name.value}&email=${email.value}`)
     .then((res) => {
       if (res.data.length > 0) {
-        alert(`ID는 ${res.data[0].id} 입니다.`)
+        alert(`ID는 ${res.data[0].userId} 입니다.`)
         router.push('/')
       } else {
         entireError.value = '회원 정보가 일치하지 않습니다.'
