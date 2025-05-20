@@ -211,10 +211,10 @@ const submitForm = async () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: form.name,
-        birth: form.birth,
-        phone: form.phone,
         userId: form.userId,
+        birth: form.birth,
+        name: form.name,
+        phone: form.phone,
         email: form.email,
         password: form.password,
         profileImage: imagePreview.value || '',
