@@ -1,25 +1,42 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
+import { useFinancialSummaryStore } from '@/stores/useFinancialSummaryStore'
+import { iconColors } from '../base/iconColors'
+import ExpenseIcons from '../base/ExpenseIcons.vue'
+const logCategory = (segment) => {
+  console.log(
+    '[도넛 차트] 렌더링되는 카테고리:',
+    segment.category,
+    ' 해당 카테고리 퍼센트 : ',
+    segment.percentage,
+    ' 금액 : ',
+    segment.totalAmount.toLocaleString(),
+  )
+  return true
+}
 
-const props = defineProps({
-  sizeX: Number,
+const remToPx = (rem) => rem * 16
 
-  sizeY: Number,
+const sizeX = remToPx(33.75)
+const sizeY = remToPx(28.125)
+const circleSize = remToPx(20.36125)
 
-  circleSize: Number,
+const store = useFinancialSummaryStore()
+const categorizedData = computed(() => {
+  // 0 이하인 퍼센트 항목은 필터링하여 빈 공간 생기는 문제 방지
+  return store.categorizedData.filter((item) => item.percentage > 0)
+})
 
-  segments: {
-    type: Array,
-    required: true,
-  },
+onMounted(() => {
+  store.fetchData(1)
 })
 
 // 원의 중심 촤표
-const centerX = computed(() => props.sizeX / 2)
-const centerY = computed(() => props.sizeY / 2)
+const centerX = computed(() => sizeX / 2)
+const centerY = computed(() => sizeY / 2)
 
 // 반지름
-const radius = computed(() => Math.max(props.sizeX, props.sizeY) / 2 - props.circleSize / 2) // stroke(선 굵기)를 사용해 도넛 모양 그래프를 만들기 위해서 수정.
+const radius = computed(() => Math.max(sizeX, sizeY) / 2 - circleSize / 2) // stroke(선 굵기)를 사용해 도넛 모양 그래프를 만들기 위해서 수정.
 
 // 원의 둘레 =  2πr
 const circumference = computed(() => 2 * Math.PI * radius.value)
@@ -40,9 +57,19 @@ const handleMouseLeave = () => {
 const segmentsWithOffset = computed(() => {
   let cumulativePercent = 0 // 지금까지 그린 퍼센트의 누적 합계
 
-  const sortedSegments = [...props.segments].sort((a, b) => b.percentage - a.percentage)
+  const sortedSegments = [...categorizedData.value].sort((a, b) => b.percentage - a.percentage)
 
   return sortedSegments.map((segment) => {
+    logCategory(segment)
+
+    // 아이콘
+    const iconKey = segment.category
+    // const icons = ExpenseIcons[icon == iconKey]
+
+    // 원 색
+    const colorKey = segment.category // ✅ 수정1: category 키를 통해 색상 가져오기
+    const color = iconColors[colorKey]
+
     // 원 비율 계산
     const startOffset = circumference.value * (1 - cumulativePercent / 100) //비워질 길이 (전체 - 누적 퍼센트) 이 segment의 시작점 계산 (이전까지 그려진것만큼 비워야 하니까)
     const segmentLength = circumference.value * (segment.percentage / 100) // segment가 차지하는 원 둘레의 길이
@@ -61,13 +88,15 @@ const segmentsWithOffset = computed(() => {
     const textY = centerY.value + labelRadius * Math.sin(radians)
 
     // ✅ 1. 바깥 위치 계산 (툴팁용 좌표)
-    const labelOutsideX = centerX.value + (radius.value + 110) * Math.cos(radians)
+    const labelOutsideX = centerX.value + (radius.value + 115) * Math.cos(radians)
     const labelOutsideY = centerY.value + (radius.value + 90) * Math.sin(radians)
 
     cumulativePercent += segment.percentage // 다음 segment가 그릴 시작 위치를 알기 위해 누적 퍼센트 업데이트
 
     return {
       ...segment,
+      color,
+      iconKey,
       dashArray,
       dashOffset: startOffset,
       rotation: -90,
@@ -87,7 +116,7 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
 <template>
   <div style="position: relative">
     <!-- SVG 설정 | 540px -> 33.75rem / 450px -> 28.125rem -->
-    <svg :width="props.sizeX" :height="props.sizeY" :viewBox="`0 0 ${props.sizeX} ${props.sizeY}`">
+    <svg :width="sizeX" :height="sizeY" :viewBox="`0 0 ${sizeX} ${sizeY}`">
       <!-- 퍼센트원 -->
       <circle
         v-for="(segment, index) in segmentsWithOffset"
@@ -98,7 +127,7 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
         fill="none"
         :stroke="segment.color"
         stroke-linecap="butt"
-        :stroke-width="props.circleSize / 3"
+        :stroke-width="circleSize / 3"
         :stroke-dasharray="segment.dashArray"
         :stroke-dashoffset="segment.dashOffset"
         :transform="`rotate(${segment.rotation}, ${centerX}, ${centerY})`"
@@ -106,8 +135,7 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
         @mouseleave="handleMouseLeave"
         :style="{
           transition: 'all 0.3s ease',
-          strokeWidth:
-            hoverIndex === index ? `${props.circleSize / 2.65}` : `${props.circleSize / 3}`, // 커지는거 조절하는 곳
+          strokeWidth: hoverIndex === index ? `${circleSize / 2.65}` : `${circleSize / 3}`, // 커지는거 조절하는 곳
         }"
       />
 
@@ -126,9 +154,15 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
         style="cursor: default"
       >
         <!-- {{ segment.label }} -->
-        <tspan :x="segment.textX" dy="-0.4em">{{ segment.label }}</tspan>
+        <tspan v-if="segment.percentage >= 5" :x="segment.textX" dy="-0.4em">
+          {{ segment.category }}
+        </tspan>
+        <!-- ----------------------------- 도넛 안에 데이터 -->
         <!-- 두 번째 줄은 아래로 조금 더 내림 -->
-        <tspan :x="segment.textX" dy="1.2em">{{ segment.percentage }}%</tspan>
+        <tspan v-if="segment.percentage >= 5" :x="segment.textX" dy="1.2em">
+          {{ segment.percentage }}%
+        </tspan>
+        <!-- ----------------------------- 도넛 안에 데이터 -->
       </text>
 
       <!-- 호버된 상태에서만 보여줄 추가 텍스트 -->
@@ -136,9 +170,9 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
       <g v-if="hoverIndex !== null">
         <!-- 배경 사각형 -->
         <rect
-          :x="segmentsWithOffset[hoverIndex].labelOutsideX - 40"
+          :x="segmentsWithOffset[hoverIndex].labelOutsideX - 50"
           :y="segmentsWithOffset[hoverIndex].labelOutsideY - 18"
-          width="80"
+          width="100"
           height="36"
           rx="6"
           ry="6"
@@ -159,10 +193,21 @@ const dashOffset = computed(() => circumference.value * (1 - props.percentage / 
           pointer-events="none"
         >
           <tspan :x="segmentsWithOffset[hoverIndex].labelOutsideX" dy="0">
-            {{ segmentsWithOffset[hoverIndex].label }}
+            {{
+              segmentsWithOffset[hoverIndex].percentage > 5
+                ? '- - - - - - - - -'
+                : segmentsWithOffset[hoverIndex].category
+            }}
+            {{
+              segmentsWithOffset[hoverIndex].percentage <= 5
+                ? segmentsWithOffset[hoverIndex].percentage + '%'
+                : ''
+            }}
+            <!-- ----------------------------- 툴팁 안에 데이터 -->
           </tspan>
           <tspan :x="segmentsWithOffset[hoverIndex].labelOutsideX" dy="1.2em">
-            {{ segmentsWithOffset[hoverIndex].percentage }}%
+            총 {{ segmentsWithOffset[hoverIndex].totalAmount.toLocaleString() }}원
+            <!-- ----------------------------- 툴팁 안에 데이터 -->
           </tspan>
         </text>
       </g>

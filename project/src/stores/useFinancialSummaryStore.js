@@ -62,13 +62,25 @@ export const useFinancialSummaryStore = defineStore('financialSummary', () => {
 
     // d-1. 전체 금액 계산 (모든 카테고리 금액 총합)
     const totalAmount = categoryAverage.reduce((sum, item) => sum + item.totalAmount, 0);
+
     // d-2. 각 카테고리가 전체에서 차지하는 비율 계산
     categoryAverage.forEach(item => {
-      item.percentage = ((item.totalAmount / totalAmount) * 100);
+      item.percentage = Math.round((item.totalAmount / totalAmount) * 100);
     })
 
+    let accumulated = 0;
+    categoryAverage.forEach((item, index) => {
+      if (index === categoryAverage.length - 1) {
+        // 마지막 항목은 100 - 누적값으로 보정 (오차 보정)
+        item.percentage = 100 - accumulated;
+      } else {
+        item.percentage = Math.floor(item.percentage);
+        accumulated += item.percentage;
+      }
+    });
 
-    return categoryAverage; // 카테고리별 평균, 총합, 비율 정보가 포함된 배열 반환
+
+    return categoryAverage.filter(item => item.percentage >= 1); // 카테고리별 평균, 총합, 비율 정보가 포함된 배열 반환
   });
 
   console.log("data", data)
@@ -203,7 +215,7 @@ export const useFinancialSummaryStore = defineStore('financialSummary', () => {
       return dateB - dateA; // 최신순 정렬
     })[0];
 
-    return latest ? latest.dateMonth : new Date().getMonth(); // 1-based month 반환
+    return latest ? latest.dateMonth : (new Date().getMonth() + 1); // 1-based month 반환
   });
 
   return { data, fetchData, recentData, categorizedData, bestCategory, dailySummary, monthlySummary, selectedYear, selectedMonth };

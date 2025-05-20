@@ -3148,6 +3148,21 @@
       "isIncome": false,
       "paymentMethod": "현금",
       "date": "2025-06-04"
+    },
+    {
+      "id": "1000",
+      "amount": 2121,
+      "category": "allowance",
+      "merchant": "632132",
+      "memo": "",
+      "userId": 1,
+      "dateYear": 2025,
+      "dateMonth": 5,
+      "dateDay": 1,
+      "dayOfWeek": "목",
+      "isIncome": true,
+      "paymentMethod": "",
+      "date": "2025-05-01"
     }
   ]
 }
