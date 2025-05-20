@@ -127,12 +127,13 @@ const validateItem = (item) => {
       break
   }
 }
-
+// const userId = localStorage.getItem('loggedInUser')
 const imagePreview = ref('')
 
 const loadUserInfo = async () => {
   try {
-    const res = await axios.get(`http://localhost:3000/users/1`)
+    const userId = localStorage.getItem('loggedInUser')
+    const res = await axios.get(`http://localhost:3000/users/${userId}`) /*${userId}`*/
     if (res.data) {
       // 프로필 이미지 설정
       imagePreview.value = res.data.profileImage || ''
@@ -170,7 +171,8 @@ const handleFileChange = async (event) => {
       imagePreview.value = reader.result
       // const userId = localStorage.getItem('userId')
       try {
-        await axios.patch(`http://localhost:3000/users/1`, {
+        const userId = localStorage.getItem('loggedInUser')
+        await axios.patch(`http://localhost:3000/users/${userId}`, {
           profileImage: reader.result,
         })
         alert('프로필 이미지가 저장되었습니다.')

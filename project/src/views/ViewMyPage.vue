@@ -52,7 +52,7 @@ import defaultProfile from '@/assets/imgs/user-gray.svg'
 const route = useRoute()
 const userStore = useUserStore()
 onMounted(() => {
-  const userId = route.params.id // 또는 localStorage.getItem('userId')
+  const userId = localStorage.getItem('loggedInUser') // 또는 localStorage.getItem('userId')
   userStore.fetchUser(userId)
 })
 
