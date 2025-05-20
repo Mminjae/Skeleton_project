@@ -122,6 +122,17 @@
 
                 <template v-else>
                   <div class="mb-3">
+                    <label for="payment-method" class="col-form-label">결제방식</label>
+                    <input
+                      type="text"
+                      id="payment-method"
+                      class="form-control"
+                      v-model="paymentMethod"
+                      placeholder="예: 카드, 현금 등"
+                      style="text-align: right"
+                    />
+                  </div>
+                  <div class="mb-3">
                     <label class="col-form-label">금액</label>
                     <input
                       type="text"
@@ -208,6 +219,7 @@ const amount = ref('0원')
 const memo = ref('')
 const categoryIncome = ref('')
 const categoryExpense = ref('')
+const paymentMethod = ref('')
 
 function onEdit() {
   isEditing.value = true
@@ -221,11 +233,15 @@ function onEdit() {
   title.value = props.item.merchant
   amount.value = props.item.amount.toLocaleString()
   memo.value = props.item.memo || ''
+  paymentMethod.value = props.item.paymentMethod
   if (props.item.isIncome) {
-    categoryIncome.value = props.item.category
+    // 영문 → 한글 매핑
+    const categoryKor = categoryMapReverse[props.item.category] || props.item.category
+    categoryIncome.value = categoryKor
     categoryExpense.value = ''
   } else {
-    categoryExpense.value = props.item.category
+    const categoryKor = categoryMapReverse[props.item.category] || props.item.category
+    categoryExpense.value = categoryKor
     categoryIncome.value = ''
   }
 }
@@ -291,6 +307,7 @@ function onSave() {
     memo: memo.value,
     category: mappedCategory, // ✅ 변환된 영문 카테고리 저장
     isIncome: activeTab.value === 'income',
+    paymentMethod: activeTab.value === 'income' ? '' : paymentMethod.value,
   }
 
   axios
@@ -325,6 +342,7 @@ function resetForm() {
   memo.value = ''
   categoryIncome.value = ''
   categoryExpense.value = ''
+  paymentMethod.value = ''
 }
 
 // 금액 입력 핸들러
