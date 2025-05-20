@@ -6,17 +6,16 @@ import PostRecentHistory from '@/components/post/PostRecentHistory.vue'
 import PostLineGraph from '@/components/post/PostLineGraph.vue'
 
 // Svg 좌표 내부에서는 px만 사용할 수 있기 때문에 Rem을 px로 계산하는 코드 (1rem = 16px 기준)
-const remToPx = (rem) => rem * 16
 
-const donutData = [
-  { percentage: 25, color: '#D1B7FF', label: '식비', tooltip: '이번 달 식비: 25%' },
-  { percentage: 15, color: '#9176E0', label: '교통', tooltip: '교통비: 15%' },
-  { percentage: 10, color: '#D5D7F2', label: '쇼핑', tooltip: '쇼핑 지출: 10%' },
-  { percentage: 20, color: '#B9A8F0', label: '여가/문화', tooltip: '여가 및 문화생활: 20%' },
-  { percentage: 5, color: '#C1BBE6', label: '기타', tooltip: '기타 지출: 5%' },
-  { percentage: 15, color: '#E4DCFF', label: '생필품', tooltip: '정기구독 서비스: 15%' },
-  { percentage: 10, color: '#5D45DB', label: '저축', tooltip: '저축 비율: 10%' },
-]
+// const donutData = [
+//   { percentage: 25, color: '#D1B7FF', label: '식비', tooltip: '이번 달 식비: 25%' },
+//   { percentage: 15, color: '#9176E0', label: '교통', tooltip: '교통비: 15%' },
+//   { percentage: 10, color: '#D5D7F2', label: '쇼핑', tooltip: '쇼핑 지출: 10%' },
+//   { percentage: 20, color: '#B9A8F0', label: '여가/문화', tooltip: '여가 및 문화생활: 20%' },
+//   { percentage: 5, color: '#C1BBE6', label: '기타', tooltip: '기타 지출: 5%' },
+//   { percentage: 15, color: '#E4DCFF', label: '생필품', tooltip: '정기구독 서비스: 15%' },
+//   { percentage: 10, color: '#5D45DB', label: '저축', tooltip: '저축 비율: 10%' },
+// ]
 
 // 페이지네이션
 const currentIndex = ref(0) // 현재 슬라이드 인덱스
@@ -33,12 +32,11 @@ const goToSlide = (index) => {
       <div class="donut-graph-container">
         <!-- 도넛 그래프 섹션 (페이지네이션에 포함)-->
         <section v-show="currentIndex === 0" class="donut-graph">
-          <PostDonutChart
-            :sizeX="remToPx(33.75)"
-            :sizeY="remToPx(28.125)"
-            :circleSize="remToPx(20.36125)"
-            :segments="donutData"
-          />
+          <div class="section-header">
+            <h2>카테고리별 지출 비중</h2>
+            <!-- <hr class="section-divider" /> -->
+          </div>
+          <PostDonutChart />
         </section>
         <!-- 최근 히스토리 섹션 (페이지네이션에 포함)-->
         <section v-show="currentIndex === 1" class="recent-history">
@@ -82,7 +80,30 @@ const goToSlide = (index) => {
   /* border: 1px solid red; */
 }
 
-.donut-graph,
+/* 도넛차트 h2  */
+.section-header {
+  font-size: 15px;
+  position: relative;
+  left: 8rem;
+  top: 3rem;
+  padding-bottom: 0.4rem;
+}
+
+.section-header::after {
+  content: '';
+  position: absolute;
+  left: -100px; /* 부모 기준으로 왼쪽 0 */
+  bottom: 0;
+  top: -5rem;
+  width: 500px; /* 원하는 밑줄 길이 */
+  border-bottom: 2px solid #e4e4e4; /* 원하는 색상 */
+}
+
+.donut-graph {
+  position: relative;
+  top: -2rem;
+  /* bottom: -5rem; */
+}
 .recent-history {
   display: block;
   width: 50%; /* 슬라이드 하나씩 보이도록 설정 */

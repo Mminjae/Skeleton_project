@@ -35,12 +35,6 @@ const top3 = computed(() => {
   }))
 })
 
-// const top3 = ref([
-//   { name: 'foodcost', amount: 150000 },
-//   { name: 'shopping', amount: 3000000 },
-//   { name: 'miscExpense', amount: 420000 },
-// ])
-
 const formatAmount = (amount) => {
   return amount.toLocaleString() + '원'
 }

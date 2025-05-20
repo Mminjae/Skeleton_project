@@ -8,6 +8,7 @@ import ViewMyPage from '../views/ViewMyPage.vue'
 import ViewProfileEdit from '../views/ViewProfileEdit.vue'
 import ViewSignUp from '../views/ViewSignUp.vue'
 import ViewIdpwpage from '@/views/ViewIdpwpage.vue'
+import ModalAddPost from '@/components/modal/ModalAddPost.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/find-idpw',
       name: 'FindIdpw',
       component: ViewIdpwpage,
+    },
+    {
+      path: '/addPostModal',
+      name: 'addPostModal',
+      component: ModalAddPost,
     },
   ],
 })
