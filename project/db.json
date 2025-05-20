@@ -10,7 +10,10 @@
       "password": "12341234"
     }
   ],
-  "loggedInUser": null,
+  "loggedInUser": {
+    "useId": ""
+  },
+
   "transactions": [
     {
       "id": "1",
