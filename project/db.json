@@ -11,9 +11,8 @@
     }
   ],
   "loggedInUser": {
-    "useId": ""
+    "userId": 1
   },
-
   "transactions": [
     {
       "id": "1",

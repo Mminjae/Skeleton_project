@@ -7,16 +7,33 @@ export const useFinancialSummaryStore = defineStore('financialSummary', () => {
   const data = ref([]);
 
   // 전체 데이터 가져오기
-  const fetchData = async (userId) => { // userId를 인자로 받음
+  // const fetchData = async (userId) => { // userId를 인자로 받음
+  //   try {
+  //     const response = await api.get('transactions');
+  //     console.log("서버 응답:", response.data); // 🔍 응답 확인
+  //     const filteredData = response.data.filter(item => item.userId === userId);
+  //     console.log("필터링된 데이터:", filteredData); // 🔍 필터링 확인
+
+  //     data.value = filteredData;
+  //   } catch (error) {
+  //     console.error('전체 데이터 가져오기 실패 : ', error);
+  //   }
+  // }
+  const fetchData = async () => {
     try {
+      const userRes = await api.get('/loggedInUser');
+      const userId = userRes.data.userId;
+      console.log("🔑 로그인한 유저 ID:", userId);
+
       const response = await api.get('transactions');
-      console.log("서버 응답:", response.data); // 🔍 응답 확인
+      console.log("📦 전체 거래 데이터:", response.data);
+
       const filteredData = response.data.filter(item => item.userId === userId);
-      console.log("필터링된 데이터:", filteredData); // 🔍 필터링 확인
+      console.log("✅ 필터링된 거래 데이터:", filteredData);
 
       data.value = filteredData;
     } catch (error) {
-      console.error('전체 데이터 가져오기 실패 : ', error);
+      console.error('❌ 전체 데이터 가져오기 실패:', error);
     }
   }
 

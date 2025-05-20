@@ -30,7 +30,7 @@ const store = useFinancialSummaryStore()
 const { recentData } = storeToRefs(store)
 
 onMounted(() => {
-  store.fetchData(1)
+  store.fetchData()
 })
 
 const recentHistory = computed(() => {

@@ -27,8 +27,13 @@ const categorizedData = computed(() => {
   return store.categorizedData.filter((item) => item.percentage > 0)
 })
 
+// onMounted(() => {
+//   store.fetchData()
+// })
 onMounted(() => {
-  store.fetchData(1)
+  store.fetchData().then(() => {
+    console.log('✅ 최종 data:', store.data)
+  })
 })
 
 // 원의 중심 촤표
