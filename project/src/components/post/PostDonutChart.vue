@@ -3,6 +3,17 @@ import { computed, ref, onMounted } from 'vue'
 import { useFinancialSummaryStore } from '@/stores/useFinancialSummaryStore'
 import { iconColors } from '../base/iconColors'
 import ExpenseIcons from '../base/ExpenseIcons.vue'
+const logCategory = (segment) => {
+  console.log(
+    '[도넛 차트] 렌더링되는 카테고리:',
+    segment.category,
+    ' 해당 카테고리 퍼센트 : ',
+    segment.percentage,
+    ' 금액 : ',
+    segment.totalAmount.toLocaleString(),
+  )
+  return true
+}
 
 const remToPx = (rem) => rem * 16
 
@@ -50,6 +61,8 @@ const segmentsWithOffset = computed(() => {
   const sortedSegments = [...categorizedData.value].sort((a, b) => b.percentage - a.percentage)
 
   return sortedSegments.map((segment) => {
+    logCategory(segment)
+
     // 아이콘
     const iconKey = segment.category
     // const icons = ExpenseIcons[icon == iconKey]

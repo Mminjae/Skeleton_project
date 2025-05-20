@@ -24,6 +24,7 @@ import { computed, onMounted } from 'vue'
 import { useFinancialSummaryStore } from '@/stores/useFinancialSummaryStore'
 import { storeToRefs } from 'pinia'
 import ExpenseIcons from '../base/ExpenseIcons.vue'
+import ModalAddPost from '../modal/ModalAddPost.vue'
 
 const store = useFinancialSummaryStore()
 const { recentData } = storeToRefs(store)
