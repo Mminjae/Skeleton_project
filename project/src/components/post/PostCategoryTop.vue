@@ -25,7 +25,7 @@ const store = useFinancialSummaryStore()
 const { bestCategory } = storeToRefs(store)
 
 onMounted(() => {
-  store.fetchData(1)
+  store.fetchData()
 })
 
 const top3 = computed(() => {

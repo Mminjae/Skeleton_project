@@ -162,7 +162,7 @@ const createChart = (ctx, labels, datasets, isDaily = false) => {
 
 // 컴포넌트가 마운트될 때 차트 초기화
 onMounted(async () => {
-  await store.fetchData(1) // 🛠
+  await store.fetchData() // 🛠
   console.log('✅ 가져온 일별 데이터:', store.dailySummary) // 🛠
   console.log('✅ 가져온 월별 데이터:', store.monthlySummary) // 🛠
 
