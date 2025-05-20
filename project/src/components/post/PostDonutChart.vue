@@ -22,7 +22,6 @@ const sizeY = remToPx(28.125)
 const circleSize = remToPx(20.36125)
 
 const store = useFinancialSummaryStore()
-// const categorizedData = computed(() => store.categorizedData)
 const categorizedData = computed(() => {
   // 0 이하인 퍼센트 항목은 필터링하여 빈 공간 생기는 문제 방지
   return store.categorizedData.filter((item) => item.percentage > 0)

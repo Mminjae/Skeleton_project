@@ -3150,21 +3150,6 @@
       "date": "2025-06-04"
     },
     {
-      "id": "500",
-      "amount": 231321321,
-      "category": "salary",
-      "merchant": "321321",
-      "memo": "된다 ㅠㅠ",
-      "userId": 1,
-      "dateYear": 2025,
-      "dateMonth": 5,
-      "dateDay": 8,
-      "dayOfWeek": "목",
-      "isIncome": true,
-      "paymentMethod": "",
-      "date": "2025-05-08"
-    },
-    {
       "id": "1000",
       "amount": 2121,
       "category": "allowance",

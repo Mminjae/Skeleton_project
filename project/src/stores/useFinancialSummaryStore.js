@@ -215,7 +215,7 @@ export const useFinancialSummaryStore = defineStore('financialSummary', () => {
       return dateB - dateA; // 최신순 정렬
     })[0];
 
-    return latest ? latest.dateMonth : new Date().getMonth(); // 1-based month 반환
+    return latest ? latest.dateMonth : (new Date().getMonth() + 1); // 1-based month 반환
   });
 
   return { data, fetchData, recentData, categorizedData, bestCategory, dailySummary, monthlySummary, selectedYear, selectedMonth };
