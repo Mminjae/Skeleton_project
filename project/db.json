@@ -3,14 +3,17 @@
     {
       "id": "1",
       "userId": 1,
-      "brith": "1998-06-06",
+      "birth": "1998-06-06",
       "name": "김하나",
       "phone": "01012345678",
       "email": "qwerty@gmail.com",
       "password": "12341234"
     }
   ],
-  "loggedInUser": null,
+  "loggedInUser": {
+    "useId": ""
+  },
+
   "transactions": [
     {
       "id": "1",

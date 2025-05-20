@@ -28,16 +28,16 @@ const handleSave = async () => {
 
   const payload = {
     name: memberInfo.value.find((i) => i.label === '이름')?.value,
-    brith: memberInfo.value.find((i) => i.label === '생년월일')?.value,
+    birth: memberInfo.value.find((i) => i.label === '생년월일')?.value,
     userId: memberInfo.value.find((i) => i.label === 'ID')?.value,
     email: contactInfo.value.find((i) => i.label === '이메일')?.value,
     phone: contactInfo.value.find((i) => i.label === '전화번호')?.value,
     profileImage: imagePreview.value || '', // 이미지 포함!
   }
 
-  // const userId = localStorage.getItem('userId')
+  const userId = localStorage.getItem('loggedInUser')
   try {
-    await axios.put(`http://localhost:3000/users/1`, payload)
+    await axios.patch(`http://localhost:3000/users/${userId}`, payload)
     alert('저장되었습니다.')
     router.push('/mypage')
   } catch (e) {

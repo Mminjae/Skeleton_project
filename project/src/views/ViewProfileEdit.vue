@@ -1,7 +1,7 @@
 <template>
-  <div id="mypage">
+  <div id="editpage">
     <div class="container my-5">
-      <h5 class="mb-5">수정 페이지</h5>
+      <h2 class="mb-5">수정 페이지</h2>
       <div class="info-card">
         <div class="d-flex justify-content-between">
           <!-- 회원 정보 -->
@@ -127,12 +127,13 @@ const validateItem = (item) => {
       break
   }
 }
-
+// const userId = localStorage.getItem('loggedInUser')
 const imagePreview = ref('')
 
 const loadUserInfo = async () => {
   try {
-    const res = await axios.get(`http://localhost:3000/users/1`)
+    const userId = localStorage.getItem('loggedInUser')
+    const res = await axios.get(`http://localhost:3000/users/${userId}`) /*${userId}`*/
     if (res.data) {
       // 프로필 이미지 설정
       imagePreview.value = res.data.profileImage || ''
@@ -170,7 +171,8 @@ const handleFileChange = async (event) => {
       imagePreview.value = reader.result
       // const userId = localStorage.getItem('userId')
       try {
-        await axios.patch(`http://localhost:3000/users/1`, {
+        const userId = localStorage.getItem('loggedInUser')
+        await axios.patch(`http://localhost:3000/users/${userId}`, {
           profileImage: reader.result,
         })
         alert('프로필 이미지가 저장되었습니다.')
@@ -191,49 +193,55 @@ const handleFileChange = async (event) => {
   box-sizing: border-box;
   list-style: none;
 }
-#mypage {
+#editpage {
   font-family: 'Noto Sans KR', sans-serif;
-  margin-left: 5rem;
-  padding: 1rem;
-  padding-top: 2rem;
+  margin-left: 1.1rem;
+  /* padding: 1rem; */
+  /* padding-top: 2rem; */
+}
+h2 {
+  padding: var(--space-l) 0 var(--space-s) calc(var(--space-m) * 2.5);
+  color: var(--color-black);
+  font-size: var(--font-xl);
 }
 
 /* 전체 카드 */
 .info-card {
-  width: 50rem; /* 800px */
-  height: 37.5rem; /* 600px */
-  border-radius: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  padding: 2rem 5rem 0rem 2rem;
-  margin: 1rem;
-  background-color: white;
+  width: calc(var(--space-m) * 50);
+  margin: var(--space-m) 0 0 calc(var(--space-m) * 5);
+  padding: var(--space-xl);
+  background: var(--color-white);
+  border-radius: var(--space-m);
+  box-shadow: 0 0 var(--space-m) rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
 /* 공통 */
 .info-item {
   display: flex;
   align-items: center;
-  margin-bottom: 1.6rem;
+  margin-bottom: 0.8rem;
   margin-left: 2rem;
   width: 20rem;
 }
 
 .fixed-id {
-  margin-left: 1rem;
+  margin-left: 0.5rem;
 }
 
 /* 회원 정보 */
 .info-title {
-  font-weight: 500;
-  color: #4a4a4a;
   margin-bottom: 2rem;
-  padding-left: 0.5rem;
-  width: 6rem;
-  background: linear-gradient(to top, #d5d7f2 20%, transparent 40%);
+  width: fit-content;
+  padding: 0 0.5rem;
+  color: var(--color-black);
+  font-size: var(--font-l);
+  font-weight: 500;
+  background: linear-gradient(to top, var(--color-purple) 30%, transparent 40%);
 }
 .info-member {
-  width: 10.3rem;
-  height: 9.7rem;
+  width: calc(var(--space-m) * 10.3);
+  height: calc(var(--space-m) * 9);
 }
 
 .d-flex {
@@ -243,31 +251,34 @@ const handleFileChange = async (event) => {
 /* 구분선 */
 .section-divider {
   border-top: 1px solid #eee;
-  margin: 3rem 0;
+  margin: 3rem;
 }
 .label {
-  border-right: 4px solid #d5d7f2;
-  /* margin: -1rem; */
-  height: 2rem;
+  border-right: 4px solid var(--color-purple);
 }
 
 .info-item .label {
-  width: 80px;
-  color: #535353;
+  width: calc(var(--space-m) * 6);
+  color: var(--color-black);
   font-weight: 400;
+}
+
+.label,
+.value {
+  padding: 0.5rem;
 }
 
 /* 연락처 정보 */
 .info-contact {
-  width: 24.6rem; /* 393px */
-  height: 7rem; /* 102px */
+  width: 24.6rem;
+  height: 7rem;
   padding: 1rem;
 }
 
 /* 입력창 스타일 */
 .form-control {
-  width: 13.9rem;
-  margin-left: 1rem;
+  width: 13rem;
+  margin-left: 0.5rem;
   position: relative;
   /* z-index: 1; */
 }
