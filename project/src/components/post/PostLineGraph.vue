@@ -13,11 +13,13 @@
     <!-- 구분선 -->
     <div class="divider" />
 
-    <!-- 일별 차트 보여줄 canvas (currentChart가 'daily'일 때만 보임) -->
-    <canvas v-show="currentChart === 'daily'" ref="dailyChartRef" />
+    <div class="canvas-wrapper">
+      <!-- 일별 차트 보여줄 canvas (currentChart가 'daily'일 때만 보임) -->
+      <canvas v-show="currentChart === 'daily'" ref="dailyChartRef" />
 
-    <!-- 월별 차트 보여줄 canvas (currentChart가 'monthly'일 때만 보임) -->
-    <canvas v-show="currentChart === 'monthly'" ref="monthlyChartRef" />
+      <!-- 월별 차트 보여줄 canvas (currentChart가 'monthly'일 때만 보임) -->
+      <canvas v-show="currentChart === 'monthly'" ref="monthlyChartRef" />
+    </div>
   </div>
 </template>
 
@@ -26,14 +28,6 @@ import { ref, computed, onMounted, nextTick } from 'vue'
 import { useFinancialSummaryStore } from '@/stores/useFinancialSummaryStore'
 
 const store = useFinancialSummaryStore()
-
-// onMounted(async () => {
-//   // store.fetchData(1)
-//   await store.fetchData(1) // 데이터를 먼저 가져오고
-//   store.data.forEach((item) => {
-//     console.log('🕓 날짜 확인:', item.dateYear, item.dateMonth, item.dateDay) // 📍 여기서 체크
-//   })
-// })
 
 const monthlyIncome = computed(() => {
   const result = store.monthlySummary.map((d) => d.income || 0)
@@ -54,14 +48,6 @@ const dailyExpense = computed(() => {
   const result = store.dailySummary.map((d) => d.expense || 0)
   return Array.from({ length: 31 }, (_, i) => result[i] || 0) // 31일 처리
 })
-
-// // 일별 데이터 가공 (음수 처리 추가)
-// const dailyIncome = computed(() => store.dailySummary.map((d) => Math.max(0, d.income))) // 음수 필터링
-// const dailyExpense = computed(() => store.dailySummary.map((d) => Math.max(0, d.expense))) // 음수 필터링
-
-// // 월별 데이터 가공 (음수 처리 추가)
-// const monthlyIncome = computed(() => store.monthlySummary.map((d) => Math.max(0, d.income))) // 음수 필터링
-// const monthlyExpense = computed(() => store.monthlySummary.map((d) => Math.max(0, d.expense))) // 음수 필터링
 
 // Chart.js에서 필요한 요소들을 import
 import {
@@ -93,7 +79,7 @@ const currentChart = ref('daily') // 기본은 일별 차트
 
 const currentTitle = computed(() => {
   return currentChart.value === 'daily'
-    ? `${store.selectedMonth}월 수입/지출 추세`
+    ? `${store.selectedMonth - 1}월 수입/지출 추세`
     : `${store.selectedYear}년 수입/지출 추세`
 })
 
@@ -120,6 +106,7 @@ const createChart = (ctx, labels, datasets, isDaily = false) => {
     data: { labels, datasets },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       interaction: {
         mode: 'index', // 가까운 포인트에 반응
         axis: 'x', // x축 기준
@@ -175,12 +162,12 @@ const createChart = (ctx, labels, datasets, isDaily = false) => {
 
 // 컴포넌트가 마운트될 때 차트 초기화
 onMounted(async () => {
-  await store.fetchData(1) // 🛠
+  await store.fetchData() // 🛠
   console.log('✅ 가져온 일별 데이터:', store.dailySummary) // 🛠
   console.log('✅ 가져온 월별 데이터:', store.monthlySummary) // 🛠
 
-  const dailyLabels = Array.from({ length: 31 }, (_, i) => i + 1)
-  const monthlyLabels = Array.from({ length: 12 }, (_, i) => `${i + 1}월`)
+  const dailyLabels = Array.from({ length: 31 }, (_, i) => i)
+  const monthlyLabels = Array.from({ length: 12 }, (_, i) => `${i}월`)
 
   // 일별 데이터셋 (수입/지출)
   const dailyDatasets = [
@@ -199,9 +186,6 @@ onMounted(async () => {
       fill: false,
     },
   ]
-
-  // x축 라벨: 1월부터 12월까지
-  // const monthlyLabels = Array.from({ length: 12 }, (_, i) => `${i + 1}월`)
 
   // 월별 데이터셋 (수입/지출)
   const monthlyDatasets = [
@@ -243,11 +227,12 @@ onMounted(async () => {
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  width: 78%;
-  height: 28.125rem;
+  width: 70%;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* overflow: hidden; */
   font-family: 'Pretendard', sans-serif; /* ✅ 글자 눌림 해결 */
 }
 
@@ -284,10 +269,16 @@ onMounted(async () => {
   margin-bottom: 1rem;
 }
 
-canvas {
-  height: calc(100% - 500px); /* 높이에서 헤더/버튼 뺀 나머지 */
+/* ✅ canvas를 감싸는 wrapper 추가로 height 계산 */
+.canvas-wrapper {
+  flex: 1;
   position: relative;
-  top: -50px;
-  left: 100px;
+}
+
+/* ✅ canvas 크기 조정 */
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 </style>

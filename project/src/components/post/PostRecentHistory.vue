@@ -2,7 +2,7 @@
   <div class="history-container">
     <div class="header">
       <h2 class="title">최근 거래 내역</h2>
-      <button class="plus-button">+</button>
+      <button class="plus-button" data-bs-toggle="modal" data-bs-target="#ModalAddPost">+</button>
     </div>
     <hr />
 
@@ -20,16 +20,17 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useFinancialSummaryStore } from '@/stores/useFinancialSummaryStore'
 import { storeToRefs } from 'pinia'
 import ExpenseIcons from '../base/ExpenseIcons.vue'
+import ModalAddPost from '../modal/ModalAddPost.vue'
 
 const store = useFinancialSummaryStore()
 const { recentData } = storeToRefs(store)
 
 onMounted(() => {
-  store.fetchData(1)
+  store.fetchData()
 })
 
 const recentHistory = computed(() => {
@@ -41,21 +42,18 @@ const recentHistory = computed(() => {
   }))
 })
 
-// const recentHistory = ref([
-//   { category: '식비', title: '스타벅스 커피', date: '2025-04-08', amount: 5800 },
-//   { category: '쇼핑', title: '무신사 바지 구매', date: '2025-04-06', amount: 87000 },
-//   { category: '교통', title: '지하철 정기권', date: '2025-04-01', amount: 65000 },
-//   { category: '기타', title: '넷플릭스 구독료', date: '2025-04-03', amount: 13500 },
-//   { category: '주거', title: '월세 납부', date: '2025-04-05', amount: 500000 },
-// ])
-
-// const icon = {
-//   식비: '🥑',
-//   쇼핑: '🛍️',
-//   교통: '🚇',
-//   기타: '💡',
-//   주거: '🏠',
-// }
+// 모달 열기 함수
+function onOpenImport(item) {
+  selectedItem.value = item // 클릭한 거래 데이터를 저장
+  showModalImport.value = true // 모달 컴포넌트 마운트 트리거
+  nextTick(() => {
+    // 렌더링이 끝난 뒤에 실제 DOM 엘리먼트를 찾아서 부트스트랩 모달 호출
+    const modalEl = document.getElementById('ModalImport')
+    if (modalEl) {
+      new Modal(modalEl).show()
+    }
+  })
+}
 </script>
 
 <style scoped>

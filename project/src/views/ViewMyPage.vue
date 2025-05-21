@@ -1,7 +1,7 @@
 <template>
   <div id="mypage">
     <div class="container my-5">
-      <h5 class="mb-5">마이 페이지</h5>
+      <h2 class="mb-5">마이 페이지</h2>
       <div class="info-card">
         <div class="d-flex justify-content-between">
           <!-- 회원 정보 -->
@@ -52,7 +52,7 @@ import defaultProfile from '@/assets/imgs/user-gray.svg'
 const route = useRoute()
 const userStore = useUserStore()
 onMounted(() => {
-  const userId = route.params.id // 또는 localStorage.getItem('userId')
+  const userId = localStorage.getItem('loggedInUser') // 또는 localStorage.getItem('userId')
   userStore.fetchUser(userId)
 })
 
@@ -61,7 +61,7 @@ const contactInfo = computed(() => userStore.contactInfo)
 const profileImage = computed(() => userStore.profileImage)
 </script>
 
-<style>
+<style scoped>
 * {
   margin: 0;
   padding: 0;
@@ -69,7 +69,9 @@ const profileImage = computed(() => userStore.profileImage)
 }
 #mypage {
   font-family: 'Noto Sans KR', sans-serif;
+  margin-left: 1.1rem;
 }
+
 h2 {
   padding: var(--space-l) 0 var(--space-s) calc(var(--space-m) * 2.5);
   color: var(--color-black);
@@ -78,13 +80,13 @@ h2 {
 
 /* 전체 카드 */
 .info-card {
-  width: 50rem; /*800px */
-  height: 37.5rem; /*600px*/
-  border-radius: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  padding: 2rem 5rem 0rem 2rem;
-  margin: 1rem;
-  background-color: white;
+  width: calc(var(--space-m) * 50);
+  margin: var(--space-m) 0 0 calc(var(--space-m) * 5);
+  padding: var(--space-xl);
+  background: var(--color-white);
+  border-radius: var(--space-m);
+  box-shadow: 0 0 var(--space-m) rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
 /* 정보 공통 */
@@ -104,13 +106,16 @@ h2 {
 /* 회원 정보 */
 .info-title {
   margin-bottom: 2rem;
-  padding-left: 0.5rem;
-  width: 6rem;
-  background: linear-gradient(to top, #d5d7f2 30%, transparent 40%);
+  width: fit-content;
+  padding: 0 0.5rem;
+  color: var(--color-black);
+  font-size: var(--font-l);
+  font-weight: 500;
+  background: linear-gradient(to top, var(--color-purple) 30%, transparent 40%);
 }
 .info-member {
-  /* width: 10.3rem; */
-  height: 9.7rem;
+  width: calc(var(--space-m) * 10.3); /* 164.8px */
+  height: calc(var(--space-m) * 9); /* 144px */
 }
 .d-flex {
   padding: 1rem;
@@ -119,14 +124,11 @@ h2 {
 /* 구분선 */
 .section-divider {
   border-top: 1px solid #eee;
-  margin: 3rem 0;
+  margin: 3rem;
+  margin-top: 5.2rem;
 }
 .label {
   border-right: 4px solid var(--color-purple);
-}
-.label,
-.value {
-  padding: 0.4rem;
 }
 
 .info-item .label {
@@ -163,7 +165,7 @@ h2 {
 /* 버튼 */
 .btn-edit {
   margin-left: 42.5rem;
-  margin-top: 7.8rem;
+  margin-top: 6.3rem;
   position: relative;
   white-space: nowrap;
 }

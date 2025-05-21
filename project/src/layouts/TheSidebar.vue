@@ -20,12 +20,19 @@ const isIdPwActive = ref(false)
 async function login() {
   try {
     const res = await axios.get(
-      `http://localhost:3000/users?username=${id.value}&password=${password.value}`,
+      `http://localhost:3000/users?userId=${id.value}&password=${password.value}`,
     )
 
     if (res.data.length > 0) {
+      const user = res.data[0]
       alert('로그인 성공!')
       loginStore.login() // ✅ 상태 변경 함수 사용
+
+      await axios.put('http://localhost:3000/loggedInUser', {
+        userId: user.userId,
+      })
+      localStorage.setItem('loggedInUser', user.id)
+
       router.push('/main')
     } else {
       alert('아이디 또는 비밀번호가 틀렸습니다.')

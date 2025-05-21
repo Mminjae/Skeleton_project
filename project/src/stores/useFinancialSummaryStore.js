@@ -7,16 +7,33 @@ export const useFinancialSummaryStore = defineStore('financialSummary', () => {
   const data = ref([]);
 
   // 전체 데이터 가져오기
-  const fetchData = async (userId) => { // userId를 인자로 받음
+  // const fetchData = async (userId) => { // userId를 인자로 받음
+  //   try {
+  //     const response = await api.get('transactions');
+  //     console.log("서버 응답:", response.data); // 🔍 응답 확인
+  //     const filteredData = response.data.filter(item => item.userId === userId);
+  //     console.log("필터링된 데이터:", filteredData); // 🔍 필터링 확인
+
+  //     data.value = filteredData;
+  //   } catch (error) {
+  //     console.error('전체 데이터 가져오기 실패 : ', error);
+  //   }
+  // }
+  const fetchData = async () => {
     try {
+      const userRes = await api.get('/loggedInUser');
+      const userId = userRes.data.userId;
+      console.log("🔑 로그인한 유저 ID:", userId);
+
       const response = await api.get('transactions');
-      console.log("서버 응답:", response.data); // 🔍 응답 확인
+      console.log("📦 전체 거래 데이터:", response.data);
+
       const filteredData = response.data.filter(item => item.userId === userId);
-      console.log("필터링된 데이터:", filteredData); // 🔍 필터링 확인
+      console.log("✅ 필터링된 거래 데이터:", filteredData);
 
       data.value = filteredData;
     } catch (error) {
-      console.error('전체 데이터 가져오기 실패 : ', error);
+      console.error('❌ 전체 데이터 가져오기 실패:', error);
     }
   }
 
@@ -62,13 +79,25 @@ export const useFinancialSummaryStore = defineStore('financialSummary', () => {
 
     // d-1. 전체 금액 계산 (모든 카테고리 금액 총합)
     const totalAmount = categoryAverage.reduce((sum, item) => sum + item.totalAmount, 0);
+
     // d-2. 각 카테고리가 전체에서 차지하는 비율 계산
     categoryAverage.forEach(item => {
-      item.percentage = ((item.totalAmount / totalAmount) * 100);
+      item.percentage = Math.round((item.totalAmount / totalAmount) * 100);
     })
 
+    let accumulated = 0;
+    categoryAverage.forEach((item, index) => {
+      if (index === categoryAverage.length - 1) {
+        // 마지막 항목은 100 - 누적값으로 보정 (오차 보정)
+        item.percentage = 100 - accumulated;
+      } else {
+        item.percentage = Math.floor(item.percentage);
+        accumulated += item.percentage;
+      }
+    });
 
-    return categoryAverage; // 카테고리별 평균, 총합, 비율 정보가 포함된 배열 반환
+
+    return categoryAverage.filter(item => item.percentage >= 1); // 카테고리별 평균, 총합, 비율 정보가 포함된 배열 반환
   });
 
   console.log("data", data)
@@ -203,7 +232,7 @@ export const useFinancialSummaryStore = defineStore('financialSummary', () => {
       return dateB - dateA; // 최신순 정렬
     })[0];
 
-    return latest ? latest.dateMonth : new Date().getMonth(); // 1-based month 반환
+    return latest ? latest.dateMonth : (new Date().getMonth() + 1); // 1-based month 반환
   });
 
   return { data, fetchData, recentData, categorizedData, bestCategory, dailySummary, monthlySummary, selectedYear, selectedMonth };

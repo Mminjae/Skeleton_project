@@ -2,15 +2,31 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLoginStore } from '@/stores/useLoginStore' //  추가
+import axios from 'axios'
 
 const loginStore = useLoginStore() //추가
-const currentPath = ref('/login')
+// const currentPath = ref('/login')
 const activeButton = ref('')
 const router = useRouter()
 
 function handleClick(buttonType) {
   activeButton.value = buttonType
   router.push('/' + buttonType)
+}
+
+async function logout() {
+  try {
+    await axios.put('http://localhost:3000/loggedInUser', {
+      userId: '',
+    })
+
+    loginStore.logout()
+    alert('로그아웃 되었습니다.')
+    router.push('/')
+  } catch (error) {
+    console.error('로그아웃 실패:', error)
+    alert('로그아웃 중 오류가 발생했습니다.')
+  }
 }
 </script>
 
@@ -50,7 +66,7 @@ function handleClick(buttonType) {
         >
           마이페이지
         </button>
-        <button class="btn-logout" @click="currentPath = '/'">로그아웃</button>
+        <button class="btn-logout" @click="logout">로그아웃</button>
       </div>
     </nav>
   </div>
