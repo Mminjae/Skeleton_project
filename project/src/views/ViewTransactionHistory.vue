@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed, onMounted, nextTick } from 'vue'
-import axios from 'axios'
 import { Modal } from 'bootstrap'
 
 // 컴포넌트 import
@@ -8,55 +7,58 @@ import PostItem from '@/components/post/PostItem.vue'
 import IconIcon from '@/components/base/iconIcon.vue'
 import ModalAddPost from '@/components/modal/ModalAddPost.vue'
 import ModalImport from '@/components/modal/ModalImport.vue'
-import ModalFilter from '@/components/modal/ModalFilter.vue';  //모달필터 컴포넌트 불러오기
+import ModalFilter from '@/components/modal/ModalFilter.vue'
 
-// Pinia store 사용
+// Pinia Store
 import { useTransactionStore } from '@/stores/useTransactionStore'
 const transactionStore = useTransactionStore()
 
-// 상태 변수
-const selectedItem    = ref(null)
-const showModalImport = ref(false)   // ← 모달 표시 플래그 추가
-const showModalAdd    = ref(false)   // (기존 코드)
+// 모달 제어
+const selectedItem = ref(null) // 선택된 거래 항목
+const showModalImport = ref(false) // 상세 모달 표시 여부
 
-// 모달 열기 함수
+// 페이지네이션 관련
+const itemsPerPage = 10 // 페이지당 항목 수
+const currentPage = ref(1) // 현재 페이지 번호
+const pageCount = ref(0) // 페이지 그룹 (ex. 0, 5, 10...)
+const transactions = computed(() => transactionStore.transactions)
+const maxPage = computed(() => Math.ceil(transactions.value.length / itemsPerPage))
+
+// 현재 페이지에 보여줄 거래 목록 계산
+const paginatedList = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  return transactions.value.slice(start, start + itemsPerPage)
+})
+
+// 거래 항목 클릭 시 상세 모달 열기
 function onOpenImport(item) {
-  selectedItem.value  = item      // 클릭한 거래 데이터를 저장
-  showModalImport.value = true    // 모달 컴포넌트 마운트 트리거
+  selectedItem.value = item
+  showModalImport.value = true
   nextTick(() => {
-    // 렌더링이 끝난 뒤에 실제 DOM 엘리먼트를 찾아서 부트스트랩 모달 호출
     const modalEl = document.getElementById('ModalImport')
-    if (modalEl) {
-      new Modal(modalEl).show()
-    }
+    if (modalEl) new Modal(modalEl).show()
   })
 }
 
-// 페이징 관련
-const itemsPerPage = 10
-const currentPage  = ref(1)
-const pageCount    = ref(0)
+// 페이지네이션 이동 함수
+const goToFirstPage = () => {
+  pageCount.value = 0
+  currentPage.value = 1
+}
+const goToPreviousGroup = () => {
+  if (pageCount.value >= 5) pageCount.value -= 5
+  currentPage.value = pageCount.value + 5
+}
+const goToNextGroup = () => {
+  if (pageCount.value + 5 < maxPage.value) pageCount.value += 5
+  currentPage.value = pageCount.value + 1
+}
+const goToLastPage = () => {
+  pageCount.value = Math.floor((maxPage.value - 1) / 5) * 5
+  currentPage.value = maxPage.value
+}
 
-const transactions = computed(() => transactionStore.transactions)
-const maxPage      = computed(() => Math.ceil(transactions.value.length / itemsPerPage))
-const showModal = ref(false); //모달 초기상태는 꺼짐
-//페이지별 리스트계산 - 우리는 한페이지당 10개의 리스트
-const paginatedList = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  const end   = start + itemsPerPage
-  return transactions.value.slice(start, end)
-})
-
-// 초기 데이터 로딩
-//JSON Server에서 데이터 불러오기
-const fetchTransactions = async () => {
-  try {
-    const res = await axios.get('http://localhost:3000/transactions');
-    transactions.value = res.data;
-  } catch (error) {
-    console.error('데이터 가져오기 실패:', error);
-  }
-};
+// 거래 내역 초기 로딩
 onMounted(() => {
   transactionStore.fetchTransactions()
 })
@@ -65,13 +67,18 @@ onMounted(() => {
 <template>
   <div class="viewtransactionhistory">
     <h2>거래내역조회</h2>
-    <ModalFilter @apply-filter="handleFilter" @close="showModal = false" class="filter"/>
+
+    <!-- 필터 모달 -->
+    <ModalFilter @apply-filter="handleFilter" class="filter" />
+
+    <!-- 글쓰기 버튼 -->
     <button class="write" type="button" data-bs-toggle="modal" data-bs-target="#ModalAddPost">
       <IconIcon icon="write" scale="1.3" />
     </button>
 
     <hr />
 
+    <!-- 거래 항목 리스트 -->
     <ul class="list">
       <PostItem
         v-for="item in paginatedList"
@@ -81,39 +88,39 @@ onMounted(() => {
       />
     </ul>
 
+    <!-- 페이지네이션 -->
     <div class="pagination">
-      <button class="button--front" @click="pageCount = 0; currentPage = 1;">
-        <IconIcon icon="front"/>
+      <button class="button--front" @click="goToFirstPage">
+        <IconIcon icon="front" />
       </button>
-      <button class="button--previous" @click="pageCount >= 5 ? pageCount -= 5 : pageCount; currentPage = pageCount + 5;">
-        <IconIcon icon="previous"/>
+      <button class="button--previous" @click="goToPreviousGroup">
+        <IconIcon icon="previous" />
       </button>
 
+      <!-- 페이지 번호 버튼 -->
       <button
         v-for="n in 5"
         :key="n"
         @click="currentPage = n + pageCount"
         :class="{ hidden: n + pageCount > maxPage }"
       >
-        <span :class="{ activePage: currentPage === n + pageCount }">{{ n + pageCount }}</span>
+        <span :class="{ activePage: currentPage === n + pageCount }">
+          {{ n + pageCount }}
+        </span>
       </button>
 
-      <button class="button--next" @click="pageCount + 5 < maxPage ? pageCount += 5 : pageCount; currentPage = pageCount + 1;">
-        <IconIcon icon="next"/>
+      <button class="button--next" @click="goToNextGroup">
+        <IconIcon icon="next" />
       </button>
-      <button class="button--last" @click="pageCount = Math.floor((maxPage - 1) / 5) * 5; currentPage = maxPage">
-        <IconIcon icon="last"/>
+      <button class="button--last" @click="goToLastPage">
+        <IconIcon icon="last" />
       </button>
     </div>
-  </div>
-  <ModalAddPost v-if="showModalAdd" @close="showModalAdd = false" />
 
-   <!-- 거래 상세보기 모달 -->
-    <ModalImport
-     v-if="showModalImport"
-     :item="selectedItem"
-     @close="showModalImport = false"
-   />
+    <!-- 추가/수정 모달 -->
+    <ModalAddPost />
+    <ModalImport v-if="showModalImport" :item="selectedItem" @close="showModalImport = false" />
+  </div>
 </template>
 
 <style scoped>
@@ -138,7 +145,6 @@ hr {
   width: 95%;
   margin: var(--space-m) 2.5% 0 2.5%;
 }
-
 .list {
   list-style: none;
   padding: 0 calc(var(--space-m) * 4);
@@ -149,7 +155,6 @@ hr {
 .list > li:last-child {
   border-bottom: none;
 }
-
 .filter {
   padding-left: calc(var(--space-m) * 3);
 }
@@ -158,7 +163,6 @@ hr {
   right: 0;
   padding-right: calc(var(--space-m) * 3.5);
 }
-
 .pagination {
   position: absolute;
   bottom: 0.2rem;
@@ -169,7 +173,6 @@ hr {
   padding: var(--space-m) 0;
   width: 100%;
 }
-
 .activePage {
   color: var(--color-purple9);
   text-decoration: underline;

@@ -10,8 +10,8 @@
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
+        <!-- 모달 헤더: 탭 버튼과 닫기 -->
         <div class="modal-header">
-          <!-- 탭 버튼 -->
           <button
             :class="['tab-button', activeTab === 'income' ? 'active' : '']"
             @click="activeTab = 'income'"
@@ -24,7 +24,6 @@
           >
             지출
           </button>
-
           <button
             type="button"
             class="btn-close"
@@ -33,9 +32,10 @@
           ></button>
         </div>
 
+        <!-- 모달 바디: 폼 입력 영역 -->
         <div class="modal-body">
           <form>
-            <!-- 공통 영역 -->
+            <!-- 공통 필드 -->
             <div class="mb-3">
               <label for="date" class="col-form-label">날짜</label>
               <input type="date" class="form-control" id="date" v-model="selectedDate" />
@@ -51,7 +51,7 @@
               />
             </div>
 
-            <!-- 수입 탭 -->
+            <!-- 수입 탭 전용 -->
             <template v-if="activeTab === 'income'">
               <div class="mb-3">
                 <label for="amount-income" class="col-form-label">금액</label>
@@ -84,7 +84,7 @@
               </div>
             </template>
 
-            <!-- 지출 탭 -->
+            <!-- 지출 탭 전용 -->
             <template v-else>
               <div class="mb-3">
                 <label for="payment-method" class="col-form-label">결제방식</label>
@@ -132,6 +132,7 @@
           </form>
         </div>
 
+        <!-- 모달 푸터: 버튼 영역 -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="resetForm">초기화</button>
           <button type="button" class="btn btn-primary" @click="submitTransaction">완료</button>
@@ -144,9 +145,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useTransactionStore } from '@/stores/transactionStore'
+import { Modal } from 'bootstrap'
 
+// 스토어 및 상태 변수
 const store = useTransactionStore()
-
 const activeTab = ref('income')
 const selectedDate = ref('')
 const title = ref('')
@@ -156,21 +158,19 @@ const categoryIncome = ref('')
 const categoryExpense = ref('')
 const paymentMethod = ref('')
 
+// 금액 입력 처리
 const handleFocus = () => {
   if (amount.value === '0원') amount.value = ''
 }
 const handleBlur = () => {
-  if (amount.value.trim() === '') amount.value = '0원'
+  if (!amount.value.trim()) amount.value = '0원'
 }
 const formatAmount = (e) => {
   const raw = e.target.value.replace(/[^0-9]/g, '')
-  if (!raw) {
-    amount.value = ''
-    return
-  }
-  amount.value = Number(raw).toLocaleString()
+  amount.value = raw ? Number(raw).toLocaleString() : ''
 }
 
+// 입력 초기화
 const resetForm = () => {
   selectedDate.value = ''
   title.value = ''
@@ -182,24 +182,25 @@ const resetForm = () => {
   paymentMethod.value = ''
 }
 
+// 요일 반환 함수
 const getKoreanDay = (dateObj) => {
   const days = ['일', '월', '화', '수', '목', '금', '토']
   return days[dateObj.getDay()]
 }
 
+// 완료 버튼 클릭 처리
 const submitTransaction = async () => {
   const parsedAmount = parseInt(amount.value.replace(/,/g, '')) || 0
   const category = activeTab.value === 'income' ? categoryIncome.value : categoryExpense.value
 
+  // 필드 유효성 검사
   if (!selectedDate.value || !title.value || !parsedAmount || !category) {
     alert('모든 필드를 입력해주세요.')
     return
   }
 
   const dateObj = new Date(selectedDate.value)
-  const isValidDate = !isNaN(dateObj.getTime())
-
-  if (!isValidDate) {
+  if (isNaN(dateObj.getTime())) {
     alert('유효한 날짜를 선택해주세요.')
     return
   }
@@ -225,6 +226,14 @@ const submitTransaction = async () => {
   }
 
   await store.addTransaction(newTransaction)
+
+  // 모달 닫기 및 뒷배경 제거
+  const modalEl = document.getElementById('ModalAddPost')
+  const modalInstance = Modal.getInstance(modalEl) || new Modal(modalEl)
+  modalInstance.hide()
+  document.body.classList.remove('modal-open')
+  document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove())
+
   resetForm()
 }
 </script>

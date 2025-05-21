@@ -122,6 +122,17 @@
 
                 <template v-else>
                   <div class="mb-3">
+                    <label for="payment-method" class="col-form-label">결제방식</label>
+                    <input
+                      type="text"
+                      id="payment-method"
+                      class="form-control"
+                      v-model="paymentMethod"
+                      placeholder="예: 카드, 현금 등"
+                      style="text-align: right"
+                    />
+                  </div>
+                  <div class="mb-3">
                     <label class="col-form-label">금액</label>
                     <input
                       type="text"
@@ -174,22 +185,31 @@ import { defineProps, defineEmits } from 'vue'
 import { useTransactionStore } from '@/stores/useTransactionStore'
 import IconIcon from '@/components/base/iconIcon.vue'
 
-const props = defineProps({
-  item: { type: Object, required: true },
-})
+// props 및 emits 정의
+const props = defineProps({ item: { type: Object, required: true } })
 const emit = defineEmits(['close'])
 
+// 상태 관리
 const transactionStore = useTransactionStore()
+const isEditing = ref(false) // 수정 모드 여부
+const activeTab = ref('expense') // 현재 탭 상태
 
-// 모달 카테고리명 영어 --> 한글 변경
+// 입력 필드 바인딩
+const selectedDate = ref('')
+const title = ref('')
+const amount = ref('0원')
+const memo = ref('')
+const categoryIncome = ref('')
+const categoryExpense = ref('')
+const paymentMethod = ref('')
+
+// 카테고리 매핑 (영문 → 한글)
 const categoryMapReverse = {
-  // 수입
   salary: '월급',
   finance: '금융 소득',
   allowance: '용돈',
   carryover: '이월',
   miscIncome: '기타',
-  // 지출
   foodcost: '식비',
   saving: '저축',
   transport: '교통비',
@@ -199,144 +219,124 @@ const categoryMapReverse = {
   miscExpense: '기타',
 }
 
-// 편집 모드 토글 및 초기화
-const isEditing = ref(false)
-const activeTab = ref('expense')
-const selectedDate = ref('')
-const title = ref('')
-const amount = ref('0원')
-const memo = ref('')
-const categoryIncome = ref('')
-const categoryExpense = ref('')
+// 카테고리 매핑 (한글 → 영문)
+const categoryMap = {
+  월급: 'salary',
+  '금융 소득': 'finance',
+  용돈: 'allowance',
+  이월: 'carryover',
+  기타: 'miscIncome',
+  식비: 'foodcost',
+  저축: 'saving',
+  교통비: 'transport',
+  문화생활: 'culture',
+  생필품: 'essentials',
+  쇼핑: 'shopping',
+  기타: 'miscExpense',
+}
 
+// 수정 버튼 클릭 시 초기값 세팅
 function onEdit() {
   isEditing.value = true
   activeTab.value = props.item.isIncome ? 'income' : 'expense'
-  // 날짜 세팅 (yyyy-MM-dd)
-  const Y = String(props.item.dateYear).padStart(4, '0')
-  const M = String(props.item.dateMonth).padStart(2, '0')
-  const D = String(props.item.dateDay).padStart(2, '0')
-  selectedDate.value = `${Y}-${M}-${D}`
 
-  title.value = props.item.merchant
-  amount.value = props.item.amount.toLocaleString()
-  memo.value = props.item.memo || ''
-  if (props.item.isIncome) {
-    categoryIncome.value = props.item.category
-    categoryExpense.value = ''
-  } else {
-    categoryExpense.value = props.item.category
-    categoryIncome.value = ''
-  }
+  const {
+    dateYear,
+    dateMonth,
+    dateDay,
+    merchant,
+    amount: amt,
+    memo: m,
+    paymentMethod: pm,
+    category,
+  } = props.item
+
+  selectedDate.value = `${String(dateYear).padStart(4, '0')}-${String(dateMonth).padStart(2, '0')}-${String(dateDay).padStart(2, '0')}`
+  title.value = merchant
+  amount.value = amt.toLocaleString()
+  memo.value = m || ''
+  paymentMethod.value = pm
+
+  const categoryKor = categoryMapReverse[category] || category
+  categoryIncome.value = props.item.isIncome ? categoryKor : ''
+  categoryExpense.value = !props.item.isIncome ? categoryKor : ''
 }
 
-// 삭제
+// 거래 삭제 요청
 function onDelete() {
   axios
     .delete(`http://localhost:3000/transactions/${props.item.id}`)
     .then(() => {
       transactionStore.fetchTransactions()
-      hideModal()
-      emit('close')
+      closeModal()
     })
     .catch((err) => console.error(err))
 }
 
-// 수정(저장)
+// 거래 수정 요청
 function onSave() {
-  const [Y, M, D] = selectedDate.value.split('-')
-
-  // ✅ 유효성 검사
-  if (
-    !selectedDate.value ||
-    !title.value.trim() ||
-    !amount.value.replace(/,/g, '') ||
-    (activeTab.value === 'income' && !categoryIncome.value) ||
-    (activeTab.value === 'expense' && !categoryExpense.value)
-  ) {
+  if (!selectedDate.value || !title.value.trim() || !amount.value.replace(/,/g, '')) {
     alert('모든 항목을 입력해주세요.')
     return
   }
 
-  // ✅ 한글 → 영문 카테고리 매핑
-  const categoryMap = {
-    // 수입
-    월급: 'salary',
-    '금융 소득': 'finance',
-    용돈: 'allowance',
-    이월: 'carryover',
-    기타: 'miscIncome',
-    // 지출
-    식비: 'foodcost',
-    저축: 'saving',
-    교통비: 'transport',
-    문화생활: 'culture',
-    생필품: 'essentials',
-    쇼핑: 'shopping',
-    기타: 'miscExpense',
-  }
-
+  const [Y, M, D] = selectedDate.value.split('-')
   const selectedCategory =
     activeTab.value === 'income' ? categoryIncome.value : categoryExpense.value
   const mappedCategory = categoryMap[selectedCategory] || selectedCategory
 
   const payload = {
     ...props.item,
-    dateYear: Number(Y),
-    dateMonth: Number(M),
-    dateDay: Number(D),
-    date: `${Y}-${M}-${D}`,
     merchant: title.value,
     amount: Number(amount.value.replace(/,/g, '')),
     memo: memo.value,
-    category: mappedCategory, // ✅ 변환된 영문 카테고리 저장
+    paymentMethod: activeTab.value === 'income' ? '' : paymentMethod.value,
     isIncome: activeTab.value === 'income',
+    category: mappedCategory,
+    date: `${Y}-${M}-${D}`,
+    dateYear: Number(Y),
+    dateMonth: Number(M),
+    dateDay: Number(D),
   }
 
   axios
     .put(`http://localhost:3000/transactions/${props.item.id}`, payload)
     .then(() => {
       transactionStore.fetchTransactions()
-      hideModal()
-      emit('close')
+      closeModal()
     })
     .catch((err) => console.error(err))
 }
 
-// 모달 닫기
-function hideModal() {
-  const el = document.getElementById('ModalImport')
-  const ins = Modal.getInstance(el) || new Modal(el)
-  ins.hide()
-}
-
-// 닫기 버튼
-function onClose() {
-  hideModal()
-  emit('close')
-}
-
-// 폼 초기화
-function resetForm() {
-  // 강제로 리셋
-  selectedDate.value = '0'
-  title.value = ''
-  amount.value = '0원'
-  memo.value = ''
-  categoryIncome.value = ''
-  categoryExpense.value = ''
-}
-
-// 금액 입력 핸들러
+// 금액 입력 포맷 처리
 const handleFocus = () => {
   if (amount.value === '0원') amount.value = ''
 }
 const handleBlur = () => {
   if (!amount.value.trim()) amount.value = '0원'
 }
-function formatAmount(e) {
+const formatAmount = (e) => {
   const raw = e.target.value.replace(/[^0-9]/g, '')
   amount.value = raw ? Number(raw).toLocaleString() : ''
+}
+
+// 모달 닫기 핸들러
+function closeModal() {
+  const el = document.getElementById('ModalImport')
+  const ins = Modal.getInstance(el) || new Modal(el)
+  ins.hide()
+  emit('close')
+}
+
+// 폼 초기화
+function resetForm() {
+  selectedDate.value = ''
+  title.value = ''
+  amount.value = '0원'
+  memo.value = ''
+  categoryIncome.value = ''
+  categoryExpense.value = ''
+  paymentMethod.value = ''
 }
 </script>
 

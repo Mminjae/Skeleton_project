@@ -8,6 +8,16 @@
       "phone": "01012345678",
       "email": "qwerty@gmail.com",
       "password": "12341234"
+    },
+    {
+      "id": "6ad7",
+      "userId": "alswo2833",
+      "birth": "1999-12-23",
+      "name": "맹민재",
+      "phone": "010-9306-9627",
+      "email": "alswo2833@naver.com",
+      "password": "rkwk8282@@",
+      "profileImage": ""
     }
   ],
   "loggedInUser": {
@@ -238,7 +248,8 @@
       "dayOfWeek": "수",
       "isIncome": false,
       "paymentMethod": "카드",
-      "date": "2024-10-23"
+      "date": "2024-10-23",
+      "dateString": "2024-10-23"
     },
     {
       "id": "16",
@@ -2099,7 +2110,8 @@
       "dayOfWeek": "토",
       "isIncome": false,
       "paymentMethod": "카드",
-      "date": "2024-10-12"
+      "date": "2024-10-12",
+      "dateString": "2024-10-12"
     },
     {
       "id": "140",
@@ -3150,21 +3162,6 @@
       "isIncome": false,
       "paymentMethod": "현금",
       "date": "2025-06-04"
-    },
-    {
-      "id": "1000",
-      "amount": 2121,
-      "category": "allowance",
-      "merchant": "632132",
-      "memo": "",
-      "userId": 1,
-      "dateYear": 2025,
-      "dateMonth": 5,
-      "dateDay": 1,
-      "dayOfWeek": "목",
-      "isIncome": true,
-      "paymentMethod": "",
-      "date": "2025-05-01"
     }
   ]
 }
