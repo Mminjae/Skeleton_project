@@ -1,55 +1,25 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import axios from 'axios'
 
 export const useLoginStore = defineStore('login', () => {
-  // const _isLoggedIn = ref(false)
-
-  // 외부에서는 computed로만 접근하게 하여 직접 수정 방지
-  const isLoggedIn = computed(() => _isLoggedIn.value)
-  const user = ref(null)
-
-  // function login() {
-  //   _isLoggedIn.value = true
-  // }
-
-  // function logout() {
-  //   _isLoggedIn.value = false
-  // }
+  // ✅ 로컬스토리지에서 초기 상태 설정
   const _isLoggedIn = ref(localStorage.getItem('isLoggedIn') === 'true')
+
+  const isLoggedIn = computed(() => _isLoggedIn.value)
 
   function login() {
     _isLoggedIn.value = true
-    localStorage.setItem('isLoggedIn', 'true')
+    localStorage.setItem('isLoggedIn', 'true') // ✅ 저장
   }
 
   function logout() {
     _isLoggedIn.value = false
-    localStorage.setItem('isLoggedIn', 'false')
+    localStorage.removeItem('isLoggedIn') // ✅ 제거
   }
-
-  const fetchLoggedInUser = async () => {
-    const userId = localStorage.getItem('loggedInUser')
-    if (!userId) return
-
-    const res = await axios.get(`http://localhost:3000/users/${userId}`)
-    user.value = res.data
-  }
-
-  const updateUser = (newData) => {
-    user.value = { ...user.value, ...newData }
-  }
-  // const logout = () => {
-  //   user.value = null
-  //   localStorage.removeItem('loggedInUser')
-  // }
 
   return {
     isLoggedIn,
     login,
     logout,
-    user,
-    fetchLoggedInUser,
-    updateUser,
   }
 })
