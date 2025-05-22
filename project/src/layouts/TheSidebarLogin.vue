@@ -1,8 +1,16 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLoginStore } from '@/stores/useLoginStore' //  추가
 import axios from 'axios'
+import defaultProfile from '@/assets/imgs/user-gray.svg'
+
+const userName = computed(() => loginStore.user?.name || '이름 없음')
+const profileImage = computed(() => loginStore.user?.profileImage || '')
+
+onMounted(() => {
+  loginStore.fetchLoggedInUser()
+})
 
 const loginStore = useLoginStore() //추가
 // const currentPath = ref('/login')
@@ -43,8 +51,8 @@ async function logout() {
       </h1>
 
       <div class="nav-bar-profile">
-        <img src="../assets/imgs/user-white.svg" alt="사용자프로필" />
-        <span class="nav-bar-userName">000님</span>
+        <img :src="profileImage || defaultProfile" alt="사용자프로필" />
+        <span class="nav-bar-userName">{{ userName }}님</span>
       </div>
 
       <div class="nav-bar-btnbox">

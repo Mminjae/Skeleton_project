@@ -8,6 +8,7 @@
 import { inject } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useLoginStore } from '@/stores/useLoginStore'
 
 const memberInfo = inject('memberInfo')
 const contactInfo = inject('contactInfo')
@@ -16,11 +17,12 @@ const validateItem = inject('validateItem')
 const imagePreview = inject('imagePreview')
 
 const router = useRouter()
+const loginStore = useLoginStore()
 
 const handleSave = async () => {
   ;[...memberInfo.value, ...contactInfo.value].forEach(validateItem)
   const isValid = Object.values(errors.value).every((msg) => !msg)
-
+  const userId = localStorage.getItem('loggedInUser')
   if (!isValid) {
     alert('입력값을 확인해주세요.')
     return
@@ -35,10 +37,12 @@ const handleSave = async () => {
     profileImage: imagePreview.value || '', // 이미지 포함!
   }
 
-  const userId = localStorage.getItem('loggedInUser')
   try {
     await axios.patch(`http://localhost:3000/users/${userId}`, payload)
     alert('저장되었습니다.')
+    loginStore.updateUser({ profileImage: imagePreview.value })
+    loginStore.updateUser({ name: userId.value })
+    loginStore.updateUser(res.data)
     router.push('/mypage')
   } catch (e) {
     console.error('저장 실패:', e)
