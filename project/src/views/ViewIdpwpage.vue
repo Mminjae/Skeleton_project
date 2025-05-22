@@ -145,7 +145,7 @@ function handleFindPW() {
   if (idError.value || emailError.value) return
 
   axios
-    .get(`http://localhost:3000/users?id=${id.value}&email=${email.value}`)
+    .get(`http://localhost:3000/users?userId=${id.value}&email=${email.value}`)
     .then((res) => {
       if (res.data.length > 0) {
         alert('비밀번호 재설정 링크를 보냈습니다.')

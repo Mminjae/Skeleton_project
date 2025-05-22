@@ -95,7 +95,12 @@ function goToFindIdPwPage() {
             <div class="login_id_error" v-if="idError">{{ idError }}</div>
 
             <label class="login-form-label">PW</label>
-            <input type="password" placeholder="비밀번호" v-model="password" />
+            <input
+              type="password"
+              placeholder="비밀번호"
+              v-model="password"
+              @keyup.enter="toggleLogin"
+            />
             <div class="login_pw_error" v-if="pwError">{{ pwError }}</div>
 
             <div class="login-form--remember">
@@ -108,6 +113,7 @@ function goToFindIdPwPage() {
 
       <div class="nav-bar-btnbox">
         <button
+          type="submit"
           class="nav-bar-btn nav-bar__button--login"
           @click="toggleLogin"
           :class="{ active: isLoginActive }"
@@ -193,7 +199,13 @@ h1 img {
   justify-content: center;
   margin-top: 0.5rem;
 }
+.bar-login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 .bar-login-form label {
+  margin-top: 0.5rem;
   margin-bottom: calc(var(--space-m) / 3);
 }
 .bar-login-form input[type='text'],

@@ -1,22 +1,18 @@
+// project/src/stores/useLoginStore.js
+
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import axios from 'axios'
 
 export const useLoginStore = defineStore('login', () => {
-  // const _isLoggedIn = ref(false)
-
-  // 외부에서는 computed로만 접근하게 하여 직접 수정 방지
+  const _isLoggedIn = ref(false)
   const isLoggedIn = computed(() => _isLoggedIn.value)
   const user = ref(null)
 
-  // function login() {
-  //   _isLoggedIn.value = true
-  // }
-
-  // function logout() {
-  //   _isLoggedIn.value = false
-  // }
-  const _isLoggedIn = ref(localStorage.getItem('isLoggedIn') === 'true')
+  const init = () => {
+    const isStored = localStorage.getItem('isLoggedIn') === 'true'
+    _isLoggedIn.value = isStored
+  }
 
   function login() {
     _isLoggedIn.value = true
@@ -39,17 +35,15 @@ export const useLoginStore = defineStore('login', () => {
   const updateUser = (newData) => {
     user.value = { ...user.value, ...newData }
   }
-  // const logout = () => {
-  //   user.value = null
-  //   localStorage.removeItem('loggedInUser')
-  // }
 
   return {
-    isLoggedIn,
+    _isLoggedIn,
     login,
     logout,
+    isLoggedIn,
     user,
     fetchLoggedInUser,
     updateUser,
+    init,
   }
 })
