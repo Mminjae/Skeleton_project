@@ -40,9 +40,10 @@ const handleSave = async () => {
   try {
     await axios.patch(`http://localhost:3000/users/${userId}`, payload)
     alert('저장되었습니다.')
-    loginStore.updateUser({ profileImage: imagePreview.value })
-    loginStore.updateUser({ name: userId.value })
-    loginStore.updateUser(res.data)
+    loginStore.updateUser({
+      name: payload.name,
+      profileImage: payload.profileImage,
+    })
     router.push('/mypage')
   } catch (e) {
     console.error('저장 실패:', e)
