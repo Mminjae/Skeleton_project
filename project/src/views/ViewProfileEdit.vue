@@ -32,7 +32,7 @@
             </div>
           </div>
           <!-- 프로필 사진 -->
-          <div>
+          <div class="profile">
             <img :src="imagePreview || defaultProfile" alt="프로필" class="profile-img" />
             <div>
               <li>
@@ -133,7 +133,7 @@ const imagePreview = ref('')
 const loadUserInfo = async () => {
   try {
     const userId = localStorage.getItem('loggedInUser')
-    const res = await axios.get(`http://localhost:3000/users/${userId}`) /*${userId}`*/
+    const res = await axios.get(`http://localhost:3000/users/${userId}`)
     if (res.data) {
       // 프로필 이미지 설정
       imagePreview.value = res.data.profileImage || ''
@@ -297,6 +297,9 @@ h2 {
 }
 
 /* 프로필 */
+.profile {
+  overflow: hidden;
+}
 .profile-img {
   width: 6rem;
   height: 6rem;
@@ -307,8 +310,8 @@ h2 {
   margin-top: 2rem;
   border: 1px solid #ccc;
   border-radius: 50%;
+  object-fit: cover;
 }
-
 /* 버튼 */
 .btn-save {
   margin-left: 42.5rem;

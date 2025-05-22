@@ -12,8 +12,9 @@ const imagePreview = inject('imagePreview')
 const resetProfileImage = async () => {
   imagePreview.value = defaultProfile
   try {
-    await axios.patch(`http://localhost:3000/users/1`, {
-      profileImage: defaultProfile,
+    const userId = localStorage.getItem('loggedInUser')
+    await axios.patch(`http://localhost:3000/users/${userId}`, {
+      profileImage: 'defaultProfile',
     })
     alert('기본 이미지로 초기화되었습니다.')
   } catch (error) {
