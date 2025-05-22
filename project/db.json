@@ -8,16 +8,6 @@
       "phone": "010-1234-5678",
       "email": "qwerty@gmail.com",
       "password": "12341234"
-    },
-    {
-      "id": "6ad7",
-      "userId": "alswo2833",
-      "birth": "1999-12-23",
-      "name": "맹민재",
-      "phone": "010-9306-9627",
-      "email": "alswo2833@naver.com",
-      "password": "rkwk8282@@",
-      "profileImage": ""
     }
   ],
   "loggedInUser": {
@@ -3071,7 +3061,8 @@
       "dayOfWeek": "월",
       "isIncome": false,
       "paymentMethod": "현금",
-      "date": "2025-05-05"
+      "date": "2025-05-05",
+      "dateString": "2025-05-05"
     },
     {
       "id": "204",
@@ -3116,7 +3107,8 @@
       "dayOfWeek": "일",
       "isIncome": false,
       "paymentMethod": "카드",
-      "date": "2025-06-01"
+      "date": "2025-06-01",
+      "dateString": "2025-06-01"
     },
     {
       "id": "207",
