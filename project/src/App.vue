@@ -17,6 +17,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { onMounted } from 'vue'
 import { useLoginStore } from '@/stores/useLoginStore'
 
 import TheSidebar from '@/layouts/TheSidebar.vue'
@@ -30,6 +31,9 @@ const loginStore = useLoginStore()
 
 const showModalResult = ref(false)
 const foundId = ref('')
+onMounted(async () => {
+  await loginStore.init()
+})
 </script>
 
 <style scoped>
