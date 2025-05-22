@@ -17,7 +17,8 @@
             <div class="modal-header">
               <div class="header-left">
                 <div class="icon-box">
-                  <IconIcon :icon="item.category" size="36" />
+                  <IncomeIcon v-show="item.isIncome == true" :icon="item.category" size="36" />
+                  <ExpenseIcons v-show="item.isIncome == false" :icon="item.category" size="36" />
                   <span class="category-text">
                     {{ categoryMapReverse[item.category] || item.category }}
                   </span>
@@ -183,7 +184,8 @@ import axios from 'axios'
 import { Modal } from 'bootstrap'
 import { defineProps, defineEmits } from 'vue'
 import { useTransactionStore } from '@/stores/useTransactionStore'
-import IconIcon from '@/components/base/iconIcon.vue'
+import IncomeIcon from '../base/incomeIcon.vue'
+import ExpenseIcons from '../base/ExpenseIcons.vue'
 
 // props 및 emits 정의
 const props = defineProps({ item: { type: Object, required: true } })
