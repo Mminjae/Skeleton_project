@@ -42,14 +42,14 @@
 <script setup>
 import { onMounted, computed } from 'vue'
 import { useUserStore } from '@/stores/userStore'
-import { useRoute } from 'vue-router'
+// import { useRoute } from 'vue-router'
 // import ModalDelete from '@/components/modal/ModalDelete.vue'
 // import ButtonDelete from '@/components/base/ButtonDelete.vue'
 import ButtonEdit from '@/components/base/ButtonEdit.vue'
 import defaultProfile from '@/assets/imgs/user-gray.svg'
 
 // 로그인 된 정보 가져오기
-const route = useRoute()
+// const route = useRoute()
 const userStore = useUserStore()
 onMounted(() => {
   const userId = localStorage.getItem('loggedInUser') // 또는 localStorage.getItem('userId')
