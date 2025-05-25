@@ -69,23 +69,12 @@ export const useTransactionStore = defineStore('useTransactionStore', {
          params.append('userId', this.userId) //userId도 쿼리에 추가
 
         const res = await axios.get(`http://localhost:3000/transactions?${params.toString()}`)
-        // ('http://localhost:3000/transactions', {
-        //   params: cleanQueryParams     //여기서 쿼리를 전송해줌, GET방식임 주의!!
-        // })
         console.log('📦 필터링 결과:', res.data)
         console.log("\n\n\n\n------------------- item ----------------\n");
         // 이거 정렬하기
         this.transactions = res.data.map(convertTransaction)
         console.log(this.transactions[0]);
         this.transactions.sort((a, b) => b.date - a.date)
-        //   {
-        //   if (b.dateYear != a.dateYear)
-        //     return b.dateYear - a.dateYear;
-        //   if (b.dateMonth != a.dateMonth)
-        //     return b.dateMonth - a.dateMonth;
-        //   if (b.dateDay != a.dateDay)
-        //     return b.dateDay - a.dateDay;
-        // });
         console.log(this.transactions[0]);
         console.log("\n\n\n\n");
       } catch (error) {

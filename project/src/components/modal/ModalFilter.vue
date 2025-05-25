@@ -413,10 +413,7 @@ const resetFilters = () => {
   border: 1px solid var(--color-gray-light);
   width: 6rem;  /*figma최신화 */
 }
-.btn-filter-reset{
-}
-.btn-filter-done{
-}
+
 .btn-filter{
   background-color: transparent;
   border: none;
