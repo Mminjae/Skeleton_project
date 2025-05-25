@@ -30,12 +30,26 @@ export const useTransactionStore = defineStore('useTransactionStore', {
   state: () => ({
     transactions: [], // 필터링된 거래 목록
     isLoading: false,
+    userId:null,
   }),
 
   actions: {
+    async fetchLoggedInUser() {
+      try {
+        const res = await axios.get('http://localhost:3000/loggedInUser')
+        this.userId = res.data.userId
+        console.log('✅ 로그인된 userId:', this.userId)
+      } catch (error) {
+        console.error('로그인 유저 정보 불러오기 실패:', error)
+      }
+    },
+
     async fetchTransactions(queryParams) {  //filters 객체는 필터링 조건들이 담긴 { isIncome, category, date_gte, date_lte, ... } 형태
       this.isLoading = true
       try {
+        if (!this.userId) {
+          await this.fetchLoggedInUser()
+        }
         //queryParams에 빈 값 제거
         const cleanQueryParams = Object.fromEntries(
           Object.entries(queryParams).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
@@ -52,7 +66,8 @@ export const useTransactionStore = defineStore('useTransactionStore', {
             params.append(key, value)
           }
         }
-        
+         params.append('userId', this.userId) //userId도 쿼리에 추가
+
         const res = await axios.get(`http://localhost:3000/transactions?${params.toString()}`)
         // ('http://localhost:3000/transactions', {
         //   params: cleanQueryParams     //여기서 쿼리를 전송해줌, GET방식임 주의!!
