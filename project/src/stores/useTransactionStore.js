@@ -44,7 +44,7 @@ export const useTransactionStore = defineStore('useTransactionStore', {
       }
     },
 
-    async fetchTransactions(queryParams) {  //filters 객체는 필터링 조건들이 담긴 { isIncome, category, date_gte, date_lte, ... } 형태
+    async fetchTransactions(queryParams ={}) {  //filters 객체는 필터링 조건들이 담긴 { isIncome, category, date_gte, date_lte, ... } 형태
       this.isLoading = true
       try {
         if (!this.userId) {
