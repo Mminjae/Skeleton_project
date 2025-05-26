@@ -168,51 +168,7 @@ const resetFilters = () => {
         </div>
         <!-- 모달 본문(필터 툴:날짜필터1,2 + 카테고리필터 + 수입/지출 + 현금/카드) -->
         <div class="modal-body">
-          <!-- 날짜필터1-연/월/일 Radio버튼 -->
-          
-          <div class="btn-group y-m-d-group" role="group" aria-label="연,월,일 선택">
-
-           <!-- '연' 라디오 버튼 (기본 선택) -->
-           <input 
-              type="radio" 
-              class="btn-check" 
-              name="period" 
-              id="thisYear"
-              value="thisYear" 
-              v-model="filters.selectedPeriod"
-              />
-           <label class="btn btn-primary" for="thisYear">올해</label>
-            <!-- '월' 라디오 버튼 -->
-            <input
-              type="radio"
-              class="btn-check"
-              name="period"
-              id="thisMonth"
-              value="thisMonth"
-              v-model="filters.selectedPeriod"
-            />
-            <label class="btn btn-primary" for="thisMonth">이번달</label>
-            <!-- '일' 라디오 버튼 -->
-            <input
-              type="radio"
-              class="btn-check"
-              name="period"
-              id="today"
-              value="today"
-              v-model="filters.selectedPeriod"
-            />
-            <label class="btn btn-primary" for="today">오늘</label>
-          </div>
-          <!-- 날짜필터2-달력버튼 -->  <!-- 사용자가 입력한 날짜가 곧바로 filters.date_gte 또는 filters.date_lte 변수에 반영되고, 반대로 코드에서 해당 값을 바꾸면 input에 자동 반영됩니다. -->
-          <hr />
-          <div class="callendar-group"> 
-            <input type="date" id="date-start" class="input-callendar" name="date-start" v-model="filters.date_gte">
-            <label for="date-start"></label>
-            <em>~</em>
-            <input type="date" id="date-end" class="input-callendar" name="date-end" v-model="filters.date_lte">
-            <label for="date-end"></label>
-          </div>
-          <hr>
+         <div>Filter</div> 
           <!-- 카테고리필터1:수입체크박스 : 월급/ 금융수입/ 용돈/ 이월/ 기타  -->
           <div class="checkbox--category btn-group checkbox--income" 
                v-show="selectedType === 'income'">    <!-- 수입 카테고리박스 조건부 렌더링 -->
