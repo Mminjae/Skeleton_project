@@ -2,35 +2,29 @@
 import { ref, computed, onMounted, nextTick } from 'vue'
 import { Modal } from 'bootstrap'
 
-// 컴포넌트 import
 import PostItem from '@/components/post/PostItem.vue'
 import IconIcon from '@/components/base/iconIcon.vue'
 import ModalAddPost from '@/components/modal/ModalAddPost.vue'
 import ModalImport from '@/components/modal/ModalImport.vue'
 import ModalFilter from '@/components/modal/ModalFilter.vue'
 
-// Pinia Store
 import { useTransactionStore } from '@/stores/useTransactionStore'
 const transactionStore = useTransactionStore()
 
-// 모달 제어
-const selectedItem = ref(null) // 선택된 거래 항목
-const showModalImport = ref(false) // 상세 모달 표시 여부
+const selectedItem = ref(null)
+const showModalImport = ref(false)
 
-// 페이지네이션 관련
-const itemsPerPage = 10 // 페이지당 항목 수
-const currentPage = ref(1) // 현재 페이지 번호
-const pageCount = ref(0) // 페이지 그룹 (ex. 0, 5, 10...)
+const itemsPerPage = 10
+const currentPage = ref(1)
+const pageCount = ref(0)
 const transactions = computed(() => transactionStore.transactions)
 const maxPage = computed(() => Math.ceil(transactions.value.length / itemsPerPage))
 
-// 현재 페이지에 보여줄 거래 목록 계산
 const paginatedList = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   return transactions.value.slice(start, start + itemsPerPage)
 })
 
-// 거래 항목 클릭 시 상세 모달 열기
 function onOpenImport(item) {
   selectedItem.value = item
   showModalImport.value = true
@@ -40,7 +34,6 @@ function onOpenImport(item) {
   })
 }
 
-// 페이지네이션 이동 함수
 const goToFirstPage = () => {
   pageCount.value = 0
   currentPage.value = 1
@@ -58,7 +51,12 @@ const goToLastPage = () => {
   currentPage.value = maxPage.value
 }
 
-// 거래 내역 초기 로딩
+// 거래 추가/수정/삭제 후 목록 갱신
+const onTransactionChanged = async () => {
+  await transactionStore.fetchTransactions()
+}
+
+// 거래내역 초기 로딩
 onMounted(() => {
   transactionStore.fetchTransactions()
 })
@@ -97,7 +95,6 @@ onMounted(() => {
         <IconIcon icon="previous" />
       </button>
 
-      <!-- 페이지 번호 버튼 -->
       <button
         v-for="n in 5"
         :key="n"
@@ -117,9 +114,17 @@ onMounted(() => {
       </button>
     </div>
 
-    <!-- 추가/수정 모달 -->
-    <ModalAddPost />
-    <ModalImport v-if="showModalImport" :item="selectedItem" @close="showModalImport = false" />
+    <!-- 추가 모달 -->
+    <ModalAddPost @transaction-added="onTransactionChanged" />
+
+    <!-- 수정/삭제 모달 -->
+    <ModalImport
+      v-if="showModalImport"
+      :item="selectedItem"
+      @close="showModalImport = false"
+      @transaction-updated="onTransactionChanged"
+      @transaction-deleted="onTransactionChanged"
+    />
   </div>
 </template>
 
