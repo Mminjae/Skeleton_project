@@ -185,23 +185,21 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
 import { Modal } from 'bootstrap'
 import { defineProps, defineEmits } from 'vue'
-import { useTransactionStore } from '@/stores/useTransactionStore'
+import { useTransactionStore } from '@/stores/transactionStore'
 import IncomeIcon from '../base/incomeIcon.vue'
 import ExpenseIcons from '../base/ExpenseIcons.vue'
 
-// props 및 emits 정의
 const props = defineProps({ item: { type: Object, required: true } })
-const emit = defineEmits(['close'])
 
-// 상태 관리
+// ✅ emit 정의
+const emit = defineEmits(['close', 'transaction-updated', 'transaction-deleted'])
+
 const transactionStore = useTransactionStore()
-const isEditing = ref(false) // 수정 모드 여부
-const activeTab = ref('expense') // 현재 탭 상태
+const isEditing = ref(false)
+const activeTab = ref('expense')
 
-// 입력 필드 바인딩
 const selectedDate = ref('')
 const title = ref('')
 const amount = ref('0원')
@@ -210,23 +208,6 @@ const categoryIncome = ref('')
 const categoryExpense = ref('')
 const paymentMethod = ref('')
 
-// 카테고리 매핑 (영문 → 한글)
-const categoryMapReverse = {
-  salary: '월급',
-  finance: '금융 소득',
-  allowance: '용돈',
-  carryover: '이월',
-  miscIncome: '기타',
-  foodcost: '식비',
-  saving: '저축',
-  transport: '교통비',
-  culture: '문화생활',
-  essentials: '생필품',
-  shopping: '쇼핑',
-  miscExpense: '기타',
-}
-
-// 카테고리 매핑 (한글 → 영문)
 const categoryMap = {
   월급: 'salary',
   '금융 소득': 'finance',
@@ -241,8 +222,8 @@ const categoryMap = {
   쇼핑: 'shopping',
   기타: 'miscExpense',
 }
+const categoryMapReverse = Object.fromEntries(Object.entries(categoryMap).map(([k, v]) => [v, k]))
 
-// 수정 버튼 클릭 시 초기값 세팅
 function onEdit() {
   isEditing.value = true
   activeTab.value = props.item.isIncome ? 'income' : 'expense'
@@ -263,25 +244,18 @@ function onEdit() {
   amount.value = amt.toLocaleString()
   memo.value = m || ''
   paymentMethod.value = pm
-
   const categoryKor = categoryMapReverse[category] || category
   categoryIncome.value = props.item.isIncome ? categoryKor : ''
   categoryExpense.value = !props.item.isIncome ? categoryKor : ''
 }
 
-// 거래 삭제 요청
-function onDelete() {
-  axios
-    .delete(`http://localhost:3000/transactions/${props.item.id}`)
-    .then(() => {
-      transactionStore.fetchTransactions()
-      closeModal()
-    })
-    .catch((err) => console.error(err))
+async function onDelete() {
+  await transactionStore.deleteTransaction(props.item.id)
+  emit('transaction-deleted') // ✅ 부모에게 삭제 알림
+  closeModal()
 }
 
-// 거래 수정 요청
-function onSave() {
+async function onSave() {
   if (!selectedDate.value || !title.value.trim() || !amount.value.replace(/,/g, '')) {
     alert('모든 항목을 입력해주세요.')
     return
@@ -306,16 +280,11 @@ function onSave() {
     dateDay: Number(D),
   }
 
-  axios
-    .put(`http://localhost:3000/transactions/${props.item.id}`, payload)
-    .then(() => {
-      transactionStore.fetchTransactions()
-      closeModal()
-    })
-    .catch((err) => console.error(err))
+  await transactionStore.updateTransaction(payload)
+  emit('transaction-updated') // ✅ 부모에게 수정 알림
+  closeModal()
 }
 
-// 금액 입력 포맷 처리
 const handleFocus = () => {
   if (amount.value === '0원') amount.value = ''
 }
@@ -327,7 +296,6 @@ const formatAmount = (e) => {
   amount.value = raw ? Number(raw).toLocaleString() : ''
 }
 
-// 모달 닫기 핸들러
 function closeModal() {
   const el = document.getElementById('ModalImport')
   const ins = Modal.getInstance(el) || new Modal(el)
@@ -335,7 +303,6 @@ function closeModal() {
   emit('close')
 }
 
-// 폼 초기화
 function resetForm() {
   selectedDate.value = ''
   title.value = ''

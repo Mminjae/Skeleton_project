@@ -146,9 +146,10 @@
 import { ref } from 'vue'
 import { useTransactionStore } from '@/stores/transactionStore'
 import { Modal } from 'bootstrap'
+const emit = defineEmits(['transaction-added']) // ✅ emit 정의
 
-// 스토어 및 상태 변수
 const store = useTransactionStore()
+
 const activeTab = ref('income')
 const selectedDate = ref('')
 const title = ref('')
@@ -158,7 +159,7 @@ const categoryIncome = ref('')
 const categoryExpense = ref('')
 const paymentMethod = ref('')
 
-// 금액 입력 처리
+// 금액 포맷 함수
 const handleFocus = () => {
   if (amount.value === '0원') amount.value = ''
 }
@@ -170,7 +171,7 @@ const formatAmount = (e) => {
   amount.value = raw ? Number(raw).toLocaleString() : ''
 }
 
-// 입력 초기화
+// 초기화
 const resetForm = () => {
   selectedDate.value = ''
   title.value = ''
@@ -182,18 +183,17 @@ const resetForm = () => {
   paymentMethod.value = ''
 }
 
-// 요일 반환 함수
+// 요일 계산
 const getKoreanDay = (dateObj) => {
   const days = ['일', '월', '화', '수', '목', '금', '토']
   return days[dateObj.getDay()]
 }
 
-// 완료 버튼 클릭 처리
+// 거래 추가
 const submitTransaction = async () => {
   const parsedAmount = parseInt(amount.value.replace(/,/g, '')) || 0
   const category = activeTab.value === 'income' ? categoryIncome.value : categoryExpense.value
 
-  // 필드 유효성 검사
   if (!selectedDate.value || !title.value || !parsedAmount || !category) {
     alert('모든 필드를 입력해주세요.')
     return
@@ -205,17 +205,11 @@ const submitTransaction = async () => {
     return
   }
 
-  const lastId = store.transactions.length
-    ? Math.max(...store.transactions.map((t) => Number(t.id)))
-    : 0
-
   const newTransaction = {
-    id: String(lastId + 1),
     amount: parsedAmount,
     category,
     merchant: title.value,
     memo: memo.value,
-    userId: 1,
     dateYear: dateObj.getFullYear(),
     dateMonth: dateObj.getMonth() + 1,
     dateDay: dateObj.getDate(),
@@ -225,14 +219,18 @@ const submitTransaction = async () => {
     date: selectedDate.value,
   }
 
+  await store.fetchLoggedInUser()
   await store.addTransaction(newTransaction)
+  await store.fetchTransactions()
 
-  // 모달 닫기 및 뒷배경 제거
-  const modalEl = document.getElementById('ModalAddPost')
-  const modalInstance = Modal.getInstance(modalEl) || new Modal(modalEl)
-  modalInstance.hide()
-  document.body.classList.remove('modal-open')
-  document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove())
+  emit('transaction-added') // ✅ 부모에게 알림
+
+  //  **********  부트스트랩 사용으로 인해 "완료" 버튼을 눌러도 모달이 안 닫치는 오류 *******
+  // const modalEl = document.getElementById('ModalAddPost')
+  // const modalInstance = Modal.getInstance(modalEl) || new Modal(modalEl)
+  // modalInstance.hide()
+  // document.body.classList.remove('modal-open')
+  // document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove())
 
   resetForm()
 }
