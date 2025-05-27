@@ -31,8 +31,8 @@
                 <button
                   type="button"
                   class="btn-close"
-                  data-bs-dismiss="modal"
                   aria-label="Close"
+                  @click="closeModal"
                 ></button>
               </div>
             </div>
@@ -76,7 +76,12 @@
               >
                 지출
               </button>
-              <button type="button" class="btn-close" aria-label="Close" @click="onClose"></button>
+              <button
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+                @click="closeModal"
+              ></button>
             </div>
 
             <div class="modal-body">
