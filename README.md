@@ -1,6 +1,6 @@
 # KB IT’s Your Life 6기 18회차 - 유자팀
 
-## 🟣💸 보라노트(온라인 가계부)💸🟣
+# 🟣💸 보라노트(온라인 가계부)💸🟣
 
 재정 관리를 쉽게 도와주는 가계부 플랫폼이에요! 😄
 수입과 지출을 한눈에 정리하고, 분석해서 소비 습관도 개선할 수 있도록 만들어졌어요.
@@ -12,79 +12,96 @@
 
 # 👨‍👩‍👦‍👦 팀 소개
 
-| [이은우](https://github.com/EUNWOOLEEE) | [이은미](https://github.com/minnieming) | [이주영](https://github.com/LeeJooYoung1999) | [손주성](<[https://github.com/yyc0026](https://github.com/ShonJuSeong)>) |
-| --------------------------------------- | --------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------ |
+| 이은우                                  | 이은미                                  | 이주영                                       |
+| --------------------------------------- | --------------------------------------- | -------------------------------------------- |
+| [GitHub](https://github.com/EUNWOOLEEE) | [GitHub](https://github.com/minnieming) | [GitHub](https://github.com/LeeJooYoung1999) |
 
-| 카테고리별 지출 그래프 조회 <br/> 메인 (비로그인)navbar <br/>
-|
-| Figma | 팀장 | 와이어프레임, 플로우차트 | |
+| 맹민재                               | 김준영                                 | 손주성                                   |
+| ------------------------------------ | -------------------------------------- | ---------------------------------------- |
+| [GitHub](https://github.com/Mminjae) | [GitHub](https://github.com/kjy941211) | [GitHub](https://github.com/ShonJuSeong) |
 
-| [맹민재](https://github.com/Mminjae)             | [김준영](https://github.com/kjy941211)          | [노우정](https://github.com/Woojeong98)          |
-| ------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------ |
-| <img src="asset/member/민지.jpeg" width="150" /> | <img src="asset/member/지윤.png" width="150" /> | <img src="asset/member/새봄.jpeg" width="150" /> |
-| 깃허브 세팅, 브랜치전략, 커밋컨벤션              | HTML, CSS, Github 세팅                          | HTML, CSS                                        |
+# 🧩 팀 소개 및 역할
 
-## 기술스택
+| 이름   | 역할                                         |
+| ------ | -------------------------------------------- |
+| 이은우 | 카테고리별 지출 그래프, 비로그인 메인 navbar |
+| 이은미 | 팀장, 프로젝트 구조 설계                     |
+| 이주영 | Figma, 와이어프레임 및 플로우차트            |
+| 손주성 | 세부 거래내역 모달, 트랜잭션 필터 기능       |
+| 맹민재 | GitHub 세팅, 브랜치 전략, 커밋 컨벤션        |
+| 김준영 | 퍼블리싱 (HTML, CSS)                         |
+| 노우정 | 퍼블리싱 (HTML, CSS)                         |
+
+# 👨🏼‍🔧기술스택
 
 ![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)
-![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
-## 기본 세팅 명령어
+# 🔧기본 세팅 명령어
 
-- npm i
-- npm run dev
+### 1. 프로젝트 이동 및 설치
 
-- npm install json-server --save-dev
-- npx json-server --watch db.json --port 3000
+```
+cd project/
+npm install
+```
 
-- 기본로그인 : ID: 1
+### 2. JSON Server 실행
+
+```
+npx json-server --watch db.json --port 3000
+```
+
+### 3. Vue 앱 실행
+
+```
+npm run dev
+```
+
+### 기본로그인
+
+```
+  ID: 1
   PW: 12341234
-
-# 🌐 배포
-
-🔗 [ 프로젝트 URL ](https://github.com/Mminjae/Skeleton_project.git)
-
-<img src="https://private-user-images.githubusercontent.com/76603301/400211121-0f40ec0a-b296-4771-8dd5-09f218bcd4ec.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzYwOTE4NDUsIm5iZiI6MTczNjA5MTU0NSwicGF0aCI6Ii83NjYwMzMwMS80MDAyMTExMjEtMGY0MGVjMGEtYjI5Ni00NzcxLThkZDUtMDlmMjE4YmNkNGVjLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTAxMDUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwMTA1VDE1MzkwNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWUwMjQxZmE2ODRlMDQ5ZmU2NDE3YjlhNWY2NTEwNjEwYWU2OTBhYTljZmNhM2FmNzY2ZmMzYTUwMDYwMmU0Y2UmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.XrJhxsRMWjLxx1Te4AiNbZXl97HDH_DA_NzhW0u-_lg">
+```
 
 # 🖥️ 화면 별 기능
 
-### 시작 화면
+### [ 로그인 전 ]
 
-<img src="asset/시작페이지.png"  >
+<img src="asset/로그인전.png"  >
 
 ### [ 로그인 / 회원가입 ]
 
-<img src="asset/로그인.png" >
-<img src="asset/회원가입.png" >
+<img src="asset/로그인바.png" height = 600px>
 
-### [ 홈 화면 ]
+<img src="asset/회원가입.png" >
 
-<img src="asset/메인.png">
+### [ 재정 요약 ]
+
+<img src="asset/로그인후.png">
 사용자는 이번 달의 총 수입과 지출 합계를 확인할 수 있습니다.
 또한 가장 최근 5개월과 이번 달을 비교하는 도표를 통해 자신의 생활 습관을 되돌아볼 수 있고, 바로 직전 달과 이번 달을 비교하여 어느정도의 금액 변동이 생겼는지를 알려줍니다.
 마지막 요소로는 이번 달의 내역 상세를 제공합니다. 필터 기능을 통해 전체, 수입, 지출 별로 원하는 내역만 조정하여 볼 수 있습니다.
 
-### [ 카테고리별 분석 ]
+### [ 거래내역 조회 ]
 
-<img src="asset/지출카테고리.png" >
+<img src="asset/거래내역조회.png" >
 사용자의 지출 분야를 카테고리별, 소비량순으로 제공해줍니다.
 이를 통해 사용자는 본인의 소비습관을 계획하고, 효율적으로 개선할 수 있습니다.
 또한 매 주차별 카테고리에 따른 소비량을 제공하여 보다 자세한 소비계획을 만들 수 있도록 돕습니다.
 마지막 요소로는 카테고리별 지출 상세 내역을 제공합니다.
 
-### [ 수입 지출 등록 ]
+### [ 수입 / 지출 / 세부조회 / 수정 / 필터 ]
 
-<img src="asset/수입지출내역.png" >
+<img src="asset/수입.png" >
+<img src="asset/지출.png" >
+<img src="asset/세부조회.png" >
+<img src="asset/수정.png" >
+<img src="asset/필터.png" >
 가계부에 등록할 수입 또는 지출 내역의 세부사항을 등록합니다. 내역명, 변동 금액, 날짜, 거래수단을 카테고리별로 등록할 수 있습니다. 등록된 내역은 날짜별로, 카테고리별로 확인할 수 있습니다.
-
-# 📈 LightHouse 성능 지표
-
-<img src="asset/lighthouse.png" >
-
-<br></br>
 
 # 🧑‍💻 Code Convention
 
@@ -92,116 +109,227 @@
 
 - BEM 방법론<br/>
   BEM은 Block, Element, Modifier의 약자로, CSS 클래스 네이밍 규칙을 체계적으로 만들기 위한 방법론이에요. 주로 대규모 프로젝트나 협업 시 CSS의 유지보수성을 높이기 위해 사용돼요.
+
+  <br/>
+
 - 케밥 컨벤션
 
-# 📏ESLint RuleSet
+### ✅ 1. 컴포넌트 파일 명명 규칙
 
-- eslint: standard : JavaScript Standard Style(최신 ECMAScript 표준(ES6 이상)을 준수)을 기반으로 한 규칙 세트
+- **PascalCase** 사용 (첫 글자 대문자, 단어마다 대문자)
+- 예시: `UserProfile.vue`, `SidebarMenu.vue`, `TodoItem.vue`
 
-[ 주요 규칙 ]
+---
 
-standard는 코드 스타일 관련 규칙에 중점을 둡니다. recommended와 비교해 더 엄격하고 구체적인 규칙을 따릅니다. 대표적인 예는 다음과 같습니다:
+### ✅ 2. 변수 및 함수 명명 규칙 (JavaScript)
 
-1. 세미콜론 금지
+- **camelCase** 사용 (첫 단어 소문자, 이후 단어 대문자)
+- 예시: `userName`, `getUserInfo()`, `isLoading`
 
-standard: 세미콜론 사용 금지 (no-extra-semi).
-예외적으로 자동 세미콜론 삽입(ASI, Automatic Semicolon Insertion)을 신뢰.
--> JavaScript 엔진이 문장의 끝을 자동으로 감지하여 세미콜론을 삽입하므로, 대부분의 경우 세미콜론을 명시적으로 추가하지 않아도 문제가 발생하지 않음
--> 불필요한 세미콜론을 제거함으로써 코드가 간결하고 깔끔해짐
+---
 
-2. 들여쓰기와 공백
+### ✅ 3. HTML 코드 작성 규칙
 
-키워드 뒤의 공백 필수 (e.g., if (condition)).
+#### 📍 들여쓰기
 
-3. 따옴표 스타일
+- `Prettier` 설정 기준 **2칸 들여쓰기**
+- 자식 속성은 들여쓰기 적용
 
-항상 작은 따옴표 사용 (') (quotes: [2, "single"]).
+```html
+<div class="content">
+  <div>
+    <p class="title">글제목</p>
+    <p class="content">상세내용</p>
+    <p class="author">작성자</p>
+    <p class="date">2025. 04. 05</p>
+  </div>
+</div>
+```
 
-4. 변수 선언 방식
+📍 빈 줄 규칙
+의미 있는 코드 그룹 사이에는 한 줄 빈 줄 삽입
 
-const와 let 사용 강제 (no-var).
-사용되지 않는 변수는 금지 (no-unused-vars).
+2줄 이상 금지
 
-5. 객체와 배열의 공백 스타일
+📍 id 선택자 사용
+레이아웃 용도(wrap, header, container, content, footer, nav, section)에만 id 사용 권장
 
-{ key: value } 형태에서 공백 유지.
-[ item1, item2 ] 배열에서도 공백 유지.
+📍 주석 작성 방식
+HTML 주석은 시작/종료 모두 작성
+
+주석은 해당 요소 바로 위/아래 한 줄에 위치
+
+```
+<!-- 네임카드 -->
+<div class="namecard"> ... </div>
+<!-- //네임카드 -->
+```
+
+---
+
+### ✅ 4. Vue Template 속성 정렬 순서
+
+Vue 템플릿 속성은 아래 순서대로 정렬합니다:
+
+Global 속성: id
+
+컴포넌트 옵션: is, v-is, :is
+
+기본 디렉티브: v-for, v-if, v-else-if, v-else, v-show, v-cloak, v-once
+
+일반 속성: name, type, src, href, alt, title, value
+
+Props (바인딩 포함): :prop-name="value"
+
+이벤트: @click, @input, @submit, @change 등
+
+양방향 바인딩: v-model
+
+슬롯 관련: v-slot, #default, slot
+
+접근성 관련: role, aria-\*, tabindex
+
+Class & Style: class, :class, style, :style
+
+---
+
+### ✅ 5. CSS 속성 정렬 순서
+
+CSS 속성은 의미 단위로 정렬합니다:
+
+레이아웃 관련
+
+display, visibility, overflow, float, clear, position, top, right, bottom, left, z-index
+
+박스 모델 (BOX)
+
+width, height, margin, padding, border
+
+배경
+
+background
+
+폰트 및 텍스트
+
+font, color, letter-spacing, text-align, text-decoration, text-indent, vertical-align, white-space
+
+기타
+
+위에 포함되지 않은 기타 속성들 (순서 자유)
 
 # ✔️ Git Convention
 
 ## (1) Commit Convention
 
-|     Type     | Description                       |
-| :----------: | --------------------------------- |
-|   `feat:`    | 새로운 기능 추가                  |
-|    `fix:`    | 버그 수정                         |
-|  `hotfix:`   | 긴급 수정                         |
-| `refactor:`  | 코드 리팩토링                     |
-|  `rename:`   | 파일 혹은 폴더명을 수정할 때 사용 |
-|  `remove:`   | 파일을 삭제할 때 사용             |
-| `structure:` | 프로젝트 구조 변경                |
-|   `docs:`    | 문서 작성 및 편집                 |
-|  `deploy:`   | 프로젝트 배포                     |
+|    Type     | Description                           |
+| :---------: | ------------------------------------- |
+|   `feat:`   | 새로운 기능 추가                      |
+|   `fix:`    | 버그 수정                             |
+| `refactor:` | 코드 리팩토링                         |
+|   `docs:`   | 문서 작성 및 편집                     |
+|  `design:`  | 사용자 UI 디자인 변경 (CSS 등)        |
+|   `test:`   | test code, refactoring test code 추가 |
 
-- ex) feat: 회원가입 버튼 개발
+```
+ex)
+
+feat: 로그인 기능 구현 (#10)
+
+- 이메일, 비밀번호 입력창 추가
+- 입력값 유효성 검사 추가
+- 로그인 API 연동
+```
 
 ## (2) Branch Name Rule
 
-| Branch Name | Description      |
-| :---------: | ---------------- |
-|   feature   | 새로운 기능 개발 |
-|     fix     | 버그 수정        |
-|  refactor   | 코드 구조 개선   |
-|    docs     | 문서 수정        |
+| Branch Name  | Description                           |
+| :----------: | ------------------------------------- |
+|    `main`    | 배포 가능한 안정된 코드가 있는 브랜치 |
+|   `feat/*`   | 새로운 기능 개발 브랜치               |
+|   `fix/*`    | 버그 수정 브랜치                      |
+| `refactor/*` | 코드 리팩토링 브랜치                  |
+|   `docs/*`   | 문서 수정 브랜치                      |
+|  `design/*`  | 사용자 UI 디자인 변경(CSS등)          |
+|   `test/*`   | test code, refactoring test code      |
 
-{feature/fix}-{개발 기능}
+### 🔁 브랜치 이름 작성 예시
 
-- ex) `feature-login`
+| 브랜치 이름            | 의미                              |
+| ---------------------- | --------------------------------- |
+| feature/#21/signup     | 21번 이슈: 회원가입 기능 개발     |
+| fix/#34/button-error   | 34번 이슈: 버튼 클릭 시 오류 수정 |
+| docs/#45/update-readme | 45번 이슈: README 업데이트        |
 
-## (3) 협업 전략 ( GitHub Flow 브랜치 전략)
+# (3) 협업 전략 ( GitHub Flow 전략)
 
 <br/>
 
-- **작업 프로세스**:
-  1.  **브랜치 생성**
-  - `main` 브랜치에서 작업용 브랜치를 생성합니다.
-  - 예: `feature/add-income-form`
+## 🔀 GitHub Flow 전략
+
+우리 팀은 **GitHub Flow** 전략을 사용하여 협업을 진행했습니다.  
+이는 간단하고 유연한 브랜치 전략으로, **기능 단위의 브랜치 생성**과 **Pull Request 기반 협업**을 핵심으로 합니다.
+
+---
+
+### ✅ GitHub Flow란?
+
+> GitHub Flow는 **main 브랜치를 항상 배포 가능한 상태**로 유지하며, 기능 개발은 별도 브랜치에서 진행한 후 **Pull Request**를 통해 병합하는 방식입니다.
+
+---
+
+### 📌 GitHub Flow 프로세스
+
+<br>
+
+1. **main 브랜치에서 파생된 기능 브랜치 생성**
+
+   ```
+   git checkout -b feature/기능이름
+   ```
+
+   <br>
 
 2. **기능 개발 및 커밋**
-   - 기능을 개발하고, 커밋 메시지는 커밋 컨벤션에 따라 작성합니다.
-3. **Pull Request(PR) 생성**
-   - 작업이 완료되면 GitHub에서 Pull Request를 생성합니다.
-   - 팀원 리뷰를 받고, 필요한 경우 수정합니다.
-4. **`main` 브랜치에 병합**
-   - 리뷰 완료 후 `main`에 병합합니다.
-   - 병합 후에는 해당 작업 브랜치는 삭제합니다.
-5. **배포**
-   - `main`은 항상 배포 가능한 상태이므로, 자동 배포 도구(GitHub Actions 등)와 연동해 배포할 수 있습니다.
 
-# 🎨 UI 스타일 가이드
+   커밋 메시지는 팀 컨벤션에 맞춰 작성
 
-### 컬러
+   feat, fix, style 등의 prefix 사용
 
-<img src="asset/컬러이미지.png" height=550 >
-금전과 관련된 서비스를 위하여, 신뢰의 상징인 블루 계열을 사용하였습니다.
+   원격 저장소에 브랜치 푸시
 
-### 폰트
+   ```
+   git push origin feature/기능이름
+   ```
 
-깔끔한 느낌을 내기 위해 Pretendard 사용하였습니다.
+   <br>
 
-font-weight 400~800으로 나누어 명암 조절을 통해 텍스트 강조에 차별을 두었습니다.
+3. **원격 저장소에 브랜치 푸시**
 
-### 컨텐츠 영역
+```
+git push origin feature/기능이름
+```
 
-675px의 width로 컨텐츠 영역을 중앙에 고정, min-width를 주어 윈도우 창의 너비가 줄어들어도 UI 요소가 망가지지 않도록 처리하였습니다.
+<br>
 
-### 라이트 모드 & 다크 모드
+4. **Pull Request 생성**
 
-라이트 모드뿐만 아니라 다크 모드를 제공하여 사용자 선택의 기회를 확장하였습니다. 사용자가 라이트 모드와 다크 모드를 직접 설정할 수 있어 자신의 경험을 결정하고 보다 개인에게 맞춤화된 방식으로 서비스를 사용할 수 있습니다.
+- GitHub에서 PR 생성
 
-### 공통 footer
+- 팀원들과 코드 리뷰
+  <br>
 
-동일한 footer를 사용하여 사용자는 모든 화면에서 익숙한 UI를 볼 수 있어 웹사이트 사용자 경험이 일관성 있게 유지됩니다.
+5. **코드 리뷰 및 피드백 반영**
+
+- 변경 사항 논의 후 수정 반영
+  <br>
+
+6. **main 브랜치로 병합 (Merge)**
+
+- 리뷰가 완료되면 main 브랜치에 병합
+
+- 병합 후 브랜치 삭제 가능
+
+# 🎨 디자인(피그마)
 
 # 💳 수입 지출 더미 데이터
 
